@@ -129,6 +129,7 @@
   <ItemGroup>
     <ClCompile Include="Block.cpp" />
     <ClCompile Include="Button.cpp" />
+    <ClCompile Include="Coin.cpp" />
     <ClCompile Include="Command.cpp" />
     <ClCompile Include="CommandQueue.cpp" />
     <ClCompile Include="Component.cpp" />
@@ -153,6 +154,7 @@
     <ClInclude Include="Block.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="Category.h" />
+    <ClInclude Include="Coin.h" />
     <ClInclude Include="Command.h" />
     <ClInclude Include="CommandQueue.h" />
     <ClInclude Include="Component.h" />
@@ -178,6 +180,9 @@
   <ItemGroup>
     <None Include="ResourceHolder.inl" />
     <None Include="Utility.inl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Documentation\documentation.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

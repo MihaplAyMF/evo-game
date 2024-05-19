@@ -15,20 +15,7 @@
 #include "CommandQueue.h"
 #include "SpriteNode.h"
 #include "Player.h"
-
-//struct Object
-//{
-//    int GetPropertyInt(std::string name);
-//    float GetPropertyFloat(std::string name);
-//    std::string GetPropertyString(std::string name);
-//
-//    std::string name;
-//    std::string type;
-//    std::map<std::string, std::string> properties;
-//    sf::Rect<int> rect;
-//
-//    sf::Sprite sprite;
-//};
+#include "Coin.h"
 
 class World : public sf::NonCopyable
 {
@@ -39,16 +26,19 @@ public:
     void update(sf::Time dt);
     void draw();
 
-    CommandQueue& getCommandQueue();
+    CommandQueue& getCommandQueue(); 
+    void cleanup();
+    bool hasAlivePlayer();
 
     bool LoadFromFile(std::string filename);
-    //Object GetObject(std::string name);
-    //std::vector<Object> GetObjects(std::string name);
-    //sf::Vector2i GetTileSize();
 
 private:
     void loadTextures();
     void buildScene();
+    void handleCollisions();
+
+    sf::FloatRect getViewBounds() const;
+    sf::FloatRect getEvoGameBounds() const;
 
     enum Layer
     {
@@ -60,7 +50,7 @@ private:
 private:
     sf::RenderTarget& mTarget;
     sf::RenderTexture mSceneTexture;
-    //sf::View						   mWorldView;
+    sf::View mWorldView;
     TextureHolder mTextures;
     FontHolder& mFonts;
 
@@ -69,7 +59,7 @@ private:
     CommandQueue mCommandQueue;
 
     Player* mPlayer;
-
+    std::vector<Coin*> coinBody;
 
     int width, height, tileWidth, tileHeight;
     int firstTileID;

@@ -17,33 +17,12 @@ Game::Game()
 {
 	mFonts.load(Fonts::Main, "Media/Fonts/Sansation.ttf");
 
+	mTextures.load(Textures::Tileset,     "Media/Textures/nature-paltformer.png");
+	mTextures.load(Textures::TitleScreen, "Media/Textures/title-screen.png");
+	//mTextures.load(Textures::Buttons,   "Media/Textures/buttons.png");
 
 	registerStates();
-	mStateStack.pushState(States::Game);
-	
-	/*t1.loadFromFile("Media/Textures/back.png");
-	t2.loadFromFile("Media/Textures/player.png");
-	t3.loadFromFile("Media/Textures/platform.png");
-
-	t1.setSmooth(true);
-	t2.setSmooth(true);
-	t3.setSmooth(true);
-
-	background.setTexture(t1);
-	player.setTexture(t2);
-	platform.setTexture(t3);
-
-	background.setTextureRect(sf::IntRect(0, 0, 640, 480));
-
-	shape.SetAsBox(30 / SCALE, 30 / SCALE);
-
-	bdef.type = b2_dynamicBody;
-
-	bdef.position.Set(2, 2);
-	circle.m_radius = 16 / SCALE;
-	pBody = World.CreateBody(&bdef);
-	pBody->CreateFixture(&circle, 2);*/
-	//pBody->SetUserData("player");
+	mStateStack.pushState(States::Menu);
 }
 
 void Game::run()
@@ -62,6 +41,8 @@ void Game::run()
 			handleInput();
 			update(timePerFrame);
 
+			if(mStateStack.isEmpty())
+				mWindow.close();
 		}
 		render();
 	}

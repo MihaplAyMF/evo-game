@@ -18,6 +18,7 @@ namespace GUI
 		
 		virtual bool isSelectable() const;
 		virtual void handleEvent(const sf::Event& event);
+		virtual void update(sf::Time dt);
 
 	private:
 		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;

@@ -49,6 +49,11 @@ namespace GUI
         }
     }
 
+    void Container::update(sf::Time dt)
+    {
+        //mChildren[mSelectedChild]->update(dt);
+    }
+
     void Container::draw(sf::RenderTarget& target, sf::RenderStates states) const
     {
         states.transform *= getTransform();

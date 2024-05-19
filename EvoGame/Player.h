@@ -25,7 +25,7 @@ public:
 	void movePlayer(b2Vec2 velocity);
 
 	virtual unsigned int  getCategory() const;
-	//virtual sf::FloatRect getBoundingRect() const;
+	virtual sf::FloatRect getBoundingRect() const;
 	//virtual void		  remove();
 	//virtual bool		  isMarkedForRemoval() const;
 	//bool				  isAllied() const;

@@ -8,21 +8,6 @@ extern const float boxScale;
 extern const float gameScale;
 extern b2World world;
 
-//int Object::GetPropertyInt(std::string name)
-//{
-//    return atoi(properties[name].c_str());
-//}
-//
-//float Object::GetPropertyFloat(std::string name)
-//{
-//    return strtod(properties[name].c_str(), NULL);
-//}
-//
-//std::string Object::GetPropertyString(std::string name)
-//{
-//    return properties[name];
-//}
-
 std::string getImagePath(std::string xmlFilePath)
 {
     std::string imagePath;
@@ -48,6 +33,7 @@ std::string getImagePath(std::string xmlFilePath)
 
 World::World(sf::RenderWindow& window, FontHolder& fonts)
     : mTarget(window)
+    , mWorldView(window.getDefaultView())
     , mFonts(fonts)
     , mTextures()
     , mPlayer(nullptr)
@@ -60,38 +46,17 @@ void World::update(sf::Time dt)
 {
     world.Step(1 / 60.f, 8, 3);
 
-    //mPlayerTank->setVelocity(0.f, 0.f);
-
-    //destroyEntitiesOutsideView();
-
     while(!mCommandQueue.isEmpty())
         mSceneGraph.onCommand(mCommandQueue.pop(), dt);
 
     mSceneGraph.removeWrecks();
-    //spawnEnemies();
-
-
-    //for(b2Body* it = world.GetBodyList(); it != 0; it = it->GetNext())
-    //{
-    //    b2Vec2 pos = it->GetPosition();
-    //    float angle = it->GetAngle();
-
-    //    if(it->GetUserData() == "box")
-    //    {
-    //        sBox.setPosition(pos.x * SCALE, pos.y * SCALE);
-    //        sBox.setRotation(angle * DEG);
-    //        window.draw(sBox);
-    //    }
-
-    //}
-
+    
     sf::Vector2f pos(mPlayer->getBodyObject()->GetPosition().x, mPlayer->getBodyObject()->GetPosition().y) ;
     mPlayer->setPosition(pos.x * boxScale, pos.y * boxScale);
 
     mSceneGraph.update(dt, mCommandQueue);
 
-    //handleCollisions();
-    //adaptPlayerPosition();
+    handleCollisions();
 }
 
 void World::draw()
@@ -102,6 +67,17 @@ void World::draw()
 CommandQueue& World::getCommandQueue()
 {
     return mCommandQueue;
+}
+
+void World::cleanup()
+{
+    b2Body* body = world.GetBodyList();
+    while(body != nullptr)
+    {
+        b2Body* nextBody = body->GetNext(); 
+        world.DestroyBody(body); 
+        body = nextBody;
+    }
 }
 
 bool World::LoadFromFile(std::string filename)
@@ -252,19 +228,12 @@ bool World::LoadFromFile(std::string filename)
                     width = subRects[atoi(objectElement->Attribute("gid")) - firstTileID].width;
                     height = subRects[atoi(objectElement->Attribute("gid")) - firstTileID].height;
                 }
-                if(objectName == "block") 
-                {
-                    sf::IntRect objectRect;
-                    objectRect.top = y * gameScale;
-                    objectRect.left = x * gameScale;
-                    objectRect.height = height * gameScale;
-                    objectRect.width = width * gameScale;
 
-                    sf::Vector2i tileSize(tileWidth * gameScale, tileHeight * gameScale);
-
-                    std::unique_ptr<Block> block = std::make_unique<Block>(objectRect, tileSize);
-                    mSceneLayers[Air]->attachChild(std::move(block));
-                }
+                sf::IntRect rect;
+                rect.top = y * gameScale;
+                rect.left = x * gameScale;
+                rect.height = height * gameScale;
+                rect.width = width * gameScale;
 
                 if(objectName == "player")
                 {
@@ -279,47 +248,27 @@ bool World::LoadFromFile(std::string filename)
                         tileGID = 0;
                     }
                     int subRectToUse = tileGID - firstTileID;
-                    sf::IntRect rect;
-                    rect.top = y * gameScale;
-                    rect.left = x * gameScale;
-                    rect.height = height * gameScale;
-                    rect.width = width * gameScale;
 
                     std::unique_ptr<Player> player = std::make_unique<Player>(Player::FriedlyPlayer, mTextures, rect);
                     mPlayer = player.get();
                     mPlayer->setTextureRect(subRects[subRectToUse]);
                     mSceneLayers[Air]->attachChild(std::move(player));
                 }
-
-                /*Object object;
-                object.name = objectName;
-                object.type = objectType;
-                object.sprite = sprite;*/
-
-                /*
-                object.rect = objectRect;*/
-
-               /* tinyxml2::XMLElement* properties;
-                properties = objectElement->FirstChildElement("properties");
-                if(properties != NULL)
+                else if(objectName == "block") 
                 {
-                    tinyxml2::XMLElement* prop;
-                    prop = properties->FirstChildElement("property");
-                    if(prop != NULL)
-                    {
-                        while(prop)
-                        {
-                            std::string propertyName = prop->Attribute("name");
-                            std::string propertyValue = prop->Attribute("value");
+                    sf::Vector2i tileSize(tileWidth * gameScale, tileHeight * gameScale);
 
-                            object.properties[propertyName] = propertyValue;
-
-                            prop = prop->NextSiblingElement("property");
-                        }
-                    }
+                    std::unique_ptr<Block> block = std::make_unique<Block>(rect, tileSize);
+                    mSceneLayers[Air]->attachChild(std::move(block));
                 }
+                else if(objectName == "coin")
+                {
+                    sf::Vector2i tileSize(tileWidth * gameScale, tileHeight * gameScale);
 
-                objects.push_back(object);*/
+                    std::unique_ptr<Coin> coin = std::make_unique<Coin>(mTextures, rect, tileSize);
+                    coinBody.push_back(coin.get());
+                    mSceneLayers[Air]->attachChild(std::move(coin));
+                }
 
                 objectElement = objectElement->NextSiblingElement("object");
             }
@@ -333,28 +282,6 @@ bool World::LoadFromFile(std::string filename)
 
     return true;
 }
-
-//Object World::GetObject(std::string name)
-//{
-//    for(int i = 0; i < objects.size(); i++)
-//        if(objects[i].name == name)
-//            return objects[i];
-//}
-//
-//std::vector<Object> World::GetObjects(std::string name)
-//{
-//    std::vector<Object> vec;
-//    for(int i = 0; i < objects.size(); i++)
-//        if(objects[i].name == name)
-//            vec.push_back(objects[i]);
-//
-//    return vec;
-//}
-//
-//sf::Vector2i World::GetTileSize()
-//{
-//    return sf::Vector2i(tileWidth, tileHeight);
-//}
 
 void World::loadTextures()
 {
@@ -377,10 +304,51 @@ void World::buildScene()
 
     LoadFromFile("Test.tmx");
 
-    //std::unique_ptr<Player> player = std::make_unique<Player>(Player::FriedlyPlayer, mTextures, mFonts);
-    //mPlayer = player.get();
-    ////mPlayer->setWall(32, 32, 32, 32);
-    //mSceneLayers[Air]->attachChild(std::move(player));
+}
 
+void World::handleCollisions()
+{
+    for(b2ContactEdge* ce = mPlayer->getBodyObject()->GetContactList(); ce; ce = ce->next)
+    {
+        bool state = false;
+
+        for(int i = 0; i < coinBody.size(); i++)
+            if(ce->contact->GetFixtureB()->GetBody() == coinBody[i]->getBodyObject())
+            {
+                coinBody[i]->getBodyObject()->DestroyFixture(coinBody[i]->getBodyObject()->GetFixtureList());
+                coinBody[i]->remove();
+                coinBody.erase(coinBody.begin() + i); state = true;
+                break;
+            }
+        if(state == true)
+            break;
+
+    }
+}
+
+bool World::hasAlivePlayer()
+{
+    if(!getEvoGameBounds().intersects(mPlayer->getBoundingRect()))
+    {
+        mPlayer->remove();
+        return false;
+    }
+    return true;
+
+}
+
+sf::FloatRect World::getViewBounds() const
+{
+    return sf::FloatRect(mWorldView.getCenter() - mWorldView.getSize() / 2.f, mWorldView.getSize());
+}
+
+sf::FloatRect World::getEvoGameBounds() const
+{
+    sf::FloatRect bounds = getViewBounds();
+
+    bounds.top -= 100.f;
+    bounds.height += 200.f;
+
+    return bounds;
 }
 

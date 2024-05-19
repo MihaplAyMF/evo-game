@@ -19,5 +19,5 @@ public:
 
 private:
 	sf::Sprite			  mEvoGameSprite;
-	//GUI::Container		  mGUIContainer;
+	GUI::Container		  mGUIContainer;
 };

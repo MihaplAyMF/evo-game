@@ -14,6 +14,7 @@ bool GameState::handleEvent(const sf::Event& event)
 
 	if(event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
 	{
+		mWorld.cleanup();
 		requestStackPop();
 		requestStackPush(States::Menu);
 	}
@@ -29,10 +30,13 @@ bool GameState::update(sf::Time dt)
 	//{
 	//	requestStackPush(States::GameOver);
 	//}
-	//else if(!mWorld.hasAlivePlayer())
-	//{
-	//	requestStackPush(States::GameOver);
-	//}
+	//else 
+	if(!mWorld.hasAlivePlayer())
+	{
+		mWorld.cleanup();
+		requestStackPop();
+		requestStackPush(States::Menu);
+	}
 
 	CommandQueue& commands = mWorld.getCommandQueue();
 	mPlayer.handleRealtimeInput(commands);

@@ -22,9 +22,8 @@ namespace GUI
 
 		enum Type
 		{
-			Normal,
 			Selected,
-			Pressed,
+			Unselected,
 			ButtonCount
 		};
 
@@ -42,14 +41,16 @@ namespace GUI
 		virtual void deactivate();
 
 		virtual void handleEvent(const sf::Event& event);
+		virtual void update(sf::Time dt);
+
 
 	private:
-		//virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
-		//void		 changeTexture(Type buttonType);
+		void		 changeTexture(Type buttonType);
 
 		Callback		   mCallback;
-		//sf::Sprite		   mSprite;
+		sf::Sprite		   mSprite;
 		sf::Text		   mText;
 		bool			   mIsToggle; 
 	};

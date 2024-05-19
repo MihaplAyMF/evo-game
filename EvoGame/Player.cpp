@@ -100,3 +100,8 @@ unsigned int Player::getCategory() const
 {
 	return Category::Player;
 }
+
+sf::FloatRect Player::getBoundingRect() const
+{
+	return getWorldTransform().transformRect(mSprite.getGlobalBounds());
+}

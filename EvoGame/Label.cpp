@@ -17,11 +17,21 @@ namespace GUI
 
 	void Label::setText(const std::string text)
 	{
-		mText.setString(text);
+		mText.setString(text);		
+		centerOrigin(mText);
 	}
 
+	sf::Text& Label::getText()
+	{
+		return mText;
+	}
+	
 	void Label::handleEvent(const sf::Event& event)
 	{ }
+
+	void Label::update(sf::Time dt)
+	{
+	}
 
 	void Label::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	{

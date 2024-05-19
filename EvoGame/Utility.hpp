@@ -26,6 +26,8 @@ void centerOrigin(sf::Text& text);
 float toDegree(float radian);
 float toRadian(float degree);
 
+void setScale(sf::Sprite& sprite, sf::IntRect rectangle);
+
 int randomInt(int exclusiveMax);
 
 float length(sf::Vector2f vector);

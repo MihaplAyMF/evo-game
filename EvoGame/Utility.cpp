@@ -161,6 +161,16 @@ float toRadian(float degree)
 	return 3.141592653589793238462643383f / 180.f * degree;
 }
 
+void setScale(sf::Sprite& sprite, sf::IntRect rectangle)
+{
+	sf::IntRect textureRect = sprite.getTextureRect();
+
+	float scaleX = rectangle.width / static_cast<float>(textureRect.width);
+	float scaleY = rectangle.height / static_cast<float>(textureRect.height);
+
+	sprite.setScale(scaleX, scaleY);
+}
+
 int randomInt(int exclusiveMax)
 {
 	std::uniform_int_distribution<> distr(0, exclusiveMax - 1);

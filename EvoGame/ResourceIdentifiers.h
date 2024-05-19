@@ -10,7 +10,8 @@ enum class Textures
 {
 	TitleScreen,
 	Tileset,
-	Player
+	Player,
+	Buttons
 };
 
 enum class Fonts
