@@ -23,22 +23,26 @@ public:
 
 	void				  attachChild(Ptr child);
 	Ptr					  detachChild(const SceneNode& node);
+	void				  cleanup();
 
 	void				  update(sf::Time dt, CommandQueue& commands);
-
-	void				  removeWrecks();
-	sf::Transform		  getWorldTransform() const;
-	sf::Vector2f		  getWorldPosition() const;
 
 	void virtual		  onCommand(const Command& command, sf::Time dt);
 	virtual unsigned int  getCategory() const;
 
-	
 	void				  checkSceneCollision(SceneNode& sceneGraph, std::set<Pair>& collisionPairs);
 	void				  checkNodeCollision(SceneNode& node, std::set<Pair>& collisionPairs);
 	virtual sf::FloatRect getBoundingRect() const;
+	
 	virtual bool		  isMarkedForRemoval() const;
 	virtual bool		  isDestroyed() const;
+	virtual bool          isBackground() const;
+
+	void				  setBackground(int flag);
+
+	void				  removeWrecks();
+	sf::Transform		  getWorldTransform() const;
+	sf::Vector2f		  getWorldPosition() const;
 
 private:
 	virtual void		  updateCurrent(sf::Time dt, CommandQueue& command);
@@ -52,6 +56,8 @@ private:
 	std::vector<Ptr> mChildren;
 	SceneNode*		 mParent;
 	Category::Type   mDefaultCategory;
+
+	int mIsBackground;
 };
 
 bool  collision(const SceneNode& lhs, const SceneNode& rhs);

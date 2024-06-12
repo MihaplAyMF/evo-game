@@ -13,6 +13,7 @@ SceneNode::SceneNode(Category::Type category)
 	: mChildren()
 	, mParent(nullptr)
 	, mDefaultCategory(category)
+	, mIsBackground(false)
 { }
 
 void SceneNode::attachChild(Ptr child)
@@ -33,6 +34,14 @@ SceneNode::Ptr SceneNode::detachChild(const SceneNode& node)
 	mChildren.erase(found);
 
 	return result;
+}
+
+void SceneNode::cleanup()
+{
+	while(!mChildren.empty())
+	{
+		detachChild(*mChildren.back());
+	}
 }
 
 void SceneNode::update(sf::Time dt, CommandQueue& commands)
@@ -101,6 +110,16 @@ bool SceneNode::isDestroyed() const
 	return false;
 }
 
+bool SceneNode::isBackground() const
+{
+	return mIsBackground;
+}
+
+void SceneNode::setBackground(int flag)
+{
+	mIsBackground = flag;
+}
+
 bool SceneNode::isMarkedForRemoval() const
 {
 	return isDestroyed();
@@ -127,7 +146,7 @@ void SceneNode::onCommand(const Command& command, sf::Time dt)
 	if(command.category & getCategory())
 		command.action(*this, dt);
 		
-		for(Ptr& child : mChildren)
+	for(Ptr& child : mChildren)
 		child->onCommand(command, dt);
 }
 
@@ -146,7 +165,11 @@ void SceneNode::checkSceneCollision(SceneNode& sceneGraph, std::set<Pair>& colli
 
 void SceneNode::checkNodeCollision(SceneNode& node, std::set<Pair>& collisionPairs)
 {
-	if(this != &node && collision(*this, node) && !isDestroyed() && !node.isDestroyed())
+
+	if(this == &node || isDestroyed() || node.isDestroyed() || isBackground() || node.isBackground())
+		return;
+
+	if(collision(*this, node))
 		collisionPairs.insert(std::minmax(this, &node));
 
 	for(Ptr& child : mChildren)

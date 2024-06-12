@@ -1,8 +1,11 @@
 #pragma once
 
-#include <SFML/Graphics.hpp>
-#include "SceneNode.h"
 #include <list>
+
+#include <SFML/Graphics.hpp>
+
+#include "SceneNode.h"
+
 
 class SpriteNode : public SceneNode
 {

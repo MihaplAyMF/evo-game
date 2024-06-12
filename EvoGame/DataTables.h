@@ -10,6 +10,17 @@
 
 #include "ResourceIdentifiers.h"
 
+enum Action
+{
+	MoveUp,
+	MoveLeft,
+	MoveRight,
+	MoveOnLadder,
+	NotMove,
+	PressF,
+	ActionCount
+};
+
 class Player;
 
 struct PlayerData
@@ -18,7 +29,6 @@ struct PlayerData
 	float				   speed;
 	Textures			   texture;	
 	sf::IntRect			   textureRect; 
-	//bool				   isDynamic;
 };
 
 std::vector<PlayerData>   initializePlayerData();

@@ -5,25 +5,27 @@
 #include "PlayerMove.h"
 #include "Player.h"
 
+
 struct PlayerMover
 {
-	PlayerMover(float vx, float vy)
-		: velocity(vx, vy)
+	PlayerMover(Action type)
+		: type(type)
 	{ }
 
 	void operator() (Player& player, sf::Time) const
 	{	
-		player.movePlayer(velocity);
+		player.movePlayer(type);
 	}
 
-	b2Vec2 velocity;
+	Action type;
 };
 
 PlayerMove::PlayerMove()
 {
+	mKeyBinding[sf::Keyboard::W] = MoveOnLadder;
 	mKeyBinding[sf::Keyboard::A] = MoveLeft;
 	mKeyBinding[sf::Keyboard::D] = MoveRight;
-	mKeyBinding[sf::Keyboard::W] = MoveUp;
+	mKeyBinding[sf::Keyboard::F] = PressF;
 
 	spacePressed = false;
 
@@ -35,9 +37,8 @@ PlayerMove::PlayerMove()
 
 void PlayerMove::handleEvent(const sf::Event& event, CommandQueue& commands)
 {
-	if(event.type == sf::Event::KeyPressed)
+	if(event.type == sf::Event::KeyPressed) 
 	{
-
  		if(event.key.code == sf::Keyboard::Space && !spacePressed)
 		{
 			commands.push(mActionBinding[MoveUp]);
@@ -45,12 +46,14 @@ void PlayerMove::handleEvent(const sf::Event& event, CommandQueue& commands)
 		}
 	}
 
-	if(event.type == sf::Event::KeyReleased)
+	if(event.type == sf::Event::KeyReleased) 
 	{
-		if(event.key.code == sf::Keyboard::Space)
+		if(event.key.code == sf::Keyboard::Space) 
 		{
 			spacePressed = false;
 		}
+		if (event.key.code == sf::Keyboard::A || event.key.code == sf::Keyboard::D)
+			commands.push(mActionBinding[NotMove]);
 	}
 }
 
@@ -58,15 +61,16 @@ void PlayerMove::handleRealtimeInput(CommandQueue& commands)
 {
 	bool isAnyKeyPressed = false;
 
-	for(auto pair : mKeyBinding)
+	for(auto pair : mKeyBinding) 
 	{		
-		if(sf::Keyboard::isKeyPressed(pair.first) && isRealtimeAction(pair.second))
+		if(sf::Keyboard::isKeyPressed(pair.first) && isRealtimeAction(pair.second)) 
 		{
 			commands.push(mActionBinding[pair.second]);
 			isAnyKeyPressed = true;
 		}
+
 	}
-	if(!isAnyKeyPressed)
+	if(!isAnyKeyPressed) 
 	{
 		commands.push(mActionBinding[NotMove]);
 	}
@@ -98,12 +102,12 @@ sf::Keyboard::Key PlayerMove::getAssigneKey(Action action) const
 
 void PlayerMove::initializeAction()
 {
-	float const playerSpeed = 5.f;
-
-	mActionBinding[MoveLeft].action      = derivedAction<Player>(PlayerMover(-playerSpeed, 0.f));
-	mActionBinding[MoveRight].action     = derivedAction<Player>(PlayerMover(+playerSpeed, 0.f));
-	mActionBinding[MoveUp].action        = derivedAction<Player>(PlayerMover(0.f, -playerSpeed));
-	mActionBinding[NotMove].action		 = derivedAction<Player>(PlayerMover(0.f, 0.f));
+	mActionBinding[MoveLeft].action      = derivedAction<Player>(PlayerMover(MoveLeft));
+	mActionBinding[MoveRight].action     = derivedAction<Player>(PlayerMover(MoveRight));
+	mActionBinding[MoveUp].action        = derivedAction<Player>(PlayerMover(MoveUp));
+	mActionBinding[NotMove].action		 = derivedAction<Player>(PlayerMover(NotMove));
+	mActionBinding[MoveOnLadder].action  = derivedAction<Player>(PlayerMover(MoveOnLadder));
+	mActionBinding[PressF].action        = derivedAction<Player>([] (Player& player, sf::Time){player.setIsExit(true);});
 }
 
 bool PlayerMove::isRealtimeAction(Action action)
@@ -112,6 +116,8 @@ bool PlayerMove::isRealtimeAction(Action action)
 	{
 	case MoveLeft:
 	case MoveRight:
+	case MoveOnLadder:
+	case PressF:
 		return true;
 	
 	default:

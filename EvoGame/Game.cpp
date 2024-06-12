@@ -7,9 +7,11 @@
 #include "MenuState.h"
 
 const sf::Time Game::timePerFrame = sf::seconds(1.f / 60.f);
+extern const int mapWidth;
+extern const int mapHeight;
 
 Game::Game()
-	: mWindow(sf::VideoMode(960, 452), "EvoGame", sf::Style::Close)
+	: mWindow(sf::VideoMode(mapWidth, mapHeight), "EvoGame", sf::Style::Close)
 	, mTextures()
 	, mFonts()
 	, mPlayer()
@@ -19,7 +21,6 @@ Game::Game()
 
 	mTextures.load(Textures::Tileset,     "Media/Textures/nature-paltformer.png");
 	mTextures.load(Textures::TitleScreen, "Media/Textures/title-screen.png");
-	//mTextures.load(Textures::Buttons,   "Media/Textures/buttons.png");
 
 	registerStates();
 	mStateStack.pushState(States::Menu);

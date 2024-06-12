@@ -1,6 +1,8 @@
 template <typename Resource, typename Identifier>
 void ResourceHolder<Resource, Identifier>::load(Identifier id, const std::string& filename)
 {
+	if(isLoaded(id)) return;
+
 	std::unique_ptr<Resource> resource = std::make_unique<Resource>();
 	if(!resource->loadFromFile(filename))
 	{
@@ -13,6 +15,8 @@ template <typename Resource, typename Identifier>
 template <typename Parameter>
 void ResourceHolder<Resource, Identifier>::load(Identifier id, const std::string& filename, const Parameter& secondParam)
 {
+	if(isLoaded(id)) return;
+
 	std::unique_ptr<Resource> resource = std::make_unique<Resource>();
 	if(!resource->loadFromFile(filename, secondParam))
 	{
@@ -45,4 +49,10 @@ void ResourceHolder<Resource, Identifier>::insertResource(Identifier id, std::un
 {
 	auto inserted = mResourceMap.insert(std::make_pair(id, std::move(resource)));
 	assert(inserted.second);
+}
+
+template <typename Resource, typename Identifier>
+bool ResourceHolder<Resource, Identifier>::isLoaded(Identifier id) const
+{
+	return mResourceMap.find(id) != mResourceMap.end();
 }

@@ -10,8 +10,6 @@
 #include "CommandQueue.h"
 #include "ResourceHolder.hpp"
 
-#include <iostream>
-
 extern const float boxScale;
 extern const float gameScale;
 extern b2World world;
@@ -21,12 +19,13 @@ namespace
 	const std::vector<PlayerData> Table = initializePlayerData();
 }
 
-// constructor method
-Player::Player(Type type, const TextureHolder& textures, sf::IntRect rect)
+Player::Player(Type type, const TextureHolder& textures, sf::FloatRect rect)
 	: Entity(Table[type].hitpoints)
 	, mType(type)
 	, mSprite(textures.get(Table[type].texture), Table[type].textureRect)
-	, isJumping(false)
+	, mIsJumping(false)
+	, mIsLadder(false)
+	, mIsExit(false)
 {
 	sf::FloatRect bounds = mSprite.getLocalBounds();
 	
@@ -38,23 +37,20 @@ Player::Player(Type type, const TextureHolder& textures, sf::IntRect rect)
 	bodyDef.fixedRotation = true;
 	mBody = world.CreateBody(&bodyDef);
 	b2PolygonShape shape;
-	shape.SetAsBox((rect.width - 4) / 2 / boxScale, (rect.height - 4) / 2 / boxScale);
+	shape.SetAsBox((rect.width - 7) / 2 / boxScale, (rect.height - 4) / 2 / boxScale);
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &shape;
 	fixtureDef.density = 1.0f; fixtureDef.friction = 0.0f;
 	mBody->CreateFixture(&fixtureDef);
 }
 
-// draw method
 void Player::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	target.draw(mSprite, states);
 }
 
 void Player::updateCurrent(sf::Time dt, CommandQueue& commands)
-{
-
-}
+{}
 
 b2Body* Player::getBodyObject()
 {
@@ -66,34 +62,65 @@ void Player::setTextureRect(sf::IntRect rect)
 	mSprite.setTextureRect(rect);
 }
 
-void Player::movePlayer(b2Vec2 velocity)
+void Player::movePlayer(Action type)
 {
+	b2Vec2 velocity(0.f, 0.f); 
+	float playerSpeed = 5.f;
 
-	b2ContactEdge* contactEdge = mBody->GetContactList();
-	while (contactEdge) {
-		
-		b2Contact* contact = contactEdge->contact;
-
-		b2WorldManifold worldManifold;
-		contact->GetWorldManifold(&worldManifold);
-
-		b2Vec2 contactNormal = worldManifold.normal;
-		
-
-		if(contactNormal.y == -1 && velocity.y != 0 && isJumping)
-		{
-			isJumping = false;
-			mBody->ApplyLinearImpulse(b2Vec2(0, -6), mBody->GetWorldCenter(), true);
-		} 
-		else if(static_cast<int>(mBody->GetLinearVelocity().y) == 0)
-		{
-			isJumping = true;
-		}		
-    
-		// Переход до наступного контакту
-		contactEdge = contactEdge->next;
+	switch(type)
+	{
+	case MoveLeft:
+		velocity.x = -playerSpeed; 
+		break;
+	case MoveRight:
+		velocity.x = playerSpeed;
+		break;
+	case MoveUp:
+		velocity.y = -playerSpeed;
+		break;
+	case MoveOnLadder:
+		velocity.y = -playerSpeed;
+		break;
+	case NotMove:
+		velocity.x = 0.f;
+		velocity.y = 0.f;
+		break;
 	}
-	mBody->SetLinearVelocity(b2Vec2(velocity.x, mBody->GetLinearVelocity().y));
+
+	if(mIsLadder && type == MoveOnLadder)
+	{
+		mBody->SetLinearVelocity(b2Vec2(0, velocity.y));
+	}
+	if(type == MoveUp)
+	{	
+		if(static_cast<int>(mBody->GetLinearVelocity().y) == 0)
+			mIsJumping = true;
+
+		b2ContactEdge* contactEdge = mBody->GetContactList();
+		while(contactEdge)
+		{
+
+			b2Contact* contact = contactEdge->contact;
+
+			b2WorldManifold worldManifold;
+			contact->GetWorldManifold(&worldManifold);
+
+			b2Vec2 contactNormal = worldManifold.normal;
+
+			if(contactNormal.y == 1)
+				contactNormal.y = -1;
+
+			if(contactNormal.y == -1 && velocity.y && mIsJumping)
+			{
+				mIsJumping = false;
+				mBody->ApplyLinearImpulse(b2Vec2(0, -5.2), mBody->GetWorldCenter(), true);
+			}
+	
+			contactEdge = contactEdge->next;
+		}
+	}
+	if(type == MoveRight || type == MoveLeft || type == NotMove)
+		mBody->SetLinearVelocity(b2Vec2(velocity.x, mBody->GetLinearVelocity().y));
 }
 
 unsigned int Player::getCategory() const
@@ -104,4 +131,24 @@ unsigned int Player::getCategory() const
 sf::FloatRect Player::getBoundingRect() const
 {
 	return getWorldTransform().transformRect(mSprite.getGlobalBounds());
+}
+
+bool Player::getIsExit() const
+{
+	return mIsExit;
+}
+
+void Player::setIsLadder(bool isLadder)
+{
+	mIsLadder = isLadder;
+}
+
+void Player::setIsExit(bool isExit)
+{
+	mIsExit = isExit;
+}
+
+void Player::setPos(sf::Vector2f pos)
+{
+	mBody->SetTransform(b2Vec2(pos.x / boxScale, pos.y / boxScale), mBody->GetAngle());
 }

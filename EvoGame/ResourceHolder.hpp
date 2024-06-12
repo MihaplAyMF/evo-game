@@ -17,10 +17,12 @@ public:
 	
 	Resource&		get(Identifier id);
 	const Resource&	get(Identifier id) const;
+
 	void			insertResource(Identifier id, std::unique_ptr<Resource> resource);
+	bool		    isLoaded(Identifier id) const;
+
 private:
 	std::map<Identifier, std::unique_ptr<Resource>>	mResourceMap;
-	
 };
 
 #include "ResourceHolder.inl"

@@ -1,48 +1,108 @@
+#include <Box2D/Box2D.h>
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
-// Функція для перевірки та обробки колізії двох прямокутників
-bool checkCollision(const sf::FloatRect& rect1, const sf::FloatRect& rect2)
-{
-    return rect1.intersects(rect2);
-}
+// Константи для конвертації між метрами та пікселями
+const float SCALE = 30.f;
 
-// Функція для поступового руху танків до межі зіткнення
-void moveToEdge(sf::RectangleShape& tank, const sf::Vector2f& velocity, const sf::RectangleShape& otherTank)
+// Обробник зіткнень
+class MyContactListener : public b2ContactListener
 {
-    sf::Vector2f stepVelocity = velocity;
-    // Зменшуємо крок руху, щоб точно визначити момент зіткнення
-    while(std::abs(stepVelocity.x) > 0.1f || std::abs(stepVelocity.y) > 0.1f)
+public:
+    void BeginContact(b2Contact* contact) override
     {
-        sf::Vector2f moveStep = {stepVelocity.x * 0.5f, stepVelocity.y * 0.5f};
-        sf::Vector2f newPos = tank.getPosition() + moveStep;
-        sf::FloatRect newRect(newPos, tank.getSize());
+        b2Fixture* fixtureA = contact->GetFixtureA();
+        b2Fixture* fixtureB = contact->GetFixtureB();
 
-        if(!checkCollision(newRect, otherTank.getGlobalBounds()))
+        if(fixtureA->IsSensor() || fixtureB->IsSensor())
         {
-            tank.move(moveStep);
+            std::cout << "Player entered sensor" << std::endl;
         }
-
-        stepVelocity *= 0.5f;  // Зменшуємо крок вдвічі
     }
-}
+
+    void EndContact(b2Contact* contact) override
+    {
+        b2Fixture* fixtureA = contact->GetFixtureA();
+        b2Fixture* fixtureB = contact->GetFixtureB();
+
+        if(fixtureA->IsSensor() || fixtureB->IsSensor())
+        {
+            std::cout << "Player left sensor" << std::endl;
+        }
+    }
+};
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(800, 600), "2D Tank Collision");
+    // Створення вікна SFML
+    sf::RenderWindow window(sf::VideoMode(800, 600), "Box2D and SFML");
 
-    // Створення двох прямокутників, які представляють танки
-    sf::RectangleShape tank1(sf::Vector2f(50.f, 50.f));
-    tank1.setFillColor(sf::Color::Green);
-    tank1.setPosition(200.f, 300.f);
+    // Створення світу Box2D з гравітацією
+    b2World world(b2Vec2(0.0f, 9.8f));
 
-    sf::RectangleShape tank2(sf::Vector2f(50.f, 50.f));
-    tank2.setFillColor(sf::Color::Blue);
-    tank2.setPosition(400.f, 300.f);
+    // Створення обробника зіткнень
+    MyContactListener myContactListener;
+    world.SetContactListener(&myContactListener);
 
-    sf::Vector2f velocity1(0.f, 0.f);  // Швидкість першого танка
-    sf::Vector2f velocity2(0.f, 0.f);  // Швидкість другого танка
-    float speed = 10.f;  // Швидкість руху танків
+    // Створення землі
+    b2BodyDef groundBodyDef;
+    groundBodyDef.position.Set(400.f / SCALE, 550.f / SCALE);
+
+    b2Body* groundBody = world.CreateBody(&groundBodyDef);
+
+    b2PolygonShape groundBox;
+    groundBox.SetAsBox((800.f / 2) / SCALE, (50.f / 2) / SCALE);
+
+    groundBody->CreateFixture(&groundBox, 0.0f);
+
+    // Створення гравця
+    b2BodyDef playerBodyDef;
+    playerBodyDef.type = b2_dynamicBody;
+    playerBodyDef.position.Set(400.f / SCALE, 500.f / SCALE);
+
+    b2Body* playerBody = world.CreateBody(&playerBodyDef);
+
+    b2PolygonShape playerBox;
+    playerBox.SetAsBox((50.f / 2) / SCALE, (50.f / 2) / SCALE);
+
+    b2FixtureDef playerFixtureDef;
+    playerFixtureDef.shape = &playerBox;
+    playerFixtureDef.density = 1.0f;
+    playerFixtureDef.friction = 0.3f;
+
+    playerBody->CreateFixture(&playerFixtureDef);
+
+    // Створення сенсора
+    b2BodyDef sensorBodyDef;
+    sensorBodyDef.position.Set(400.f / SCALE, 300.f / SCALE);
+
+    b2Body* sensorBody = world.CreateBody(&sensorBodyDef);
+
+    b2CircleShape sensorShape;
+    sensorShape.m_radius = 50.f / SCALE;
+
+    b2FixtureDef sensorFixtureDef;
+    sensorFixtureDef.shape = &sensorShape;
+    sensorFixtureDef.isSensor = true;
+
+    sensorBody->CreateFixture(&sensorFixtureDef);
+
+    // Відображення землі
+    sf::RectangleShape ground(sf::Vector2f(800.f, 50.f));
+    ground.setFillColor(sf::Color::Green);
+    ground.setOrigin(400.f, 25.f);
+    ground.setPosition(400.f, 550.f);
+
+    // Відображення гравця
+    sf::RectangleShape player(sf::Vector2f(50.f, 50.f));
+    player.setFillColor(sf::Color::Blue);
+    player.setOrigin(25.f, 25.f);
+
+    // Відображення сенсора
+    sf::CircleShape sensor(50.f);
+    sensor.setFillColor(sf::Color(255, 0, 0, 100)); // Напівпрозорий червоний
+    sensor.setOrigin(50.f, 50.f);
+    sensor.setPosition(400.f, 500.f);
 
     while(window.isOpen())
     {
@@ -50,78 +110,40 @@ int main()
         while(window.pollEvent(event))
         {
             if(event.type == sf::Event::Closed)
+            {
                 window.close();
+            }
         }
 
-        // Скидання швидкості перед обробкою клавіш
-        velocity1 = {0.f, 0.f};
-        velocity2 = {0.f, 0.f};
-
-        // Обробка клавіш для керування першим танком (WASD)
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-        {
-            velocity1.y = -speed;
-        }
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-        {
-            velocity1.y = speed;
-        }
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-        {
-            velocity1.x = -speed;
-        }
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-        {
-            velocity1.x = speed;
-        }
-
-        // Обробка клавіш для керування другим танком (стрілки)
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-        {
-            velocity2.y = -speed;
-        }
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-        {
-            velocity2.y = speed;
-        }
+        // Обробка введення користувача
+        b2Vec2 velocity(0.f, playerBody->GetLinearVelocity().y);
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
         {
-            velocity2.x = -speed;
+            velocity.x = -5.f;
         }
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
         {
-            velocity2.x = speed;
+            velocity.x = 5.f;
         }
+        playerBody->SetLinearVelocity(velocity);
 
-        // Оновлення позицій танків тимчасово
-        sf::Vector2f newPos1 = tank1.getPosition() + velocity1;
-        sf::Vector2f newPos2 = tank2.getPosition() + velocity2;
+        // Оновлення світу Box2D
+        world.Step(1 / 60.f, 6, 2);
 
-        sf::FloatRect newRect1(newPos1, tank1.getSize());
-        sf::FloatRect newRect2(newPos2, tank2.getSize());
+        // Оновлення положення гравця
+        b2Vec2 playerPosition = playerBody->GetPosition();
+        player.setPosition(playerPosition.x * SCALE, playerPosition.y * SCALE);
+        player.setRotation(playerBody->GetAngle() * 180 / b2_pi);
 
-        // Перевірка колізій та оновлення позицій тільки якщо немає зіткнення
-        if(!checkCollision(newRect1, tank2.getGlobalBounds()))
-        {
-            tank1.move(velocity1);
-        }
-        else
-        {
-            moveToEdge(tank1, velocity1, tank2);
-        }
-
-        if(!checkCollision(newRect2, tank1.getGlobalBounds()))
-        {
-            tank2.move(velocity2);
-        }
-        else
-        {
-            moveToEdge(tank2, velocity2, tank1);
-        }
-
+        // Очищення вікна
         window.clear();
-        window.draw(tank1);
-        window.draw(tank2);
+
+        // Малювання об'єктів
+        window.draw(ground);
+        window.draw(player);
+        window.draw(sensor);
+
+        // Відображення вікна
         window.display();
     }
 

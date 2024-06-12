@@ -16,7 +16,7 @@ MenuState::MenuState(StateStack& stack, Context context)
 
 	auto evoGameLabel = std::make_shared<GUI::Label>("", *context.fonts);
 	evoGameLabel->setPosition(370, 30);
-	evoGameLabel->setText("EvoGame");
+	evoGameLabel->setText("MyGame");
 	evoGameLabel->getText().setFillColor(sf::Color::Black);
 	evoGameLabel->getText().setCharacterSize(70);
 

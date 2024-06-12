@@ -97,6 +97,12 @@
     <ClCompile Include="Coin.cpp">
       <Filter>game project\entity</Filter>
     </ClCompile>
+    <ClCompile Include="Ladder.cpp">
+      <Filter>game project\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Exit.cpp">
+      <Filter>game project\entity</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -174,6 +180,12 @@
     <ClInclude Include="Coin.h">
       <Filter>game project\entity</Filter>
     </ClInclude>
+    <ClInclude Include="Ladder.h">
+      <Filter>game project\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Exit.h">
+      <Filter>game project\entity</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ResourceHolder.inl">
@@ -182,6 +194,7 @@
     <None Include="Utility.inl">
       <Filter>game project\resourse handle</Filter>
     </None>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documentation\documentation.txt">

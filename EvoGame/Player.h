@@ -17,67 +17,38 @@ public:
 		TypeCount
 	};
 
-	explicit Player(Type type, const TextureHolder& textures, sf::IntRect rect);
+	explicit Player(Type type, const TextureHolder& textures, sf::FloatRect rect);
 
 	b2Body* getBodyObject();
 	void setTextureRect(sf::IntRect rect);
 
-	void movePlayer(b2Vec2 velocity);
+	void movePlayer(Action type);
 
 	virtual unsigned int  getCategory() const;
 	virtual sf::FloatRect getBoundingRect() const;
-	//virtual void		  remove();
-	//virtual bool		  isMarkedForRemoval() const;
-	//bool				  isAllied() const;
-	//float				  getMaxSpeed() const;
+	bool getIsExit() const;
 
-	//void				  increaseFireRate();
-	//void				  increaseSpread();
-	//void				  collectMissile(unsigned int count);
+	void setIsLadder(bool isLadder);
+	void setIsExit(bool isExit);
+	void setPos(sf::Vector2f pos);
 
-	//void				  fire();
-	//void				  launchMissile();
 
 private:
 	virtual void		  drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const;
 	virtual void		  updateCurrent(sf::Time dt, CommandQueue& commands);
 
-	//void				  updateMovementPattern(sf::Time dt);
-	//void				  checkProjectileLaunch(sf::Time dt, CommandQueue& commands);
-	//void				  checkPickupDrop(CommandQueue& commands);
+	b2Body*		mBody;
+	Type	    mType;
+	sf::Sprite  mSprite;
 
-	//void				  createBullets(SceneNode& node, const TextureHolder& texture) const;
-	//void				  createProjectile(SceneNode& node, Projectile::Type type, float xOffset, float y0ffset, const TextureHolder& textures) const;
-	//void				  createPickup(SceneNode& node, const TextureHolder& textures) const;
+	bool mIsJumping;
+	bool mIsLadder;
+	bool mIsExit;
 
-	//void				  updateTexts();
-	//void				  updateRollAnimation();
-
-	b2Body* mBody;
-	Type	   mType;
-	sf::Sprite mSprite;
-
-	bool isJumping;
-	/*Animation  mExplosion;
 	sf::Time   mFireCountdown;
 	sf::Time   mMissileCountdown;
 	Command    mFireCommand;
 	Command	   mMissileCommand;
-	Command    mDropPickupCommand;*/
-
-	/*TextNode* mHealthDisplay;
-	TextNode* mMissileDisplay;*/
-
-	/*bool	   mIsFiring;
-	bool	   mIsLaunchingMissile;
-	bool	   mSpawnedPickup;
-	bool       mShowExplosion;*/
-
-	/*int		   mMissileAmmo;
-	int		   mSpreadLevel;
-	int		   mFireRateLevel;
-	int		   mDirectionIndex;*/
-
-	//float	   mTravelledDistance;
+	Command    mDropPickupCommand;
 
 };

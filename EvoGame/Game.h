@@ -30,14 +30,4 @@ private:
 	PlayerMove		 mPlayer;
 	
 	StateStack       mStateStack;
-
-	/*sf::Texture t1, t2, t3;
-	sf::Sprite background, player, platform;*/
-
-	//Level level;
-
-	//b2PolygonShape shape;
-	//b2BodyDef bdef;
-	//b2CircleShape circle;
-	//b2Body* pBody;
 };

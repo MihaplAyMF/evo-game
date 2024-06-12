@@ -5,18 +5,11 @@
 #include <SFML/Window/Event.hpp>
 
 #include "CommandQueue.h"
+#include "DataTables.h"
 
 class PlayerMove
 {
 public:
-	enum Action
-	{
-		MoveLeft,
-		MoveRight,
-		MoveUp,
-		NotMove,
-		ActionCount
-	};
 
 	enum MoveDirection
 	{

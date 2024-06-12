@@ -1,12 +1,9 @@
 #include "Block.h"
 
-#include <SFML/Graphics/RenderTarget.hpp>
-#include <SFML/Graphics/RenderStates.hpp>
-
 extern const float boxScale;
 extern b2World world;
 
-Block::Block(sf::IntRect rect, sf::Vector2i tileSize)
+Block::Block(sf::FloatRect rect, sf::Vector2i tileSize)
 	: Entity(1)
 {
 	b2BodyDef bodyDef;

@@ -7,7 +7,7 @@
 class Block : public Entity
 {
 public:
-	Block(sf::IntRect objectRect, sf::Vector2i tileSize);
+	Block(sf::FloatRect objectRect, sf::Vector2i tileSize);
 
 	b2Body* getBodyObject();
 

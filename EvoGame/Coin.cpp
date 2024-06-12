@@ -8,9 +8,10 @@ extern const float boxScale;
 extern const float gameScale;
 extern b2World world;
 
-Coin::Coin(const TextureHolder& textures, sf::IntRect rect, sf::Vector2i tileSize)
+Coin::Coin(const TextureHolder& textures, int objectID, sf::FloatRect rect)
 	: Entity(1)
 	, mSprite(textures.get(Textures::Tileset), sf::IntRect(80, 112, 16, 16))
+	, mObjectID(objectID)
 {
 	mSprite.setScale(gameScale, gameScale);
 	mSprite.setPosition(rect.left, rect.top - rect.height);
@@ -24,12 +25,9 @@ Coin::Coin(const TextureHolder& textures, sf::IntRect rect, sf::Vector2i tileSiz
 
 	b2PolygonShape shape;
 	shape.SetAsBox(rect.width / 2 / boxScale, rect.height / 2 / boxScale);
+
 	b2FixtureDef fixtureDef;
 	mBody->CreateFixture(&shape, 1.0f);
-
-	//fixtureDef.shape = &shape;
-	//fixtureDef.density = 0.0f; fixtureDef.friction = 0.1f;
-	//mBody->CreateFixture(&fixtureDef);
 }	
 
 b2Body* Coin::getBodyObject()
@@ -39,6 +37,16 @@ b2Body* Coin::getBodyObject()
 unsigned int Coin::getCategory() const
 {
 	return Category::Coin;
+}
+
+sf::FloatRect Coin::getBoundingRect() const
+{
+	return getWorldTransform().transformRect(mSprite.getGlobalBounds());
+}
+
+int Coin::getObjectID()
+{
+	return mObjectID;
 }
 
 void Coin::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const

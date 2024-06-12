@@ -1,0 +1,245 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="State" Collapsed="true">
+    <Position X="7.25" Y="0.5" Width="1.5" />
+    <NestedTypes>
+      <Typedef Name="State::Ptr" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>State.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Typedef>
+      <Struct Name="State::Context" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>State.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAABAAAAIAAAAAAAAQAISAAAAABBAkAAA=</HashCode>
+      <FileName>State.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Entity" Collapsed="true">
+    <Position X="7.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAABAAgAAEAEAAIEAAAAgAAgAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entity.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game" Collapsed="true">
+    <Position X="1" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AoAAAgACAAAAAABAAAIAAAAAQAiAAAAAQAAAAAAUAAA=</HashCode>
+      <FileName>Game.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Block" Collapsed="true">
+    <Position X="10" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAEAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Block.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Coin" Collapsed="true">
+    <Position X="7.25" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAAAAAAAAQAAABAAAAAAEAAAAAIAAAAAAABA=</HashCode>
+      <FileName>Coin.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Player" Collapsed="true">
+    <Position X="5" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAgAAAEAAAAAAQCABABAAAAAEAgAAAIAAAQAAABA=</HashCode>
+      <FileName>Player.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PlayerMove" Collapsed="true">
+    <Position X="1" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>VAAAEAAAAAAAABUAAACAAAAAAgAAAEAQACAAAAAAAAA=</HashCode>
+      <FileName>PlayerMove.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="World" Collapsed="true">
+    <Position X="10" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QABAAAQCBBAgQAFAAgIAABCAAACAAABAAAAAABIEmIA=</HashCode>
+      <FileName>World.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GUI::Button" Collapsed="true">
+    <Position X="13" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AFAAgEAAAAAAQBAARAIAQACCAAAAAAZAAAAAAAAEAAA=</HashCode>
+      <FileName>Button.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GUI::Component" Collapsed="true">
+    <Position X="14.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgoEIQAAAAABAAAAAAQBAAAAAAAARAAABAAAAEAAA=</HashCode>
+      <FileName>Component.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GUI::Container" Collapsed="true">
+    <Position X="14.75" Y="2.25" Width="1.5" />
+    <InheritanceLine Type="GUI::Component">
+      <InheritanceModifierLabel ManuallyPlaced="true">
+        <Position X="0.866" Y="0.096" />
+      </InheritanceModifierLabel>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>gAAAAAQAAAAAABAAAAIEAAQAAAACAAxAAAAAAAAEAAA=</HashCode>
+      <FileName>Container.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GUI::Label" Collapsed="true">
+    <Position X="13" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEAAAABAAAAIACACCAAAAAAQAAAAAAAAEAAA=</HashCode>
+      <FileName>Label.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CommandQueue" Collapsed="true">
+    <Position X="1" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAIAABAQAA=</HashCode>
+      <FileName>CommandQueue.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SceneNode" Collapsed="true">
+    <Position X="7.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQCBAAAAFACAAAAABoBEQUAACBAAgBAAIAAAAAEQBA=</HashCode>
+      <FileName>SceneNode.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SpriteNode" Collapsed="true">
+    <Position X="5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAAQAAAAAAAAAAAAAAAQAAAAAAAABA=</HashCode>
+      <FileName>SpriteNode.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="sf::Texture" Collapsed="true">
+    <Position X="14.75" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAEQAAYMACgAhCACAMAgAAABBAACAAAQJwBAJEAIg=</HashCode>
+      <FileName>C:\Program Files\vcpkg-master\installed\x64-windows\include\SFML\Graphics\Texture.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="sf::Font" Collapsed="true">
+    <Position X="13" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>wAAAAQAAQGAAAgEAAAAIAkBC4ABAAAAIQEAwECAmRAE=</HashCode>
+      <FileName>C:\Program Files\vcpkg-master\installed\x64-windows\include\SFML\Graphics\Font.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="sf::Sprite" Collapsed="true">
+    <Position X="2.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQACBEAIAgACAAIAAAAAAAAAACAwAAAAgAIIAAA=</HashCode>
+      <FileName>C:\Program Files\vcpkg-master\installed\x64-windows\include\SFML\Graphics\Sprite.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="sf::Text" Collapsed="true">
+    <Position X="2.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAQAhGJCAIQADABAIABEBEwBUAkkAoAAFSiABIQAA=</HashCode>
+      <FileName>C:\Program Files\vcpkg-master\installed\x64-windows\include\SFML\Graphics\Text.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="sf::RenderWindow" Collapsed="true">
+    <Position X="1" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>hAAAAAAAAIBAAAgAAAAAAASAAAAAEAAgAAAAAAAAAAA=</HashCode>
+      <FileName>C:\Program Files\vcpkg-master\installed\x64-windows\include\SFML\Graphics\RenderWindow.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="sf::Event" Collapsed="true">
+    <Position X="1" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>C:\Program Files\vcpkg-master\installed\x64-windows\include\SFML\Window\Event.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="StateStack" Collapsed="true">
+    <Position X="5.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQABAABAAQAKABIAAAgARAAQAAAAAIAAEQAA=</HashCode>
+      <FileName>StateStack.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameState" Collapsed="true">
+    <Position X="7.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAQAAABAAAAIAAAAAAAAAAAAAAAAAAAAEIAA=</HashCode>
+      <FileName>GameState.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MenuState" Collapsed="true">
+    <Position X="9.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAACAAAAABAAAgIAAAAAAAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>MenuState.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="PlayerData" Collapsed="true">
+    <Position X="5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAwAEAAAAQAAAAAA=</HashCode>
+      <FileName>DataTables.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Command" Collapsed="true">
+    <Position X="1" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAAAAAAAAAAABAAAAAAAAAAAAAAIAAAAAAA=</HashCode>
+      <FileName>Command.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Typedef Name="TextureHolder" Collapsed="true">
+    <Position X="14.75" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ResourceIdentifiers.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="FontHolder" Collapsed="true">
+    <Position X="13" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ResourceIdentifiers.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Enum Name="Category::Type" Collapsed="true">
+    <Position X="2.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAABABCABAAAAAAACAAAAAQEAAAA=</HashCode>
+      <FileName>Category.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Textures" Collapsed="true">
+    <Position X="14.75" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAgAAAAAAAAAAAAAAAgAAAAAAAAAQAAAAA=</HashCode>
+      <FileName>ResourceIdentifiers.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Fonts" Collapsed="true">
+    <Position X="13" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>ResourceIdentifiers.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="States" Collapsed="true">
+    <Position X="9" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAgIAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>StateIdentifiers.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

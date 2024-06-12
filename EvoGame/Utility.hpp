@@ -6,8 +6,6 @@
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Text.hpp> 
 
-//#include "Animation.h"
-
 namespace sf 
 {
 	class Sprite;
@@ -21,7 +19,6 @@ std::string toString(sf::Keyboard::Key key);
 
 void centerOrigin(sf::Sprite& sprite);
 void centerOrigin(sf::Text& text);
-//void centerOrigin(Animation& animation);
 
 float toDegree(float radian);
 float toRadian(float degree);

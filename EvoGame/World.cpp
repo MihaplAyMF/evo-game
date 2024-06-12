@@ -1,18 +1,28 @@
 #include <iostream>
 #include <tinyxml2.h>
+#include <filesystem> 
+#include <fstream>
+#include <iostream>
 
 #include "World.h"
 #include "Block.h"
+#include "Coin.h"
+#include "Ladder.h"
+#include "Exit.h"
 
 extern const float boxScale;
 extern const float gameScale;
 extern b2World world;
+extern const int mapWidth;
+extern const int mapHeight;
+
+const float zoomValue = 1.2;
 
 std::string getImagePath(std::string xmlFilePath)
 {
     std::string imagePath;
-
     tinyxml2::XMLDocument doc;
+
     if(doc.LoadFile(xmlFilePath.c_str()) == tinyxml2::XML_SUCCESS)
     {
         tinyxml2::XMLElement* root = doc.FirstChildElement("tileset");
@@ -21,9 +31,16 @@ std::string getImagePath(std::string xmlFilePath)
             tinyxml2::XMLElement* imageElement = root->FirstChildElement("image");
             if(imageElement)
             {
-                std::string source = imageElement->Attribute("source");
-                if(!source.empty())
-                    imagePath = source;
+                const char* source = imageElement->Attribute("source");
+                if(source)
+                {
+                    std::filesystem::path xmlPath(xmlFilePath);
+                    std::filesystem::path xmlDirectory = xmlPath.parent_path();
+                    std::filesystem::path relativeImagePath(source);
+
+                    std::filesystem::path absoluteImagePath = std::filesystem::canonical(xmlDirectory / relativeImagePath);
+                    imagePath = absoluteImagePath.string();
+                }
             }
         }
     }
@@ -31,56 +48,46 @@ std::string getImagePath(std::string xmlFilePath)
     return imagePath;
 }
 
+bool matchesCategories(SceneNode::Pair& colliders, Category::Type type1, Category::Type type2)
+{
+    unsigned int category1 = colliders.first->getCategory();
+    unsigned int category2 = colliders.second->getCategory();
+
+    if(type1 & category1 && type2 & category2)
+    {
+        return true;
+    }
+    else if(type1 & category2 && type2 & category1)
+    {
+        std::swap(colliders.first, colliders.second);
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+
+}
+
 World::World(sf::RenderWindow& window, FontHolder& fonts)
     : mTarget(window)
-    , mWorldView(window.getDefaultView())
+    , mWorldView(sf::FloatRect(0, 0, window.getSize().x / zoomValue, window.getSize().y / zoomValue))
+    , mHUDView(window.getDefaultView())
     , mFonts(fonts)
     , mTextures()
     , mPlayer(nullptr)
+    , mGlobalPos(0, 0)
+    , mPlayerPos(0, 0)
+    , mCoinLabel("", mFonts)
+    , mCoincollected(0)
 {
-    loadTextures();
+    loadGameState();
+    loadTexture(mCurrentMap);
+    createHUD();
     buildScene();
 }
 
-void World::update(sf::Time dt)
-{
-    world.Step(1 / 60.f, 8, 3);
-
-    while(!mCommandQueue.isEmpty())
-        mSceneGraph.onCommand(mCommandQueue.pop(), dt);
-
-    mSceneGraph.removeWrecks();
-    
-    sf::Vector2f pos(mPlayer->getBodyObject()->GetPosition().x, mPlayer->getBodyObject()->GetPosition().y) ;
-    mPlayer->setPosition(pos.x * boxScale, pos.y * boxScale);
-
-    mSceneGraph.update(dt, mCommandQueue);
-
-    handleCollisions();
-}
-
-void World::draw()
-{
-    mTarget.draw(mSceneGraph);
-}
-
-CommandQueue& World::getCommandQueue()
-{
-    return mCommandQueue;
-}
-
-void World::cleanup()
-{
-    b2Body* body = world.GetBodyList();
-    while(body != nullptr)
-    {
-        b2Body* nextBody = body->GetNext(); 
-        world.DestroyBody(body); 
-        body = nextBody;
-    }
-}
-
-bool World::LoadFromFile(std::string filename)
+bool World::loadTexture(std::string filename)
 {
     tinyxml2::XMLDocument levelFile;
 
@@ -93,6 +100,118 @@ bool World::LoadFromFile(std::string filename)
     tinyxml2::XMLElement* map;
     map = levelFile.FirstChildElement("map");
 
+    tinyxml2::XMLElement* tilesetElement;
+    tilesetElement = map->FirstChildElement("tileset");
+    std::string fileImagePath = tilesetElement->Attribute("source");
+
+    std::string imagePath = getImagePath("Media/Map/" + fileImagePath);
+
+    mTextures.load(Textures::Tileset, imagePath);
+    mTextures.get(Textures::Tileset).setSmooth(false);
+}
+
+void World::update(sf::Time dt)
+{
+    world.Step(1 / 60.f, 8, 3);
+    changeMapPlayerOutsideView();
+
+    
+    while(!mCommandQueue.isEmpty())
+        mSceneGraph.onCommand(mCommandQueue.pop(), dt);
+
+    mSceneGraph.removeWrecks();
+
+    playerUpdate();
+    handleCollisions();
+    updateCamera();
+    
+    mSceneGraph.update(dt, mCommandQueue);
+
+}
+
+void World::draw()
+{
+    mTarget.setView(mWorldView);
+    mTarget.draw(mSceneGraph);
+    
+    drawHUD();
+}
+
+CommandQueue& World::getCommandQueue()
+{
+    return mCommandQueue;
+}
+
+void World::clean()
+{
+    saveGameState();
+    cleanup();
+}
+
+void World::cleanup()
+{
+    for(std::size_t i = 0; i < LayerCount; ++i)
+    {
+        if(mSceneLayers[i] != nullptr)
+        {
+            mSceneLayers[i]->cleanup();
+        }
+    }
+
+    b2Body* body = world.GetBodyList();
+    while(body != nullptr)                                                      
+    {
+        b2Body* nextBody = body->GetNext(); 
+        world.DestroyBody(body); 
+        body = nextBody;
+    }
+}
+
+void World::saveFirstGameState()
+{
+    const std::string& filename = "binary.bin";
+
+    std::ofstream saveFile(filename, std::ios::binary);
+    if(!saveFile.is_open())
+    {
+        std::cerr << "Failed to open save file." << std::endl;
+        return;
+    }
+
+    // Save player state    
+    mGlobalPos = sf::Vector2f(0, 0);
+    mPlayerPos = sf::Vector2f(0, 0);
+    mCurrentMap = "Media/Map/Map1.tmx";
+
+    saveFile.write(reinterpret_cast<const char*>(&mGlobalPos.x), sizeof(mGlobalPos.x));
+    saveFile.write(reinterpret_cast<const char*>(&mGlobalPos.y), sizeof(mGlobalPos.y));
+
+    saveFile.write(reinterpret_cast<const char*>(&mPlayerPos.x), sizeof(mPlayerPos.x));
+    saveFile.write(reinterpret_cast<const char*>(&mPlayerPos.y), sizeof(mPlayerPos.y));
+    
+    size_t length = mCurrentMap.size();
+    saveFile.write(reinterpret_cast<const char*>(&length), sizeof(length));
+    saveFile.write(mCurrentMap.c_str(), length);
+    // Save other game state as needed
+
+    saveFile.close();
+}
+
+bool World::loadFromFile(std::string filename)
+{ 
+    tinyxml2::XMLDocument levelFile;
+
+    if(levelFile.LoadFile(filename.c_str()) != tinyxml2::XML_SUCCESS)
+    {
+        std::cerr << "Loading XML file \"" << filename << "\" failed." << std::endl;
+        return false;
+    }
+
+    tinyxml2::XMLElement* map;
+    map = levelFile.FirstChildElement("map");
+
+    int width, height, tileWidth, tileHeight, firstTileID;
+
     map->QueryIntAttribute("width", &width);
     map->QueryIntAttribute("height", &height);
     map->QueryIntAttribute("tilewidth", &tileWidth);
@@ -100,14 +219,7 @@ bool World::LoadFromFile(std::string filename)
 
     tinyxml2::XMLElement* tilesetElement;
     tilesetElement = map->FirstChildElement("tileset");
-
     tilesetElement->QueryIntAttribute("firstgid", &firstTileID);
-    std::string fileImagePath = tilesetElement->Attribute("source");
-
-    std::string imagePath = getImagePath(fileImagePath);
-
-    mTextures.load(Textures::Tileset, imagePath);
-    mTextures.get(Textures::Tileset).setSmooth(false);
 
     int columns = mTextures.get(Textures::Tileset).getSize().x / tileWidth;
     int rows = mTextures.get(Textures::Tileset).getSize().y / tileHeight;
@@ -173,6 +285,7 @@ bool World::LoadFromFile(std::string filename)
                 finishSprite->setTextureRect(subRects[subRectToUse]);
                 finishSprite->setScale(gameScale, gameScale);
                 finishSprite->setPosition(x * tileWidth * gameScale, y * tileHeight * gameScale);
+                finishSprite->setBackground(true);
                 mSceneLayers[Background]->attachChild(std::move(finishSprite));
             }
 
@@ -213,6 +326,8 @@ bool World::LoadFromFile(std::string filename)
                 {
                     objectName = objectElement->Attribute("name");
                 }
+                int objectID = atoi(objectElement->Attribute("id"));
+     
                 int x = atoi(objectElement->Attribute("x"));
                 int y = atoi(objectElement->Attribute("y"));
 
@@ -229,7 +344,7 @@ bool World::LoadFromFile(std::string filename)
                     height = subRects[atoi(objectElement->Attribute("gid")) - firstTileID].height;
                 }
 
-                sf::IntRect rect;
+                sf::FloatRect rect;
                 rect.top = y * gameScale;
                 rect.left = x * gameScale;
                 rect.height = height * gameScale;
@@ -237,6 +352,10 @@ bool World::LoadFromFile(std::string filename)
 
                 if(objectName == "player")
                 {
+                    mStartPos = sf::Vector2f(rect.left, rect.top - rect.height);
+                    rect.top  = mPlayerPos.y;
+                    rect.left = mPlayerPos.x;
+
                     int tileGID;
                     const char* gidAttr = objectElement->Attribute("gid");
                     if(gidAttr)
@@ -263,13 +382,23 @@ bool World::LoadFromFile(std::string filename)
                 }
                 else if(objectName == "coin")
                 {
-                    sf::Vector2i tileSize(tileWidth * gameScale, tileHeight * gameScale);
-
-                    std::unique_ptr<Coin> coin = std::make_unique<Coin>(mTextures, rect, tileSize);
-                    coinBody.push_back(coin.get());
-                    mSceneLayers[Air]->attachChild(std::move(coin));
+                    auto& coins = mÑoinIDCollected[mCurrentMap];
+                    if(coins.find(objectID) == coins.end())
+                    {
+                        std::unique_ptr<Coin> coin = std::make_unique<Coin>(mTextures, objectID, rect);
+                        mSceneLayers[Air]->attachChild(std::move(coin));
+                    }
                 }
-
+                else if(objectName == "ladder")
+                {
+                    std::unique_ptr<Ladder> ladder = std::make_unique<Ladder>(rect);
+                    mSceneLayers[Air]->attachChild(std::move(ladder));
+                }
+                else if(objectName == "exit")
+                {
+                    std::unique_ptr<Exit> exit = std::make_unique<Exit>(rect);
+                    mSceneLayers[Air]->attachChild(std::move(exit));
+                }
                 objectElement = objectElement->NextSiblingElement("object");
             }
             objectGroupElement = objectGroupElement->NextSiblingElement("objectgroup");
@@ -283,15 +412,8 @@ bool World::LoadFromFile(std::string filename)
     return true;
 }
 
-void World::loadTextures()
-{
-   // mTextures.load(Textures::Player, "Media/Textures/player.png");
-
-}
-
 void World::buildScene()
 {
-    
     for(std::size_t i = 0; i < LayerCount; ++i)
     {
         Category::Type category = (i == Air) ? Category::SceneAirLayer : Category::None;
@@ -302,39 +424,242 @@ void World::buildScene()
         mSceneGraph.attachChild(std::move(layer));
     }
 
-    LoadFromFile("Test.tmx");
+    loadFromFile(mCurrentMap);
 
+    //mPlayer->setPos(mStartPos); // ïîêè õç çàëèøàòè ÷è í³
 }
 
 void World::handleCollisions()
 {
-    for(b2ContactEdge* ce = mPlayer->getBodyObject()->GetContactList(); ce; ce = ce->next)
+
+    std::set<SceneNode::Pair> colisionPairs;
+    mSceneGraph.checkSceneCollision(mSceneGraph, colisionPairs);
+
+    for(SceneNode::Pair pair : colisionPairs)
     {
-        bool state = false;
-
-        for(int i = 0; i < coinBody.size(); i++)
-            if(ce->contact->GetFixtureB()->GetBody() == coinBody[i]->getBodyObject())
+        if(matchesCategories(pair, Category::Player, Category::Coin))
+        {
+            auto& coin = dynamic_cast<Coin&>(*pair.second);
+            
+            mÑoinIDCollected[mCurrentMap].insert(coin.getObjectID());
+            coin.remove();
+            coin.getBodyObject()->DestroyFixture(coin.getBodyObject()->GetFixtureList());
+            mCoincollected++;
+            mCoinLabel.setText(std::to_string(mCoincollected));
+        }
+        else if(matchesCategories(pair, Category::Player, Category::Ladder))
+        {
+            mPlayer->setIsLadder(true);
+        }
+        else if(matchesCategories(pair, Category::Player, Category::Exit))
+        {
+            if(mPlayer->getIsExit() == true)
             {
-                coinBody[i]->getBodyObject()->DestroyFixture(coinBody[i]->getBodyObject()->GetFixtureList());
-                coinBody[i]->remove();
-                coinBody.erase(coinBody.begin() + i); state = true;
-                break;
+               if(mGlobalPos == sf::Vector2f(0, 0))
+               {
+                   mGlobalPos.x -= 1;
+                   mCurrentMap = "Media/Map/Map0.tmx";
+                   switchMap(mCurrentMap);
+               }
             }
-        if(state == true)
-            break;
-
+        }
     }
 }
 
-bool World::hasAlivePlayer()
+void World::updateCamera()
 {
-    if(!getEvoGameBounds().intersects(mPlayer->getBoundingRect()))
-    {
-        mPlayer->remove();
-        return false;
-    }
-    return true;
+    b2Body* body = mPlayer->getBodyObject();
 
+    sf::Vector2f pos(body->GetPosition().x, body->GetPosition().y);
+    sf::Vector2f size(mPlayer->getBoundingRect().width, mPlayer->getBoundingRect().height);
+    sf::Vector2f scaledPos(pos.x * boxScale, pos.y * boxScale);
+
+    mPlayer->setPosition(scaledPos.x, scaledPos.y);
+
+    sf::Vector2f halfWindowSize = sf::Vector2f(mWorldView.getSize().x / 2.0f, mWorldView.getSize().y / 2.0f);
+    sf::Vector2f newCenter = scaledPos + sf::Vector2f(size.x / 2, size.y / 2);
+
+    if(newCenter.x - halfWindowSize.x < 0)
+        newCenter.x = halfWindowSize.x;
+    if(newCenter.y - halfWindowSize.y < 0)
+        newCenter.y = halfWindowSize.y;
+    if(newCenter.x + halfWindowSize.x > mapWidth)
+        newCenter.x = mapWidth - halfWindowSize.x;
+    if(newCenter.y + halfWindowSize.y > mapHeight)
+        newCenter.y = mapHeight - halfWindowSize.y;
+
+    mWorldView.setCenter(newCenter);
+}
+
+void World::createHUD()
+{
+    mCoinLabel.setText(std::to_string(mCoincollected));
+    mCoinLabel.getText().setFillColor(sf::Color::Black);
+    mCoinLabel.getText().setCharacterSize(25);
+    mCoinLabel.setPosition(64, 64);
+
+    mHeartSprite.setTexture(mTextures.get(Textures::Tileset));
+    mHeartSprite.setTextureRect(sf::IntRect(96, 112, 16, 16));
+    mHeartSprite.setScale(gameScale * zoomValue, gameScale * zoomValue);
+    mHeartSprite.setPosition(16, 16);
+
+    mCoinSprite.setTexture(mTextures.get(Textures::Tileset));
+    mCoinSprite.setTextureRect(sf::IntRect(80, 112, 16, 16));
+    mCoinSprite.setScale(gameScale * zoomValue, gameScale * zoomValue);
+    mCoinSprite.setPosition(16, 48);
+}
+
+void World::drawHUD()
+{
+    mTarget.setView(mHUDView);
+
+    for(int i = 0; i < mPlayer->getHitpoints(); ++i)
+    {
+        mHeartSprite.setPosition(16 + i * (mHeartSprite.getGlobalBounds().width - 5), 16);
+        mTarget.draw(mHeartSprite);
+    }
+
+    mTarget.draw(mCoinSprite);
+    mTarget.draw(mCoinLabel);
+}
+
+void World::playerUpdate()
+{
+    mPlayer->setIsExit(false);
+    mPlayer->setIsLadder(false);
+}
+
+void World::saveGameState()
+{
+    const std::string& filename = "binary.bin";
+
+    std::ofstream saveFile(filename, std::ios::binary);
+    if(!saveFile.is_open())
+    {
+        std::cerr << "Failed to open save file." << std::endl;
+        return;
+    }
+    
+    if(mPlayer == nullptr)
+        return;
+
+    // Save player state    
+    
+    saveFile.write(reinterpret_cast<const char*>(&mGlobalPos.x), sizeof(mGlobalPos.x));
+    saveFile.write(reinterpret_cast<const char*>(&mGlobalPos.y), sizeof(mGlobalPos.y));
+
+    saveFile.write(reinterpret_cast<const char*>(&mPlayerPos.x), sizeof(mPlayerPos.x));
+    saveFile.write(reinterpret_cast<const char*>(&mPlayerPos.y), sizeof(mPlayerPos.y));
+
+    size_t length = mCurrentMap.size();
+    saveFile.write(reinterpret_cast<const char*>(&length), sizeof(length));
+    saveFile.write(mCurrentMap.c_str(), length);
+    // Save other game state as needed
+
+    saveFile.close();
+}
+
+void World::loadGameState()
+{
+    const std::string& filename = "binary.bin";
+
+    std::ifstream loadFile(filename, std::ios::binary);
+    if(!loadFile)
+    {
+        std::cerr << "Save file not found. Creating a new one." << std::endl;
+        saveFirstGameState();
+        return;
+    }
+
+    // Load player state
+    loadFile.read(reinterpret_cast<char*>(&mGlobalPos.x), sizeof(mGlobalPos.x));
+    loadFile.read(reinterpret_cast<char*>(&mGlobalPos.y), sizeof(mGlobalPos.y));
+
+    loadFile.read(reinterpret_cast<char*>(&mPlayerPos.x), sizeof(mPlayerPos.x));
+    loadFile.read(reinterpret_cast<char*>(&mPlayerPos.y), sizeof(mPlayerPos.y));
+
+    size_t length;
+    loadFile.read(reinterpret_cast<char*>(&length), sizeof(length));
+
+    char* buffer = new char[length + 1];
+    loadFile.read(buffer, length);
+    buffer[length] = '\0'; // Null-terminate the string
+
+    mCurrentMap = buffer;
+    delete[] buffer;
+
+    //mPlayer->setPosition(playerPos);
+
+    // Load other game state as needed
+
+    loadFile.close();
+}
+
+void World::switchMap(const std::string& filename)
+{
+    saveGameState();
+    cleanup();
+    loadGameState();
+    loadFromFile(filename);
+}
+
+void World::changeMapPlayerOutsideView()
+{
+    auto gameBounds = getEvoGameBounds();
+    auto playerBounds = mPlayer->getBoundingRect();
+    
+    mPlayerPos = sf::Vector2f(playerBounds.left, playerBounds.top + playerBounds.height);
+
+    if(playerBounds.left > gameBounds.left + gameBounds.width) // ßêùî âèéøëè çà ïðàâó ìåæó
+    {
+        if(mGlobalPos == sf::Vector2f(0, 0))
+        {
+            mGlobalPos.x += 1;
+            mPlayerPos = sf::Vector2f(gameBounds.left, playerBounds.top + playerBounds.height); 
+            mCurrentMap = "Media/Map/Map2.tmx";
+            switchMap(mCurrentMap);
+        }
+        else if(mGlobalPos == sf::Vector2f(1, 0))
+        {
+            mGlobalPos.x += 1;
+            mPlayerPos = sf::Vector2f(gameBounds.left, playerBounds.top + playerBounds.height); 
+            mCurrentMap = "Media/Map/Map3.tmx";
+            switchMap(mCurrentMap);
+        }
+    }
+    else if(playerBounds.left + playerBounds.width < gameBounds.left) // ßêùî âèéøëè çà ë³âó ìåæó
+    {
+        if(mGlobalPos == sf::Vector2f(-1, 0))
+        {
+            mGlobalPos.x += 1;
+            mPlayerPos = sf::Vector2f(gameBounds.left, playerBounds.top + playerBounds.height);
+            mCurrentMap = "Media/Map/Map1.tmx";
+            switchMap(mCurrentMap);
+        }
+        else if(mGlobalPos == sf::Vector2f(1, 0))
+        {
+            mGlobalPos.x -= 1;
+            mPlayerPos = sf::Vector2f(gameBounds.width - playerBounds.width, playerBounds.top + playerBounds.height); 
+            mCurrentMap = "Media/Map/Map1.tmx";
+            switchMap(mCurrentMap);
+        }  
+        else if(mGlobalPos == sf::Vector2f(2, 0))
+        {
+            mGlobalPos.x -= 1;
+            mPlayerPos = sf::Vector2f(gameBounds.width - playerBounds.width, playerBounds.top + playerBounds.height); 
+            mCurrentMap = "Media/Map/Map2.tmx";
+            switchMap(mCurrentMap);
+        }
+    }
+    else if(playerBounds.top + playerBounds.height > gameBounds.top + gameBounds.height)
+    {
+        mPlayer->setPos(mStartPos);
+    }
+}   
+
+bool World::hasAlivePlayer()
+{    
+    return true;
 }
 
 sf::FloatRect World::getViewBounds() const
@@ -344,11 +669,6 @@ sf::FloatRect World::getViewBounds() const
 
 sf::FloatRect World::getEvoGameBounds() const
 {
-    sf::FloatRect bounds = getViewBounds();
-
-    bounds.top -= 100.f;
-    bounds.height += 200.f;
-
-    return bounds;
+    return  sf::FloatRect(0, 0, mapWidth, mapHeight);
 }
 
