@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////
 //
 // SFML - Simple and Fast Multimedia Library
-// Copyright (C) 2007-2024 Laurent Gomila (laurent@sfml-dev.org)
+// Copyright (C) 2007-2023 Laurent Gomila (laurent@sfml-dev.org)
 //
 // This software is provided 'as-is', without any express or implied warranty.
 // In no event will the authors be held liable for any damages arising from the use of this software.
@@ -22,12 +22,13 @@
 //
 ////////////////////////////////////////////////////////////
 
-#pragma once
+#ifndef SFML_COLOR_HPP
+#define SFML_COLOR_HPP
 
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#include <cstdint>
+#include <SFML/Graphics/Export.hpp>
 
 
 namespace sf
@@ -36,17 +37,18 @@ namespace sf
 /// \brief Utility class for manipulating RGBA colors
 ///
 ////////////////////////////////////////////////////////////
-class Color
+class SFML_GRAPHICS_API Color
 {
 public:
+
     ////////////////////////////////////////////////////////////
     /// \brief Default constructor
     ///
     /// Constructs an opaque black color. It is equivalent to
-    /// `sf::Color(0, 0, 0, 255)`.
+    /// sf::Color(0, 0, 0, 255).
     ///
     ////////////////////////////////////////////////////////////
-    constexpr Color() = default;
+    Color();
 
     ////////////////////////////////////////////////////////////
     /// \brief Construct the color from its 4 RGBA components
@@ -57,7 +59,7 @@ public:
     /// \param alpha Alpha (opacity) component (in the range [0, 255])
     ///
     ////////////////////////////////////////////////////////////
-    constexpr Color(std::uint8_t red, std::uint8_t green, std::uint8_t blue, std::uint8_t alpha = 255);
+    Color(Uint8 red, Uint8 green, Uint8 blue, Uint8 alpha = 255);
 
     ////////////////////////////////////////////////////////////
     /// \brief Construct the color from 32-bit unsigned integer
@@ -65,7 +67,7 @@ public:
     /// \param color Number containing the RGBA components (in that order)
     ///
     ////////////////////////////////////////////////////////////
-    constexpr explicit Color(std::uint32_t color);
+    explicit Color(Uint32 color);
 
     ////////////////////////////////////////////////////////////
     /// \brief Retrieve the color as a 32-bit unsigned integer
@@ -73,12 +75,11 @@ public:
     /// \return Color represented as a 32-bit unsigned integer
     ///
     ////////////////////////////////////////////////////////////
-    [[nodiscard]] constexpr std::uint32_t toInteger() const;
+    Uint32 toInteger() const;
 
     ////////////////////////////////////////////////////////////
     // Static member data
     ////////////////////////////////////////////////////////////
-    // NOLINTBEGIN(readability-identifier-naming)
     static const Color Black;       //!< Black predefined color
     static const Color White;       //!< White predefined color
     static const Color Red;         //!< Red predefined color
@@ -88,48 +89,47 @@ public:
     static const Color Magenta;     //!< Magenta predefined color
     static const Color Cyan;        //!< Cyan predefined color
     static const Color Transparent; //!< Transparent (black) predefined color
-    // NOLINTEND(readability-identifier-naming)
 
     ////////////////////////////////////////////////////////////
     // Member data
     ////////////////////////////////////////////////////////////
-    std::uint8_t r{};    //!< Red component
-    std::uint8_t g{};    //!< Green component
-    std::uint8_t b{};    //!< Blue component
-    std::uint8_t a{255}; //!< Alpha (opacity) component
+    Uint8 r; //!< Red component
+    Uint8 g; //!< Green component
+    Uint8 b; //!< Blue component
+    Uint8 a; //!< Alpha (opacity) component
 };
 
 ////////////////////////////////////////////////////////////
 /// \relates Color
-/// \brief Overload of the `operator==`
+/// \brief Overload of the == operator
 ///
 /// This operator compares two colors and check if they are equal.
 ///
 /// \param left  Left operand
 /// \param right Right operand
 ///
-/// \return `true` if colors are equal, `false` if they are different
+/// \return True if colors are equal, false if they are different
 ///
 ////////////////////////////////////////////////////////////
-[[nodiscard]] constexpr bool operator==(Color left, Color right);
+SFML_GRAPHICS_API bool operator ==(const Color& left, const Color& right);
 
 ////////////////////////////////////////////////////////////
 /// \relates Color
-/// \brief Overload of the `operator!=`
+/// \brief Overload of the != operator
 ///
 /// This operator compares two colors and check if they are different.
 ///
 /// \param left  Left operand
 /// \param right Right operand
 ///
-/// \return `true` if colors are different, `false` if they are equal
+/// \return True if colors are different, false if they are equal
 ///
 ////////////////////////////////////////////////////////////
-[[nodiscard]] constexpr bool operator!=(Color left, Color right);
+SFML_GRAPHICS_API bool operator !=(const Color& left, const Color& right);
 
 ////////////////////////////////////////////////////////////
 /// \relates Color
-/// \brief Overload of the binary `operator+`
+/// \brief Overload of the binary + operator
 ///
 /// This operator returns the component-wise sum of two colors.
 /// Components that exceed 255 are clamped to 255.
@@ -140,11 +140,11 @@ public:
 /// \return Result of \a left + \a right
 ///
 ////////////////////////////////////////////////////////////
-[[nodiscard]] constexpr Color operator+(Color left, Color right);
+SFML_GRAPHICS_API Color operator +(const Color& left, const Color& right);
 
 ////////////////////////////////////////////////////////////
 /// \relates Color
-/// \brief Overload of the binary `operator-`
+/// \brief Overload of the binary - operator
 ///
 /// This operator returns the component-wise subtraction of two colors.
 /// Components below 0 are clamped to 0.
@@ -155,11 +155,11 @@ public:
 /// \return Result of \a left - \a right
 ///
 ////////////////////////////////////////////////////////////
-[[nodiscard]] constexpr Color operator-(Color left, Color right);
+SFML_GRAPHICS_API Color operator -(const Color& left, const Color& right);
 
 ////////////////////////////////////////////////////////////
 /// \relates Color
-/// \brief Overload of the binary `operator*`
+/// \brief Overload of the binary * operator
 ///
 /// This operator returns the component-wise multiplication
 /// (also called "modulation") of two colors.
@@ -172,11 +172,11 @@ public:
 /// \return Result of \a left * \a right
 ///
 ////////////////////////////////////////////////////////////
-[[nodiscard]] constexpr Color operator*(Color left, Color right);
+SFML_GRAPHICS_API Color operator *(const Color& left, const Color& right);
 
 ////////////////////////////////////////////////////////////
 /// \relates Color
-/// \brief Overload of the binary `operator+=`
+/// \brief Overload of the binary += operator
 ///
 /// This operator computes the component-wise sum of two colors,
 /// and assigns the result to the left operand.
@@ -188,11 +188,11 @@ public:
 /// \return Reference to \a left
 ///
 ////////////////////////////////////////////////////////////
-constexpr Color& operator+=(Color& left, Color right);
+SFML_GRAPHICS_API Color& operator +=(Color& left, const Color& right);
 
 ////////////////////////////////////////////////////////////
 /// \relates Color
-/// \brief Overload of the binary `operator-=`
+/// \brief Overload of the binary -= operator
 ///
 /// This operator computes the component-wise subtraction of two colors,
 /// and assigns the result to the left operand.
@@ -204,11 +204,11 @@ constexpr Color& operator+=(Color& left, Color right);
 /// \return Reference to \a left
 ///
 ////////////////////////////////////////////////////////////
-constexpr Color& operator-=(Color& left, Color right);
+SFML_GRAPHICS_API Color& operator -=(Color& left, const Color& right);
 
 ////////////////////////////////////////////////////////////
 /// \relates Color
-/// \brief Overload of the binary `operator*=`
+/// \brief Overload of the binary *= operator
 ///
 /// This operator returns the component-wise multiplication
 /// (also called "modulation") of two colors, and assigns
@@ -222,18 +222,19 @@ constexpr Color& operator-=(Color& left, Color right);
 /// \return Reference to \a left
 ///
 ////////////////////////////////////////////////////////////
-constexpr Color& operator*=(Color& left, Color right);
+SFML_GRAPHICS_API Color& operator *=(Color& left, const Color& right);
 
 } // namespace sf
 
-#include <SFML/Graphics/Color.inl>
+
+#endif // SFML_COLOR_HPP
 
 
 ////////////////////////////////////////////////////////////
 /// \class sf::Color
 /// \ingroup graphics
 ///
-/// `sf::Color` is a simple color class composed of 4 components:
+/// sf::Color is a simple color class composed of 4 components:
 /// \li Red
 /// \li Green
 /// \li Blue

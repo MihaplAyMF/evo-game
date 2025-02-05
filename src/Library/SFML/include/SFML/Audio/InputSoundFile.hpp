@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////
 //
 // SFML - Simple and Fast Multimedia Library
-// Copyright (C) 2007-2024 Laurent Gomila (laurent@sfml-dev.org)
+// Copyright (C) 2007-2023 Laurent Gomila (laurent@sfml-dev.org)
 //
 // This software is provided 'as-is', without any express or implied warranty.
 // In no event will the authors be held liable for any damages arising from the use of this software.
@@ -22,88 +22,43 @@
 //
 ////////////////////////////////////////////////////////////
 
-#pragma once
+#ifndef SFML_INPUTSOUNDFILE_HPP
+#define SFML_INPUTSOUNDFILE_HPP
 
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
 #include <SFML/Audio/Export.hpp>
-
-#include <SFML/Audio/SoundFileReader.hpp>
-
-#include <filesystem>
-#include <memory>
-#include <vector>
-
+#include <SFML/System/NonCopyable.hpp>
+#include <SFML/System/Time.hpp>
+#include <string>
 #include <cstddef>
-#include <cstdint>
 
 
 namespace sf
 {
-class Time;
 class InputStream;
+class SoundFileReader;
 
 ////////////////////////////////////////////////////////////
 /// \brief Provide read access to sound files
 ///
 ////////////////////////////////////////////////////////////
-class SFML_AUDIO_API InputSoundFile
+class SFML_AUDIO_API InputSoundFile : NonCopyable
 {
 public:
+
     ////////////////////////////////////////////////////////////
     /// \brief Default constructor
     ///
-    /// Construct an input sound file that is not associated
-    /// with a file to read.
-    ///
     ////////////////////////////////////////////////////////////
-    InputSoundFile() = default;
+    InputSoundFile();
 
     ////////////////////////////////////////////////////////////
-    /// \brief Construct a sound file from the disk for reading
-    ///
-    /// The supported audio formats are: WAV (PCM only), OGG/Vorbis, FLAC, MP3.
-    /// The supported sample sizes for FLAC and WAV are 8, 16, 24 and 32 bit.
-    ///
-    /// Because of minimp3_ex limitation, for MP3 files with big (>16kb) APEv2 tag,
-    /// it may not be properly removed, tag data will be treated as MP3 data
-    /// and there is a low chance of garbage decoded at the end of file.
-    /// See also: https://github.com/lieff/minimp3
-    ///
-    /// \param filename Path of the sound file to load
-    ///
-    /// \throws sf::Exception if opening the file was unsuccessful
+    /// \brief Destructor
     ///
     ////////////////////////////////////////////////////////////
-    explicit InputSoundFile(const std::filesystem::path& filename);
-
-    ////////////////////////////////////////////////////////////
-    /// \brief Construct a sound file in memory for reading
-    ///
-    /// The supported audio formats are: WAV (PCM only), OGG/Vorbis, FLAC.
-    /// The supported sample sizes for FLAC and WAV are 8, 16, 24 and 32 bit.
-    ///
-    /// \param data        Pointer to the file data in memory
-    /// \param sizeInBytes Size of the data to load, in bytes
-    ///
-    /// \throws sf::Exception if opening the file was unsuccessful
-    ///
-    ////////////////////////////////////////////////////////////
-    InputSoundFile(const void* data, std::size_t sizeInBytes);
-
-    ////////////////////////////////////////////////////////////
-    /// \brief Construct a sound file from a custom stream for reading
-    ///
-    /// The supported audio formats are: WAV (PCM only), OGG/Vorbis, FLAC.
-    /// The supported sample sizes for FLAC and WAV are 8, 16, 24 and 32 bit.
-    ///
-    /// \param stream Source stream to read from
-    ///
-    /// \throws sf::Exception if opening the file was unsuccessful
-    ///
-    ////////////////////////////////////////////////////////////
-    explicit InputSoundFile(InputStream& stream);
+    ~InputSoundFile();
 
     ////////////////////////////////////////////////////////////
     /// \brief Open a sound file from the disk for reading
@@ -118,10 +73,10 @@ public:
     ///
     /// \param filename Path of the sound file to load
     ///
-    /// \return `true` if the file was successfully opened
+    /// \return True if the file was successfully opened
     ///
     ////////////////////////////////////////////////////////////
-    [[nodiscard]] bool openFromFile(const std::filesystem::path& filename);
+    bool openFromFile(const std::string& filename);
 
     ////////////////////////////////////////////////////////////
     /// \brief Open a sound file in memory for reading
@@ -132,10 +87,10 @@ public:
     /// \param data        Pointer to the file data in memory
     /// \param sizeInBytes Size of the data to load, in bytes
     ///
-    /// \return `true` if the file was successfully opened
+    /// \return True if the file was successfully opened
     ///
     ////////////////////////////////////////////////////////////
-    [[nodiscard]] bool openFromMemory(const void* data, std::size_t sizeInBytes);
+    bool openFromMemory(const void* data, std::size_t sizeInBytes);
 
     ////////////////////////////////////////////////////////////
     /// \brief Open a sound file from a custom stream for reading
@@ -145,10 +100,10 @@ public:
     ///
     /// \param stream Source stream to read from
     ///
-    /// \return `true` if the file was successfully opened
+    /// \return True if the file was successfully opened
     ///
     ////////////////////////////////////////////////////////////
-    [[nodiscard]] bool openFromStream(InputStream& stream);
+    bool openFromStream(InputStream& stream);
 
     ////////////////////////////////////////////////////////////
     /// \brief Get the total number of audio samples in the file
@@ -156,7 +111,7 @@ public:
     /// \return Number of samples
     ///
     ////////////////////////////////////////////////////////////
-    [[nodiscard]] std::uint64_t getSampleCount() const;
+    Uint64 getSampleCount() const;
 
     ////////////////////////////////////////////////////////////
     /// \brief Get the number of channels used by the sound
@@ -164,7 +119,7 @@ public:
     /// \return Number of channels (1 = mono, 2 = stereo)
     ///
     ////////////////////////////////////////////////////////////
-    [[nodiscard]] unsigned int getChannelCount() const;
+    unsigned int getChannelCount() const;
 
     ////////////////////////////////////////////////////////////
     /// \brief Get the sample rate of the sound
@@ -172,20 +127,7 @@ public:
     /// \return Sample rate, in samples per second
     ///
     ////////////////////////////////////////////////////////////
-    [[nodiscard]] unsigned int getSampleRate() const;
-
-    ////////////////////////////////////////////////////////////
-    /// \brief Get the map of position in sample frame to sound channel
-    ///
-    /// This is used to map a sample in the sample stream to a
-    /// position during spatialization.
-    ///
-    /// \return Map of position in sample frame to sound channel
-    ///
-    /// \see `getSampleRate`, `getChannelCount`, `getDuration`
-    ///
-    ////////////////////////////////////////////////////////////
-    [[nodiscard]] const std::vector<SoundChannel>& getChannelMap() const;
+    unsigned int getSampleRate() const;
 
     ////////////////////////////////////////////////////////////
     /// \brief Get the total duration of the sound file
@@ -196,7 +138,7 @@ public:
     /// \return Duration of the sound file
     ///
     ////////////////////////////////////////////////////////////
-    [[nodiscard]] Time getDuration() const;
+    Time getDuration() const;
 
     ////////////////////////////////////////////////////////////
     /// \brief Get the read offset of the file in time
@@ -204,7 +146,7 @@ public:
     /// \return Time position
     ///
     ////////////////////////////////////////////////////////////
-    [[nodiscard]] Time getTimeOffset() const;
+    Time getTimeOffset() const;
 
     ////////////////////////////////////////////////////////////
     /// \brief Get the read offset of the file in samples
@@ -212,7 +154,7 @@ public:
     /// \return Sample position
     ///
     ////////////////////////////////////////////////////////////
-    [[nodiscard]] std::uint64_t getSampleOffset() const;
+    Uint64 getSampleOffset() const;
 
     ////////////////////////////////////////////////////////////
     /// \brief Change the current read position to the given sample offset
@@ -231,7 +173,7 @@ public:
     /// \param sampleOffset Index of the sample to jump to, relative to the beginning
     ///
     ////////////////////////////////////////////////////////////
-    void seek(std::uint64_t sampleOffset);
+    void seek(Uint64 sampleOffset);
 
     ////////////////////////////////////////////////////////////
     /// \brief Change the current read position to the given time offset
@@ -256,7 +198,7 @@ public:
     /// \return Number of samples actually read (may be less than \a maxCount)
     ///
     ////////////////////////////////////////////////////////////
-    [[nodiscard]] std::uint64_t read(std::int16_t* samples, std::uint64_t maxCount);
+    Uint64 read(Int16* samples, Uint64 maxCount);
 
     ////////////////////////////////////////////////////////////
     /// \brief Close the current file
@@ -265,35 +207,23 @@ public:
     void close();
 
 private:
-    ////////////////////////////////////////////////////////////
-    /// \brief Deleter for input streams that only conditionally deletes
-    ///
-    ////////////////////////////////////////////////////////////
-    struct SFML_AUDIO_API StreamDeleter
-    {
-        StreamDeleter(bool theOwned);
-
-        // To accept ownership transfer from usual std::unique_ptr<T>
-        template <typename T>
-        StreamDeleter(const std::default_delete<T>&);
-
-        void operator()(InputStream* ptr) const;
-
-        bool owned{true};
-    };
 
     ////////////////////////////////////////////////////////////
     // Member data
     ////////////////////////////////////////////////////////////
-    std::unique_ptr<SoundFileReader> m_reader; //!< Reader that handles I/O on the file's format
-    std::unique_ptr<InputStream, StreamDeleter> m_stream{nullptr, false}; //!< Input stream used to access the file's data
-    std::uint64_t             m_sampleOffset{};                           //!< Sample Read Position
-    std::uint64_t             m_sampleCount{};                            //!< Total number of samples in the file
-    unsigned int              m_sampleRate{};                             //!< Number of samples per second
-    std::vector<SoundChannel> m_channelMap; //!< The map of position in sample frame to sound channel
+    SoundFileReader* m_reader;       //!< Reader that handles I/O on the file's format
+    InputStream*     m_stream;       //!< Input stream used to access the file's data
+    bool             m_streamOwned;  //!< Is the stream internal or external?
+    Uint64           m_sampleOffset; //!< Sample Read Position
+    Uint64           m_sampleCount;  //!< Total number of samples in the file
+    unsigned int     m_channelCount; //!< Number of channels of the sound
+    unsigned int     m_sampleRate;   //!< Number of samples per second
 };
 
 } // namespace sf
+
+
+#endif // SFML_INPUTSOUNDFILE_HPP
 
 
 ////////////////////////////////////////////////////////////
@@ -301,29 +231,31 @@ private:
 /// \ingroup audio
 ///
 /// This class decodes audio samples from a sound file. It is
-/// used internally by higher-level classes such as `sf::SoundBuffer`
-/// and `sf::Music`, but can also be useful if you want to process
+/// used internally by higher-level classes such as sf::SoundBuffer
+/// and sf::Music, but can also be useful if you want to process
 /// or analyze audio files without playing them, or if you want to
-/// implement your own version of `sf::Music` with more specific
+/// implement your own version of sf::Music with more specific
 /// features.
 ///
 /// Usage example:
 /// \code
 /// // Open a sound file
-/// sf::InputSoundFile file("music.ogg");
+/// sf::InputSoundFile file;
+/// if (!file.openFromFile("music.ogg"))
+///     /* error */;
 ///
 /// // Print the sound attributes
-/// std::cout << "duration: " << file.getDuration().asSeconds() << '\n'
-///           << "channels: " << file.getChannelCount() << '\n'
-///           << "sample rate: " << file.getSampleRate() << '\n'
-///           << "sample count: " << file.getSampleCount() << std::endl;
+/// std::cout << "duration: " << file.getDuration().asSeconds() << std::endl;
+/// std::cout << "channels: " << file.getChannelCount() << std::endl;
+/// std::cout << "sample rate: " << file.getSampleRate() << std::endl;
+/// std::cout << "sample count: " << file.getSampleCount() << std::endl;
 ///
 /// // Read and process batches of samples until the end of file is reached
-/// std::array<std::int16_t, 1024> samples;
-/// std::uint64_t count;
+/// sf::Int16 samples[1024];
+/// sf::Uint64 count;
 /// do
 /// {
-///     count = file.read(samples.data(), samples.size());
+///     count = file.read(samples, 1024);
 ///
 ///     // process, analyze, play, convert, or whatever
 ///     // you want to do with the samples...
@@ -331,6 +263,6 @@ private:
 /// while (count > 0);
 /// \endcode
 ///
-/// \see `sf::SoundFileReader`, `sf::OutputSoundFile`
+/// \see sf::SoundFileReader, sf::OutputSoundFile
 ///
 ////////////////////////////////////////////////////////////

@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////
 //
 // SFML - Simple and Fast Multimedia Library
-// Copyright (C) 2007-2024 Laurent Gomila (laurent@sfml-dev.org)
+// Copyright (C) 2007-2023 Laurent Gomila (laurent@sfml-dev.org)
 //
 // This software is provided 'as-is', without any express or implied warranty.
 // In no event will the authors be held liable for any damages arising from the use of this software.
@@ -22,28 +22,23 @@
 //
 ////////////////////////////////////////////////////////////
 
-#pragma once
+#ifndef SFML_RENDERTEXTURE_HPP
+#define SFML_RENDERTEXTURE_HPP
 
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
 #include <SFML/Graphics/Export.hpp>
-
-#include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/Texture.hpp>
-
+#include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Window/ContextSettings.hpp>
-
-#include <SFML/System/Vector2.hpp>
-
-#include <memory>
 
 
 namespace sf
 {
 namespace priv
 {
-class RenderTextureImpl;
+    class RenderTextureImpl;
 }
 
 ////////////////////////////////////////////////////////////
@@ -53,83 +48,65 @@ class RenderTextureImpl;
 class SFML_GRAPHICS_API RenderTexture : public RenderTarget
 {
 public:
+
     ////////////////////////////////////////////////////////////
     /// \brief Default constructor
     ///
-    /// Constructs a render-texture with width 0 and height 0.
+    /// Constructs an empty, invalid render-texture. You must
+    /// call create to have a valid render-texture.
     ///
-    /// \see `resize`
+    /// \see create
     ///
     ////////////////////////////////////////////////////////////
     RenderTexture();
 
     ////////////////////////////////////////////////////////////
-    /// \brief Construct a render-texture
-    ///
-    /// The last parameter, `settings`, is useful if you want to enable
-    /// multi-sampling or use the render-texture for OpenGL rendering that
-    /// requires a depth or stencil buffer. Otherwise it is unnecessary, and
-    /// you should leave this parameter at its default value.
-    ///
-    /// After creation, the contents of the render-texture are undefined.
-    /// Call `RenderTexture::clear` first to ensure a single color fill.
-    ///
-    /// \param size     Width and height of the render-texture
-    /// \param settings Additional settings for the underlying OpenGL texture and context
-    ///
-    /// \throws sf::Exception if creation was unsuccessful
-    ///
-    ////////////////////////////////////////////////////////////
-    RenderTexture(Vector2u size, const ContextSettings& settings = {});
-
-    ////////////////////////////////////////////////////////////
     /// \brief Destructor
     ///
     ////////////////////////////////////////////////////////////
-    ~RenderTexture() override;
+    virtual ~RenderTexture();
 
     ////////////////////////////////////////////////////////////
-    /// \brief Deleted copy constructor
+    /// \brief Create the render-texture
+    ///
+    /// Before calling this function, the render-texture is in
+    /// an invalid state, thus it is mandatory to call it before
+    /// doing anything with the render-texture.
+    /// The last parameter, \a depthBuffer, is useful if you want
+    /// to use the render-texture for 3D OpenGL rendering that requires
+    /// a depth buffer. Otherwise it is unnecessary, and you should
+    /// leave this parameter to false (which is its default value).
+    ///
+    /// \param width       Width of the render-texture
+    /// \param height      Height of the render-texture
+    /// \param depthBuffer Do you want this render-texture to have a depth buffer?
+    ///
+    /// \return True if creation has been successful
+    ///
+    /// \deprecated Use create(unsigned int, unsigned int, const ContextSettings&) instead.
     ///
     ////////////////////////////////////////////////////////////
-    RenderTexture(const RenderTexture&) = delete;
+    SFML_DEPRECATED bool create(unsigned int width, unsigned int height, bool depthBuffer);
 
     ////////////////////////////////////////////////////////////
-    /// \brief Deleted copy assignment
+    /// \brief Create the render-texture
     ///
-    ////////////////////////////////////////////////////////////
-    RenderTexture& operator=(const RenderTexture&) = delete;
-
-    ////////////////////////////////////////////////////////////
-    /// \brief Move constructor
-    ///
-    ////////////////////////////////////////////////////////////
-    RenderTexture(RenderTexture&&) noexcept;
-
-    ////////////////////////////////////////////////////////////
-    /// \brief Move assignment operator
-    ///
-    ////////////////////////////////////////////////////////////
-    RenderTexture& operator=(RenderTexture&&) noexcept;
-
-    ////////////////////////////////////////////////////////////
-    /// \brief Resize the render-texture
-    ///
-    /// The last parameter, `settings`, is useful if you want to enable
+    /// Before calling this function, the render-texture is in
+    /// an invalid state, thus it is mandatory to call it before
+    /// doing anything with the render-texture.
+    /// The last parameter, \a settings, is useful if you want to enable
     /// multi-sampling or use the render-texture for OpenGL rendering that
     /// requires a depth or stencil buffer. Otherwise it is unnecessary, and
     /// you should leave this parameter at its default value.
     ///
-    /// After resizing, the contents of the render-texture are undefined.
-    /// Call `RenderTexture::clear` first to ensure a single color fill.
-    ///
-    /// \param size     Width and height of the render-texture
+    /// \param width    Width of the render-texture
+    /// \param height   Height of the render-texture
     /// \param settings Additional settings for the underlying OpenGL texture and context
     ///
-    /// \return `true` if resizing has been successful, `false` if it failed
+    /// \return True if creation has been successful
     ///
     ////////////////////////////////////////////////////////////
-    [[nodiscard]] bool resize(Vector2u size, const ContextSettings& settings = {});
+    bool create(unsigned int width, unsigned int height, const ContextSettings& settings = ContextSettings());
 
     ////////////////////////////////////////////////////////////
     /// \brief Get the maximum anti-aliasing level supported by the system
@@ -137,17 +114,17 @@ public:
     /// \return The maximum anti-aliasing level supported by the system
     ///
     ////////////////////////////////////////////////////////////
-    [[nodiscard]] static unsigned int getMaximumAntiAliasingLevel();
+    static unsigned int getMaximumAntialiasingLevel();
 
     ////////////////////////////////////////////////////////////
     /// \brief Enable or disable texture smoothing
     ///
-    /// This function is similar to `Texture::setSmooth`.
+    /// This function is similar to Texture::setSmooth.
     /// This parameter is disabled by default.
     ///
-    /// \param smooth `true` to enable smoothing, `false` to disable it
+    /// \param smooth True to enable smoothing, false to disable it
     ///
-    /// \see `isSmooth`
+    /// \see isSmooth
     ///
     ////////////////////////////////////////////////////////////
     void setSmooth(bool smooth);
@@ -155,22 +132,22 @@ public:
     ////////////////////////////////////////////////////////////
     /// \brief Tell whether the smooth filtering is enabled or not
     ///
-    /// \return `true` if texture smoothing is enabled
+    /// \return True if texture smoothing is enabled
     ///
-    /// \see `setSmooth`
+    /// \see setSmooth
     ///
     ////////////////////////////////////////////////////////////
-    [[nodiscard]] bool isSmooth() const;
+    bool isSmooth() const;
 
     ////////////////////////////////////////////////////////////
     /// \brief Enable or disable texture repeating
     ///
-    /// This function is similar to `Texture::setRepeated`.
+    /// This function is similar to Texture::setRepeated.
     /// This parameter is disabled by default.
     ///
-    /// \param repeated `true` to enable repeating, `false` to disable it
+    /// \param repeated True to enable repeating, false to disable it
     ///
-    /// \see `isRepeated`
+    /// \see isRepeated
     ///
     ////////////////////////////////////////////////////////////
     void setRepeated(bool repeated);
@@ -178,17 +155,17 @@ public:
     ////////////////////////////////////////////////////////////
     /// \brief Tell whether the texture is repeated or not
     ///
-    /// \return `true` if texture is repeated
+    /// \return True if texture is repeated
     ///
-    /// \see `setRepeated`
+    /// \see setRepeated
     ///
     ////////////////////////////////////////////////////////////
-    [[nodiscard]] bool isRepeated() const;
+    bool isRepeated() const;
 
     ////////////////////////////////////////////////////////////
     /// \brief Generate a mipmap using the current texture data
     ///
-    /// This function is similar to `Texture::generateMipmap` and operates
+    /// This function is similar to Texture::generateMipmap and operates
     /// on the texture used as the target for drawing.
     /// Be aware that any draw operation may modify the base level image data.
     /// For this reason, calling this function only makes sense after all
@@ -196,10 +173,10 @@ public:
     /// after subsequent drawing will lead to undefined behavior if a mipmap
     /// had been previously generated.
     ///
-    /// \return `true` if mipmap generation was successful, `false` if unsuccessful
+    /// \return True if mipmap generation was successful, false if unsuccessful
     ///
     ////////////////////////////////////////////////////////////
-    [[nodiscard]] bool generateMipmap();
+    bool generateMipmap();
 
     ////////////////////////////////////////////////////////////
     /// \brief Activate or deactivate the render-texture for rendering
@@ -211,12 +188,12 @@ public:
     /// want to draw OpenGL geometry to another render target
     /// (like a RenderWindow) don't forget to activate it again.
     ///
-    /// \param active `true` to activate, `false` to deactivate
+    /// \param active True to activate, false to deactivate
     ///
-    /// \return `true` if operation was successful, `false` otherwise
+    /// \return True if operation was successful, false otherwise
     ///
     ////////////////////////////////////////////////////////////
-    [[nodiscard]] bool setActive(bool active = true) override;
+    bool setActive(bool active = true);
 
     ////////////////////////////////////////////////////////////
     /// \brief Update the contents of the target texture
@@ -238,18 +215,19 @@ public:
     /// \return Size in pixels
     ///
     ////////////////////////////////////////////////////////////
-    [[nodiscard]] Vector2u getSize() const override;
+    virtual Vector2u getSize() const;
+
 
     ////////////////////////////////////////////////////////////
     /// \brief Tell if the render-texture will use sRGB encoding when drawing on it
     ///
     /// You can request sRGB encoding for a render-texture
-    /// by having the sRgbCapable flag set for the context parameter of `create()` method
+    /// by having the sRgbCapable flag set for the context parameter of create() method
     ///
-    /// \return `true` if the render-texture use sRGB encoding, `false` otherwise
+    /// \return True if the render-texture use sRGB encoding, false otherwise
     ///
     ////////////////////////////////////////////////////////////
-    [[nodiscard]] bool isSrgb() const override;
+    virtual bool isSrgb() const;
 
     ////////////////////////////////////////////////////////////
     /// \brief Get a read-only reference to the target texture
@@ -257,7 +235,7 @@ public:
     /// After drawing to the render-texture and calling Display,
     /// you can retrieve the updated texture using this function,
     /// and draw it using a sprite (for example).
-    /// The internal `sf::Texture` of a render-texture is always the
+    /// The internal sf::Texture of a render-texture is always the
     /// same instance, so that it is possible to call this function
     /// once and keep a reference to the texture even after it is
     /// modified.
@@ -265,26 +243,30 @@ public:
     /// \return Const reference to the texture
     ///
     ////////////////////////////////////////////////////////////
-    [[nodiscard]] const Texture& getTexture() const;
+    const Texture& getTexture() const;
 
 private:
+
     ////////////////////////////////////////////////////////////
     // Member data
     ////////////////////////////////////////////////////////////
-    std::unique_ptr<priv::RenderTextureImpl> m_impl;    //!< Platform/hardware specific implementation
-    Texture                                  m_texture; //!< Target texture to draw on
+    priv::RenderTextureImpl* m_impl;    //!< Platform/hardware specific implementation
+    Texture                  m_texture; //!< Target texture to draw on
 };
 
 } // namespace sf
+
+
+#endif // SFML_RENDERTEXTURE_HPP
 
 
 ////////////////////////////////////////////////////////////
 /// \class sf::RenderTexture
 /// \ingroup graphics
 ///
-/// `sf::RenderTexture` is the little brother of `sf::RenderWindow`.
+/// sf::RenderTexture is the little brother of sf::RenderWindow.
 /// It implements the same 2D drawing and OpenGL-related functions
-/// (see their base class `sf::RenderTarget` for more details),
+/// (see their base class sf::RenderTarget for more details),
 /// the difference is that the result is stored in an off-screen
 /// texture rather than being show in a window.
 ///
@@ -298,10 +280,12 @@ private:
 ///
 /// \code
 /// // Create a new render-window
-/// sf::RenderWindow window(sf::VideoMode({800, 600}), "SFML window");
+/// sf::RenderWindow window(sf::VideoMode(800, 600), "SFML window");
 ///
 /// // Create a new render-texture
-/// sf::RenderTexture texture({500, 500});
+/// sf::RenderTexture texture;
+/// if (!texture.create(500, 500))
+///     return -1;
 ///
 /// // The main loop
 /// while (window.isOpen())
@@ -332,11 +316,11 @@ private:
 /// }
 /// \endcode
 ///
-/// Like `sf::RenderWindow`, `sf::RenderTexture` is still able to render direct
+/// Like sf::RenderWindow, sf::RenderTexture is still able to render direct
 /// OpenGL stuff. It is even possible to mix together OpenGL calls
 /// and regular SFML drawing commands. If you need a depth buffer for
-/// 3D rendering, don't forget to request it when calling `RenderTexture::create`.
+/// 3D rendering, don't forget to request it when calling RenderTexture::create.
 ///
-/// \see `sf::RenderTarget`, `sf::RenderWindow`, `sf::View`, `sf::Texture`
+/// \see sf::RenderTarget, sf::RenderWindow, sf::View, sf::Texture
 ///
 ////////////////////////////////////////////////////////////

@@ -81,8 +81,8 @@ private:
     sf::Sprite mHeartSprite;
     sf::Sprite mCoinSprite;
     GUI::Label mCoinLabel;
-    int mCoincollected;
+    int mCoinCollected;
 
-    std::map<std::string, std::set<int>> m—oinIDCollected;
+    std::map<std::string, std::set<int>> coinIDCollected;
 
 };

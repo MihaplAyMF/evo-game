@@ -5,20 +5,17 @@
 #include <SFML/Graphics/Transformable.hpp>
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Window/Event.hpp>
+#include <SFML/System/NonCopyable.hpp>
 
 namespace GUI
 {
-	class Component : public sf::Drawable, public sf::Transformable
+    class Component : public sf::Drawable, public sf::NonCopyable, public sf::Transformable
 	{
 	public:
 		typedef std::shared_ptr<Component> Ptr;
 
 					 Component();
 		virtual		 ~Component();
-        
-                     Component(const Component&) = delete;
-                     Component& operator=(const Component&) = delete;
-		
         virtual bool isSelectable() const = 0;
 
 		bool		 isSelected() const;

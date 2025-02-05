@@ -1,7 +1,7 @@
 #include <box2d/box2d.h>
 
 #include "DataTables.h"
-#include "player.h"
+#include "Player.h"
 
 extern const float boxScale = 30.f;
 extern const float deg = 57.29577f;

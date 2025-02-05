@@ -24,6 +24,7 @@ add_executable(EvoGame ${SOURCES} ${SRC_DIR}/Code/Main.cpp)
 # Додаємо директорії для заголовочних файлів SFML, використовуючи target_include_directories
 target_include_directories(EvoGame PRIVATE 
     ${SRC_DIR}/Library/SFML/include
+    ${SRC_DIR}/Library/Box2d/include
     ${SRC_DIR}/Code
     ${SRC_DIR}/Code/Component
     ${SRC_DIR}/Code/Entity

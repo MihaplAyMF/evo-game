@@ -7,7 +7,6 @@
 
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Text.hpp>
-#include <SFML/System/Time.hpp>
 
 #include "Component.h"
 #include "ResourceIdentifiers.h"

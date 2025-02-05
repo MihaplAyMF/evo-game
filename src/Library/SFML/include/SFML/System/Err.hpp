@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////
 //
 // SFML - Simple and Fast Multimedia Library
-// Copyright (C) 2007-2024 Laurent Gomila (laurent@sfml-dev.org)
+// Copyright (C) 2007-2023 Laurent Gomila (laurent@sfml-dev.org)
 //
 // This software is provided 'as-is', without any express or implied warranty.
 // In no event will the authors be held liable for any damages arising from the use of this software.
@@ -22,14 +22,14 @@
 //
 ////////////////////////////////////////////////////////////
 
-#pragma once
+#ifndef SFML_ERR_HPP
+#define SFML_ERR_HPP
 
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
 #include <SFML/System/Export.hpp>
-
-#include <iosfwd>
+#include <ostream>
 
 
 namespace sf
@@ -38,26 +38,29 @@ namespace sf
 /// \brief Standard stream used by SFML to output warnings and errors
 ///
 ////////////////////////////////////////////////////////////
-[[nodiscard]] SFML_SYSTEM_API std::ostream& err();
+SFML_SYSTEM_API std::ostream& err();
 
 } // namespace sf
+
+
+#endif // SFML_ERR_HPP
 
 
 ////////////////////////////////////////////////////////////
 /// \fn sf::err
 /// \ingroup system
 ///
-/// By default, `sf::err()` outputs to the same location as `std::cerr`,
+/// By default, sf::err() outputs to the same location as std::cerr,
 /// (-> the stderr descriptor) which is the console if there's
 /// one available.
 ///
-/// It is a standard `std::ostream` instance, so it supports all the
+/// It is a standard std::ostream instance, so it supports all the
 /// insertion operations defined by the STL
-/// (`operator<<`, manipulators, etc.).
+/// (operator <<, manipulators, etc.).
 ///
-/// `sf::err()` can be redirected to write to another output, independently
-/// of `std::cerr`, by using the `rdbuf()` function provided by the
-/// `std::ostream` class.
+/// sf::err() can be redirected to write to another output, independently
+/// of std::cerr, by using the rdbuf() function provided by the
+/// std::ostream class.
 ///
 /// Example:
 /// \code
@@ -66,12 +69,12 @@ namespace sf
 /// std::streambuf* previous = sf::err().rdbuf(file.rdbuf());
 ///
 /// // Redirect to nothing
-/// sf::err().rdbuf(nullptr);
+/// sf::err().rdbuf(NULL);
 ///
 /// // Restore the original output
 /// sf::err().rdbuf(previous);
 /// \endcode
 ///
-/// \return Reference to `std::ostream` representing the SFML error stream
+/// \return Reference to std::ostream representing the SFML error stream
 ///
 ////////////////////////////////////////////////////////////

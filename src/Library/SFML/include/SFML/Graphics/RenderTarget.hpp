@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////
 //
 // SFML - Simple and Fast Multimedia Library
-// Copyright (C) 2007-2024 Laurent Gomila (laurent@sfml-dev.org)
+// Copyright (C) 2007-2023 Laurent Gomila (laurent@sfml-dev.org)
 //
 // This software is provided 'as-is', without any express or implied warranty.
 // In no event will the authors be held liable for any damages arising from the use of this software.
@@ -22,75 +22,42 @@
 //
 ////////////////////////////////////////////////////////////
 
-#pragma once
+#ifndef SFML_RENDERTARGET_HPP
+#define SFML_RENDERTARGET_HPP
 
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
 #include <SFML/Graphics/Export.hpp>
-
-#include <SFML/Graphics/BlendMode.hpp>
 #include <SFML/Graphics/Color.hpp>
-#include <SFML/Graphics/CoordinateType.hpp>
-#include <SFML/Graphics/PrimitiveType.hpp>
 #include <SFML/Graphics/Rect.hpp>
-#include <SFML/Graphics/RenderStates.hpp>
-#include <SFML/Graphics/StencilMode.hpp>
-#include <SFML/Graphics/Vertex.hpp>
 #include <SFML/Graphics/View.hpp>
-
-#include <SFML/System/Vector2.hpp>
-
-#include <array>
-
-#include <cstddef>
-#include <cstdint>
+#include <SFML/Graphics/Transform.hpp>
+#include <SFML/Graphics/BlendMode.hpp>
+#include <SFML/Graphics/RenderStates.hpp>
+#include <SFML/Graphics/PrimitiveType.hpp>
+#include <SFML/Graphics/Vertex.hpp>
+#include <SFML/System/NonCopyable.hpp>
 
 
 namespace sf
 {
 class Drawable;
-class Shader;
-class Texture;
-class Transform;
 class VertexBuffer;
 
 ////////////////////////////////////////////////////////////
 /// \brief Base class for all render targets (window, texture, ...)
 ///
 ////////////////////////////////////////////////////////////
-class SFML_GRAPHICS_API RenderTarget
+class SFML_GRAPHICS_API RenderTarget : NonCopyable
 {
 public:
+
     ////////////////////////////////////////////////////////////
     /// \brief Destructor
     ///
     ////////////////////////////////////////////////////////////
-    virtual ~RenderTarget() = default;
-
-    ////////////////////////////////////////////////////////////
-    /// \brief Deleted copy constructor
-    ///
-    ////////////////////////////////////////////////////////////
-    RenderTarget(const RenderTarget&) = delete;
-
-    ////////////////////////////////////////////////////////////
-    /// \brief Deleted copy assignment
-    ///
-    ////////////////////////////////////////////////////////////
-    RenderTarget& operator=(const RenderTarget&) = delete;
-
-    ////////////////////////////////////////////////////////////
-    /// \brief Move constructor
-    ///
-    ////////////////////////////////////////////////////////////
-    RenderTarget(RenderTarget&&) noexcept = default;
-
-    ////////////////////////////////////////////////////////////
-    /// \brief Move assignment
-    ///
-    ////////////////////////////////////////////////////////////
-    RenderTarget& operator=(RenderTarget&&) noexcept = default;
+    virtual ~RenderTarget();
 
     ////////////////////////////////////////////////////////////
     /// \brief Clear the entire target with a single color
@@ -101,30 +68,7 @@ public:
     /// \param color Fill color to use to clear the render target
     ///
     ////////////////////////////////////////////////////////////
-    void clear(Color color = Color::Black);
-
-    ////////////////////////////////////////////////////////////
-    /// \brief Clear the stencil buffer to a specific value
-    ///
-    /// The specified value is truncated to the bit width of
-    /// the current stencil buffer.
-    ///
-    /// \param stencilValue Stencil value to clear to
-    ///
-    ////////////////////////////////////////////////////////////
-    void clearStencil(StencilValue stencilValue);
-
-    ////////////////////////////////////////////////////////////
-    /// \brief Clear the entire target with a single color and stencil value
-    ///
-    /// The specified stencil value is truncated to the bit
-    /// width of the current stencil buffer.
-    ///
-    /// \param color        Fill color to use to clear the render target
-    /// \param stencilValue Stencil value to clear to
-    ///
-    ////////////////////////////////////////////////////////////
-    void clear(Color color, StencilValue stencilValue);
+    void clear(const Color& color = Color(0, 0, 0, 255));
 
     ////////////////////////////////////////////////////////////
     /// \brief Change the current active view
@@ -138,11 +82,11 @@ public:
     /// so it is not necessary to keep the original one alive
     /// after calling this function.
     /// To restore the original view of the target, you can pass
-    /// the result of `getDefaultView()` to this function.
+    /// the result of getDefaultView() to this function.
     ///
     /// \param view New view to use
     ///
-    /// \see `getView`, `getDefaultView`
+    /// \see getView, getDefaultView
     ///
     ////////////////////////////////////////////////////////////
     void setView(const View& view);
@@ -152,10 +96,10 @@ public:
     ///
     /// \return The view object that is currently used
     ///
-    /// \see `setView`, `getDefaultView`
+    /// \see setView, getDefaultView
     ///
     ////////////////////////////////////////////////////////////
-    [[nodiscard]] const View& getView() const;
+    const View& getView() const;
 
     ////////////////////////////////////////////////////////////
     /// \brief Get the default view of the render target
@@ -165,10 +109,10 @@ public:
     ///
     /// \return The default view of the render target
     ///
-    /// \see `setView`, `getView`
+    /// \see setView, getView
     ///
     ////////////////////////////////////////////////////////////
-    [[nodiscard]] const View& getDefaultView() const;
+    const View& getDefaultView() const;
 
     ////////////////////////////////////////////////////////////
     /// \brief Get the viewport of a view, applied to this render target
@@ -183,22 +127,7 @@ public:
     /// \return Viewport rectangle, expressed in pixels
     ///
     ////////////////////////////////////////////////////////////
-    [[nodiscard]] IntRect getViewport(const View& view) const;
-
-    ////////////////////////////////////////////////////////////
-    /// \brief Get the scissor rectangle of a view, applied to this render target
-    ///
-    /// The scissor rectangle is defined in the view as a ratio. This
-    /// function simply applies this ratio to the current dimensions
-    /// of the render target to calculate the pixels rectangle
-    /// that the scissor rectangle actually covers in the target.
-    ///
-    /// \param view The view for which we want to compute the scissor rectangle
-    ///
-    /// \return Scissor rectangle, expressed in pixels
-    ///
-    ////////////////////////////////////////////////////////////
-    [[nodiscard]] IntRect getScissor(const View& view) const;
+    IntRect getViewport(const View& view) const;
 
     ////////////////////////////////////////////////////////////
     /// \brief Convert a point from target coordinates to world
@@ -215,10 +144,10 @@ public:
     ///
     /// \return The converted point, in "world" coordinates
     ///
-    /// \see `mapCoordsToPixel`
+    /// \see mapCoordsToPixel
     ///
     ////////////////////////////////////////////////////////////
-    [[nodiscard]] Vector2f mapPixelToCoords(Vector2i point) const;
+    Vector2f mapPixelToCoords(const Vector2i& point) const;
 
     ////////////////////////////////////////////////////////////
     /// \brief Convert a point from target coordinates to world coordinates
@@ -230,7 +159,7 @@ public:
     ///
     /// Initially, both coordinate systems (world units and target pixels)
     /// match perfectly. But if you define a custom view or resize your
-    /// render target, this assertion is not `true` anymore, i.e. a point
+    /// render target, this assertion is not true anymore, i.e. a point
     /// located at (10, 50) in your render target may map to the point
     /// (150, 75) in your 2D world -- if the view is translated by (140, 25).
     ///
@@ -246,16 +175,16 @@ public:
     ///
     /// \return The converted point, in "world" units
     ///
-    /// \see `mapCoordsToPixel`
+    /// \see mapCoordsToPixel
     ///
     ////////////////////////////////////////////////////////////
-    [[nodiscard]] Vector2f mapPixelToCoords(Vector2i point, const View& view) const;
+    Vector2f mapPixelToCoords(const Vector2i& point, const View& view) const;
 
     ////////////////////////////////////////////////////////////
     /// \brief Convert a point from world coordinates to target
     ///        coordinates, using the current view
     ///
-    /// This function is an overload of the `mapCoordsToPixel`
+    /// This function is an overload of the mapCoordsToPixel
     /// function that implicitly uses the current view.
     /// It is equivalent to:
     /// \code
@@ -266,10 +195,10 @@ public:
     ///
     /// \return The converted point, in target coordinates (pixels)
     ///
-    /// \see `mapPixelToCoords`
+    /// \see mapPixelToCoords
     ///
     ////////////////////////////////////////////////////////////
-    [[nodiscard]] Vector2i mapCoordsToPixel(Vector2f point) const;
+    Vector2i mapCoordsToPixel(const Vector2f& point) const;
 
     ////////////////////////////////////////////////////////////
     /// \brief Convert a point from world coordinates to target coordinates
@@ -280,7 +209,7 @@ public:
     ///
     /// Initially, both coordinate systems (world units and target pixels)
     /// match perfectly. But if you define a custom view or resize your
-    /// render target, this assertion is not `true` anymore, i.e. a point
+    /// render target, this assertion is not true anymore, i.e. a point
     /// located at (150, 75) in your 2D world may map to the pixel
     /// (10, 50) of your render target -- if the view is translated by (140, 25).
     ///
@@ -293,10 +222,10 @@ public:
     ///
     /// \return The converted point, in target coordinates (pixels)
     ///
-    /// \see `mapPixelToCoords`
+    /// \see mapPixelToCoords
     ///
     ////////////////////////////////////////////////////////////
-    [[nodiscard]] Vector2i mapCoordsToPixel(Vector2f point, const View& view) const;
+    Vector2i mapCoordsToPixel(const Vector2f& point, const View& view) const;
 
     ////////////////////////////////////////////////////////////
     /// \brief Draw a drawable object to the render target
@@ -316,10 +245,8 @@ public:
     /// \param states      Render states to use for drawing
     ///
     ////////////////////////////////////////////////////////////
-    void draw(const Vertex*       vertices,
-              std::size_t         vertexCount,
-              PrimitiveType       type,
-              const RenderStates& states = RenderStates::Default);
+    void draw(const Vertex* vertices, std::size_t vertexCount,
+              PrimitiveType type, const RenderStates& states = RenderStates::Default);
 
     ////////////////////////////////////////////////////////////
     /// \brief Draw primitives defined by a vertex buffer
@@ -339,10 +266,7 @@ public:
     /// \param states       Render states to use for drawing
     ///
     ////////////////////////////////////////////////////////////
-    void draw(const VertexBuffer& vertexBuffer,
-              std::size_t         firstVertex,
-              std::size_t         vertexCount,
-              const RenderStates& states = RenderStates::Default);
+    void draw(const VertexBuffer& vertexBuffer, std::size_t firstVertex, std::size_t vertexCount, const RenderStates& states = RenderStates::Default);
 
     ////////////////////////////////////////////////////////////
     /// \brief Return the size of the rendering region of the target
@@ -350,15 +274,15 @@ public:
     /// \return Size in pixels
     ///
     ////////////////////////////////////////////////////////////
-    [[nodiscard]] virtual Vector2u getSize() const = 0;
+    virtual Vector2u getSize() const = 0;
 
     ////////////////////////////////////////////////////////////
     /// \brief Tell if the render target will use sRGB encoding when drawing on it
     ///
-    /// \return `true` if the render target use sRGB encoding, `false` otherwise
+    /// \return True if the render target use sRGB encoding, false otherwise
     ///
     ////////////////////////////////////////////////////////////
-    [[nodiscard]] virtual bool isSrgb() const;
+    virtual bool isSrgb() const;
 
     ////////////////////////////////////////////////////////////
     /// \brief Activate or deactivate the render target for rendering
@@ -375,12 +299,12 @@ public:
     /// target will automatically deactivate the previously active
     /// context (if any).
     ///
-    /// \param active `true` to activate, `false` to deactivate
+    /// \param active True to activate, false to deactivate
     ///
-    /// \return `true` if operation was successful, `false` otherwise
+    /// \return True if operation was successful, false otherwise
     ///
     ////////////////////////////////////////////////////////////
-    [[nodiscard]] virtual bool setActive(bool active = true);
+    virtual bool setActive(bool active = true);
 
     ////////////////////////////////////////////////////////////
     /// \brief Save the current OpenGL render states and matrices
@@ -392,7 +316,7 @@ public:
     /// \li your OpenGL states are not modified by a call to a SFML function
     ///
     /// More specifically, it must be used around code that
-    /// calls `draw` functions. Example:
+    /// calls Draw functions. Example:
     /// \code
     /// // OpenGL code here...
     /// window.pushGLStates();
@@ -411,7 +335,7 @@ public:
     /// saved and restored). Take a look at the resetGLStates
     /// function if you do so.
     ///
-    /// \see `popGLStates`
+    /// \see popGLStates
     ///
     ////////////////////////////////////////////////////////////
     void pushGLStates();
@@ -419,10 +343,10 @@ public:
     ////////////////////////////////////////////////////////////
     /// \brief Restore the previously saved OpenGL render states and matrices
     ///
-    /// See the description of `pushGLStates` to get a detailed
+    /// See the description of pushGLStates to get a detailed
     /// description of these functions.
     ///
-    /// \see `pushGLStates`
+    /// \see pushGLStates
     ///
     ////////////////////////////////////////////////////////////
     void popGLStates();
@@ -432,8 +356,8 @@ public:
     ///
     /// This function can be used when you mix SFML drawing
     /// and direct OpenGL rendering, if you choose not to use
-    /// `pushGLStates`/`popGLStates`. It makes sure that all OpenGL
-    /// states needed by SFML are set, so that subsequent `draw()`
+    /// pushGLStates/popGLStates. It makes sure that all OpenGL
+    /// states needed by SFML are set, so that subsequent draw()
     /// calls will work as expected.
     ///
     /// Example:
@@ -451,11 +375,12 @@ public:
     void resetGLStates();
 
 protected:
+
     ////////////////////////////////////////////////////////////
     /// \brief Default constructor
     ///
     ////////////////////////////////////////////////////////////
-    RenderTarget() = default;
+    RenderTarget();
 
     ////////////////////////////////////////////////////////////
     /// \brief Performs the common initialization step after creation
@@ -467,6 +392,7 @@ protected:
     void initialize();
 
 private:
+
     ////////////////////////////////////////////////////////////
     /// \brief Apply the current view
     ///
@@ -482,14 +408,6 @@ private:
     void applyBlendMode(const BlendMode& mode);
 
     ////////////////////////////////////////////////////////////
-    /// \brief Apply a new stencil mode
-    ///
-    /// \param mode Stencil mode to apply
-    ///
-    ////////////////////////////////////////////////////////////
-    void applyStencilMode(const StencilMode& mode);
-
-    ////////////////////////////////////////////////////////////
     /// \brief Apply a new transform
     ///
     /// \param transform Transform to apply
@@ -500,11 +418,10 @@ private:
     ////////////////////////////////////////////////////////////
     /// \brief Apply a new texture
     ///
-    /// \param texture        Texture to apply
-    /// \param coordinateType The texture coordinate type to use
+    /// \param texture Texture to apply
     ///
     ////////////////////////////////////////////////////////////
-    void applyTexture(const Texture* texture, CoordinateType coordinateType = CoordinateType::Pixels);
+    void applyTexture(const Texture* texture);
 
     ////////////////////////////////////////////////////////////
     /// \brief Apply a new shader
@@ -547,60 +464,55 @@ private:
     ////////////////////////////////////////////////////////////
     struct StatesCache
     {
-        bool                  enable{};                //!< Is the cache enabled?
-        bool                  glStatesSet{};           //!< Are our internal GL states set yet?
-        bool                  viewChanged{};           //!< Has the current view changed since last draw?
-        bool                  scissorEnabled{};        //!< Is scissor testing enabled?
-        bool                  stencilEnabled{};        //!< Is stencil testing enabled?
-        BlendMode             lastBlendMode;           //!< Cached blending mode
-        StencilMode           lastStencilMode;         //!< Cached stencil
-        std::uint64_t         lastTextureId{};         //!< Cached texture
-        CoordinateType        lastCoordinateType{};    //!< Texture coordinate type
-        bool                  texCoordsArrayEnabled{}; //!< Is `GL_TEXTURE_COORD_ARRAY` client state enabled?
-        bool                  useVertexCache{};        //!< Did we previously use the vertex cache?
-        std::array<Vertex, 4> vertexCache{};           //!< Pre-transformed vertices cache
+        enum {VertexCacheSize = 4};
+
+        bool      enable;         //!< Is the cache enabled?
+        bool      glStatesSet;    //!< Are our internal GL states set yet?
+        bool      viewChanged;    //!< Has the current view changed since last draw?
+        BlendMode lastBlendMode;  //!< Cached blending mode
+        Uint64    lastTextureId;  //!< Cached texture
+        bool      texCoordsArrayEnabled; //!< Is GL_TEXTURE_COORD_ARRAY client state enabled?
+        bool      useVertexCache; //!< Did we previously use the vertex cache?
+        Vertex    vertexCache[VertexCacheSize]; //!< Pre-transformed vertices cache
     };
 
     ////////////////////////////////////////////////////////////
     // Member data
     ////////////////////////////////////////////////////////////
-    View          m_defaultView; //!< Default view
-    View          m_view;        //!< Current view
-    StatesCache   m_cache{};     //!< Render states cache
-    std::uint64_t m_id{};        //!< Unique number that identifies the RenderTarget
+    View        m_defaultView; //!< Default view
+    View        m_view;        //!< Current view
+    StatesCache m_cache;       //!< Render states cache
+    Uint64      m_id;          //!< Unique number that identifies the RenderTarget
 };
 
 } // namespace sf
+
+
+#endif // SFML_RENDERTARGET_HPP
 
 
 ////////////////////////////////////////////////////////////
 /// \class sf::RenderTarget
 /// \ingroup graphics
 ///
-/// `sf::RenderTarget` defines the common behavior of all the
+/// sf::RenderTarget defines the common behavior of all the
 /// 2D render targets usable in the graphics module. It makes
 /// it possible to draw 2D entities like sprites, shapes, text
 /// without using any OpenGL command directly.
 ///
-/// A `sf::RenderTarget` is also able to use views (`sf::View`),
+/// A sf::RenderTarget is also able to use views (sf::View),
 /// which are a kind of 2D cameras. With views you can globally
 /// scroll, rotate or zoom everything that is drawn,
 /// without having to transform every single entity. See the
-/// documentation of `sf::View` for more details and sample pieces of
+/// documentation of sf::View for more details and sample pieces of
 /// code about this class.
 ///
 /// On top of that, render targets are still able to render direct
 /// OpenGL stuff. It is even possible to mix together OpenGL calls
 /// and regular SFML drawing commands. When doing so, make sure that
 /// OpenGL states are not messed up by calling the
-/// `pushGLStates`/`popGLStates` functions.
+/// pushGLStates/popGLStates functions.
 ///
-/// While render targets are moveable, it is not valid to move them
-/// between threads. This will cause your program to crash. The
-/// problem boils down to OpenGL being limited with regard to how it
-/// works in multithreaded environments. Please ensure you only move
-/// render targets within the same thread.
-///
-/// \see `sf::RenderWindow`, `sf::RenderTexture`, `sf::View`
+/// \see sf::RenderWindow, sf::RenderTexture, sf::View
 ///
 ////////////////////////////////////////////////////////////
