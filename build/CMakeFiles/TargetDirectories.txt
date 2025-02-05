@@ -1,0 +1,4 @@
+/home/miha/EvoGame/build/CMakeFiles/EvoGame.dir
+/home/miha/EvoGame/build/CMakeFiles/test.dir
+/home/miha/EvoGame/build/CMakeFiles/edit_cache.dir
+/home/miha/EvoGame/build/CMakeFiles/rebuild_cache.dir
