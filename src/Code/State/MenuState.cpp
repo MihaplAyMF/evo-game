@@ -9,19 +9,20 @@
 
 MenuState::MenuState(StateStack& stack, Context context)
 	: State(stack, context)
+    , mEvoGameSprite(context.textures->get(Textures::TitleScreen))
 {
-	sf::Texture& texture = context.textures->get(Textures::TitleScreen);
-	mEvoGameSprite.setTexture(texture);
+	/*sf::Texture& texture = context.textures->get(Textures::TitleScreen);
+	mEvoGameSprite = sf::Sprite(texture);*/
 	setScale(mEvoGameSprite, sf::IntRect({0, 0}, {960, 452}));
 
 	auto evoGameLabel = std::make_shared<GUI::Label>("", *context.fonts);
-	evoGameLabel->setPosition(370, 30);
+	evoGameLabel->setPosition({370, 30});
 	evoGameLabel->setText("MyGame");
 	evoGameLabel->getText().setFillColor(sf::Color::Black);
 	evoGameLabel->getText().setCharacterSize(70);
 
 	auto playButton = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
-	playButton->setPosition(400, 150);
+	playButton->setPosition({400, 150});
 	playButton->setText("Play");
 	playButton->setCallback([this] ()
 	{
@@ -30,7 +31,7 @@ MenuState::MenuState(StateStack& stack, Context context)
 	});
 
 	auto settingsButton = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
-	settingsButton->setPosition(400, 200);
+	settingsButton->setPosition({400, 200});
 	settingsButton->setText("Settings");
 	settingsButton->setCallback([this] ()
 	{
@@ -38,7 +39,7 @@ MenuState::MenuState(StateStack& stack, Context context)
 	});
 
 	auto quitButton = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
-	quitButton->setPosition(400, 250);
+	quitButton->setPosition({400, 250});
 	quitButton->setText("Quit");
 	quitButton->setCallback([this] ()
 	{

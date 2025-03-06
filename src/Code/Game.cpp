@@ -6,18 +6,18 @@
 #include "MenuState.h"
 
 const sf::Time Game::timePerFrame = sf::seconds(1.f / 60.f);
-const int mapWidth = 100;
-const int mapHeight = 100;
+extern const int mapWidth;
+extern const int mapHeight;
 
 Game::Game()
     : mWindow(sf::VideoMode(sf::Vector2u(mapWidth, mapHeight)), "MyProject", sf::Style::Close)
     , mStateStack(State::Context(mWindow, mTextures, mFonts))
 {
      
-    /*mFonts.load(Fonts::Main, "Media/Fonts/Sansation.ttf");*/
+    mFonts.open(Fonts::Main, "/Media/Fonts/Sansation.ttf");
 
-	mTextures.load(Textures::Tileset,     "../Media/Textures/nature-paltformer.png");
-	mTextures.load(Textures::TitleScreen, "../Media/Textures/title-screen.png");
+	mTextures.load(Textures::Tileset,     "/Media/Textures/nature-paltformer.png");
+	mTextures.load(Textures::TitleScreen, "/Media/Textures/title-screen.png");
 
 	registerStates();
 	mStateStack.pushState(States::Menu);

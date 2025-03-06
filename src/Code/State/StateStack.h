@@ -10,7 +10,7 @@
 #include "StateIdentifiers.h"
 #include "State.h"
 
-namespace sg
+namespace sf
 {
     class Event;
     class RenderWindow;

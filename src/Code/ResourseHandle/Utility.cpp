@@ -157,7 +157,7 @@ float toRadian(float degree)
 {
 	return 3.141592653589793238462643383f / 180.f * degree;
 }
-
+/*
 void setScale(sf::Sprite& sprite, sf::IntRect rectangle)
 {
 	sf::IntRect textureRect = sprite.getTextureRect();
@@ -166,6 +166,16 @@ void setScale(sf::Sprite& sprite, sf::IntRect rectangle)
 	float scaleY = rectangle.height / static_cast<float>(textureRect.height);
 
 	sprite.setScale({scaleX, scaleY});
+}*/
+
+void setScale(sf::Sprite& sprite, sf::IntRect rectangle)
+{
+    sf::FloatRect localBounds = sprite.getLocalBounds();
+
+    float scaleX = rectangle.size.x / localBounds.size.x;
+    float scaleY = rectangle.size.y / localBounds.size.y;
+    
+    sprite.setScale({scaleX, scaleY});
 }
 
 int randomInt(int exclusiveMax)
