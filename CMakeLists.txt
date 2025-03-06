@@ -29,4 +29,5 @@ target_include_directories(MyProject PRIVATE
     ${SRC_DIR}/State
     ${SRC_DIR}/ResourseHandle
     ${SRC_DIR}/Component
+    ${SRC_DIR}/Entity
 )

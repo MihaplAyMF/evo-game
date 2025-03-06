@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = -DSFML_STATIC
 
-CXX_INCLUDES = -I/home/miha/MyNewPetProject/src/Code -I/home/miha/MyNewPetProject/src/Code/State -I/home/miha/MyNewPetProject/src/Code/ResourseHandle -I/home/miha/MyNewPetProject/src/Code/Component -isystem /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include
+CXX_INCLUDES = -I/home/miha/MyNewPetProject/src/Code -I/home/miha/MyNewPetProject/src/Code/State -I/home/miha/MyNewPetProject/src/Code/ResourseHandle -I/home/miha/MyNewPetProject/src/Code/Component -I/home/miha/MyNewPetProject/src/Code/Entity -isystem /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include
 
 CXX_FLAGS = -std=gnu++17
 

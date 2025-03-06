@@ -125,10 +125,24 @@ CMakeFiles/MyProject.dir/src/Code/Component/Label.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/MyProject.dir/src/Code/Component/Label.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/miha/MyNewPetProject/src/Code/Component/Label.cpp -o CMakeFiles/MyProject.dir/src/Code/Component/Label.cpp.s
 
+CMakeFiles/MyProject.dir/src/Code/Entity/DataTables.cpp.o: CMakeFiles/MyProject.dir/flags.make
+CMakeFiles/MyProject.dir/src/Code/Entity/DataTables.cpp.o: /home/miha/MyNewPetProject/src/Code/Entity/DataTables.cpp
+CMakeFiles/MyProject.dir/src/Code/Entity/DataTables.cpp.o: CMakeFiles/MyProject.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/miha/MyNewPetProject/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/MyProject.dir/src/Code/Entity/DataTables.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/MyProject.dir/src/Code/Entity/DataTables.cpp.o -MF CMakeFiles/MyProject.dir/src/Code/Entity/DataTables.cpp.o.d -o CMakeFiles/MyProject.dir/src/Code/Entity/DataTables.cpp.o -c /home/miha/MyNewPetProject/src/Code/Entity/DataTables.cpp
+
+CMakeFiles/MyProject.dir/src/Code/Entity/DataTables.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/MyProject.dir/src/Code/Entity/DataTables.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/miha/MyNewPetProject/src/Code/Entity/DataTables.cpp > CMakeFiles/MyProject.dir/src/Code/Entity/DataTables.cpp.i
+
+CMakeFiles/MyProject.dir/src/Code/Entity/DataTables.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/MyProject.dir/src/Code/Entity/DataTables.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/miha/MyNewPetProject/src/Code/Entity/DataTables.cpp -o CMakeFiles/MyProject.dir/src/Code/Entity/DataTables.cpp.s
+
 CMakeFiles/MyProject.dir/src/Code/Game.cpp.o: CMakeFiles/MyProject.dir/flags.make
 CMakeFiles/MyProject.dir/src/Code/Game.cpp.o: /home/miha/MyNewPetProject/src/Code/Game.cpp
 CMakeFiles/MyProject.dir/src/Code/Game.cpp.o: CMakeFiles/MyProject.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/miha/MyNewPetProject/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/MyProject.dir/src/Code/Game.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/miha/MyNewPetProject/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/MyProject.dir/src/Code/Game.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/MyProject.dir/src/Code/Game.cpp.o -MF CMakeFiles/MyProject.dir/src/Code/Game.cpp.o.d -o CMakeFiles/MyProject.dir/src/Code/Game.cpp.o -c /home/miha/MyNewPetProject/src/Code/Game.cpp
 
 CMakeFiles/MyProject.dir/src/Code/Game.cpp.i: cmake_force
@@ -142,7 +156,7 @@ CMakeFiles/MyProject.dir/src/Code/Game.cpp.s: cmake_force
 CMakeFiles/MyProject.dir/src/Code/ResourseHandle/Utility.cpp.o: CMakeFiles/MyProject.dir/flags.make
 CMakeFiles/MyProject.dir/src/Code/ResourseHandle/Utility.cpp.o: /home/miha/MyNewPetProject/src/Code/ResourseHandle/Utility.cpp
 CMakeFiles/MyProject.dir/src/Code/ResourseHandle/Utility.cpp.o: CMakeFiles/MyProject.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/miha/MyNewPetProject/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/MyProject.dir/src/Code/ResourseHandle/Utility.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/miha/MyNewPetProject/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/MyProject.dir/src/Code/ResourseHandle/Utility.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/MyProject.dir/src/Code/ResourseHandle/Utility.cpp.o -MF CMakeFiles/MyProject.dir/src/Code/ResourseHandle/Utility.cpp.o.d -o CMakeFiles/MyProject.dir/src/Code/ResourseHandle/Utility.cpp.o -c /home/miha/MyNewPetProject/src/Code/ResourseHandle/Utility.cpp
 
 CMakeFiles/MyProject.dir/src/Code/ResourseHandle/Utility.cpp.i: cmake_force
@@ -156,7 +170,7 @@ CMakeFiles/MyProject.dir/src/Code/ResourseHandle/Utility.cpp.s: cmake_force
 CMakeFiles/MyProject.dir/src/Code/State/GameState.cpp.o: CMakeFiles/MyProject.dir/flags.make
 CMakeFiles/MyProject.dir/src/Code/State/GameState.cpp.o: /home/miha/MyNewPetProject/src/Code/State/GameState.cpp
 CMakeFiles/MyProject.dir/src/Code/State/GameState.cpp.o: CMakeFiles/MyProject.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/miha/MyNewPetProject/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/MyProject.dir/src/Code/State/GameState.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/miha/MyNewPetProject/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/MyProject.dir/src/Code/State/GameState.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/MyProject.dir/src/Code/State/GameState.cpp.o -MF CMakeFiles/MyProject.dir/src/Code/State/GameState.cpp.o.d -o CMakeFiles/MyProject.dir/src/Code/State/GameState.cpp.o -c /home/miha/MyNewPetProject/src/Code/State/GameState.cpp
 
 CMakeFiles/MyProject.dir/src/Code/State/GameState.cpp.i: cmake_force
@@ -170,7 +184,7 @@ CMakeFiles/MyProject.dir/src/Code/State/GameState.cpp.s: cmake_force
 CMakeFiles/MyProject.dir/src/Code/State/MenuState.cpp.o: CMakeFiles/MyProject.dir/flags.make
 CMakeFiles/MyProject.dir/src/Code/State/MenuState.cpp.o: /home/miha/MyNewPetProject/src/Code/State/MenuState.cpp
 CMakeFiles/MyProject.dir/src/Code/State/MenuState.cpp.o: CMakeFiles/MyProject.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/miha/MyNewPetProject/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/MyProject.dir/src/Code/State/MenuState.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/miha/MyNewPetProject/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/MyProject.dir/src/Code/State/MenuState.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/MyProject.dir/src/Code/State/MenuState.cpp.o -MF CMakeFiles/MyProject.dir/src/Code/State/MenuState.cpp.o.d -o CMakeFiles/MyProject.dir/src/Code/State/MenuState.cpp.o -c /home/miha/MyNewPetProject/src/Code/State/MenuState.cpp
 
 CMakeFiles/MyProject.dir/src/Code/State/MenuState.cpp.i: cmake_force
@@ -184,7 +198,7 @@ CMakeFiles/MyProject.dir/src/Code/State/MenuState.cpp.s: cmake_force
 CMakeFiles/MyProject.dir/src/Code/State/State.cpp.o: CMakeFiles/MyProject.dir/flags.make
 CMakeFiles/MyProject.dir/src/Code/State/State.cpp.o: /home/miha/MyNewPetProject/src/Code/State/State.cpp
 CMakeFiles/MyProject.dir/src/Code/State/State.cpp.o: CMakeFiles/MyProject.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/miha/MyNewPetProject/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/MyProject.dir/src/Code/State/State.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/miha/MyNewPetProject/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/MyProject.dir/src/Code/State/State.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/MyProject.dir/src/Code/State/State.cpp.o -MF CMakeFiles/MyProject.dir/src/Code/State/State.cpp.o.d -o CMakeFiles/MyProject.dir/src/Code/State/State.cpp.o -c /home/miha/MyNewPetProject/src/Code/State/State.cpp
 
 CMakeFiles/MyProject.dir/src/Code/State/State.cpp.i: cmake_force
@@ -198,7 +212,7 @@ CMakeFiles/MyProject.dir/src/Code/State/State.cpp.s: cmake_force
 CMakeFiles/MyProject.dir/src/Code/State/StateStack.cpp.o: CMakeFiles/MyProject.dir/flags.make
 CMakeFiles/MyProject.dir/src/Code/State/StateStack.cpp.o: /home/miha/MyNewPetProject/src/Code/State/StateStack.cpp
 CMakeFiles/MyProject.dir/src/Code/State/StateStack.cpp.o: CMakeFiles/MyProject.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/miha/MyNewPetProject/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/MyProject.dir/src/Code/State/StateStack.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/miha/MyNewPetProject/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/MyProject.dir/src/Code/State/StateStack.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/MyProject.dir/src/Code/State/StateStack.cpp.o -MF CMakeFiles/MyProject.dir/src/Code/State/StateStack.cpp.o.d -o CMakeFiles/MyProject.dir/src/Code/State/StateStack.cpp.o -c /home/miha/MyNewPetProject/src/Code/State/StateStack.cpp
 
 CMakeFiles/MyProject.dir/src/Code/State/StateStack.cpp.i: cmake_force
@@ -212,7 +226,7 @@ CMakeFiles/MyProject.dir/src/Code/State/StateStack.cpp.s: cmake_force
 CMakeFiles/MyProject.dir/src/Code/main.cpp.o: CMakeFiles/MyProject.dir/flags.make
 CMakeFiles/MyProject.dir/src/Code/main.cpp.o: /home/miha/MyNewPetProject/src/Code/main.cpp
 CMakeFiles/MyProject.dir/src/Code/main.cpp.o: CMakeFiles/MyProject.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/miha/MyNewPetProject/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/MyProject.dir/src/Code/main.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/miha/MyNewPetProject/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/MyProject.dir/src/Code/main.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/MyProject.dir/src/Code/main.cpp.o -MF CMakeFiles/MyProject.dir/src/Code/main.cpp.o.d -o CMakeFiles/MyProject.dir/src/Code/main.cpp.o -c /home/miha/MyNewPetProject/src/Code/main.cpp
 
 CMakeFiles/MyProject.dir/src/Code/main.cpp.i: cmake_force
@@ -229,6 +243,7 @@ MyProject_OBJECTS = \
 "CMakeFiles/MyProject.dir/src/Code/Component/Component.cpp.o" \
 "CMakeFiles/MyProject.dir/src/Code/Component/Container.cpp.o" \
 "CMakeFiles/MyProject.dir/src/Code/Component/Label.cpp.o" \
+"CMakeFiles/MyProject.dir/src/Code/Entity/DataTables.cpp.o" \
 "CMakeFiles/MyProject.dir/src/Code/Game.cpp.o" \
 "CMakeFiles/MyProject.dir/src/Code/ResourseHandle/Utility.cpp.o" \
 "CMakeFiles/MyProject.dir/src/Code/State/GameState.cpp.o" \
@@ -244,6 +259,7 @@ MyProject: CMakeFiles/MyProject.dir/src/Code/Component/Button.cpp.o
 MyProject: CMakeFiles/MyProject.dir/src/Code/Component/Component.cpp.o
 MyProject: CMakeFiles/MyProject.dir/src/Code/Component/Container.cpp.o
 MyProject: CMakeFiles/MyProject.dir/src/Code/Component/Label.cpp.o
+MyProject: CMakeFiles/MyProject.dir/src/Code/Entity/DataTables.cpp.o
 MyProject: CMakeFiles/MyProject.dir/src/Code/Game.cpp.o
 MyProject: CMakeFiles/MyProject.dir/src/Code/ResourseHandle/Utility.cpp.o
 MyProject: CMakeFiles/MyProject.dir/src/Code/State/GameState.cpp.o
@@ -273,7 +289,7 @@ MyProject: /usr/lib/x86_64-linux-gnu/libvorbis.so
 MyProject: /usr/lib/x86_64-linux-gnu/libogg.so
 MyProject: /usr/lib/x86_64-linux-gnu/libFLAC.so
 MyProject: CMakeFiles/MyProject.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/miha/MyNewPetProject/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Linking CXX executable MyProject"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/miha/MyNewPetProject/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Linking CXX executable MyProject"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/MyProject.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
