@@ -285,17 +285,26 @@ CMakeFiles/MyProject.dir/src/Code/Component/Button.cpp.o: /home/miha/MyNewPetPro
   /home/miha/MyNewPetProject/src/Code/Component/Component.h \
   /home/miha/MyNewPetProject/src/Code/ResourseHandle/ResourceIdentifiers.h \
   /home/miha/MyNewPetProject/src/Code/ResourseHandle/ResourceHolder.hpp \
-  /home/miha/MyNewPetProject/src/Code/ResourseHandle/ResourceHolder.inl \
-  /home/miha/MyNewPetProject/src/Code/ResourseHandle/Utility.hpp \
-  /usr/include/c++/12/sstream \
-  /usr/include/c++/12/istream \
+  /usr/include/c++/12/iostream \
+  /usr/include/c++/12/ostream \
   /usr/include/c++/12/ios \
   /usr/include/c++/12/bits/basic_ios.h \
   /usr/include/c++/12/bits/basic_ios.tcc \
-  /usr/include/c++/12/ostream \
   /usr/include/c++/12/bits/ostream.tcc \
+  /usr/include/c++/12/istream \
   /usr/include/c++/12/bits/istream.tcc \
+  /usr/include/c++/12/filesystem \
+  /usr/include/c++/12/bits/fs_fwd.h \
+  /usr/include/c++/12/bits/fs_path.h \
+  /usr/include/c++/12/iomanip \
+  /usr/include/c++/12/bits/quoted_string.h \
+  /usr/include/c++/12/sstream \
   /usr/include/c++/12/bits/sstream.tcc \
+  /usr/include/c++/12/codecvt \
+  /usr/include/c++/12/bits/fs_dir.h \
+  /usr/include/c++/12/bits/fs_ops.h \
+  /home/miha/MyNewPetProject/src/Code/ResourseHandle/ResourceHolder.inl \
+  /home/miha/MyNewPetProject/src/Code/ResourseHandle/Utility.hpp \
   /home/miha/MyNewPetProject/src/Code/ResourseHandle/Utility.inl
 
 CMakeFiles/MyProject.dir/src/Code/Component/Component.cpp.o: /home/miha/MyNewPetProject/src/Code/Component/Component.cpp \
@@ -1084,17 +1093,26 @@ CMakeFiles/MyProject.dir/src/Code/Component/Label.cpp.o: /home/miha/MyNewPetProj
   /usr/include/c++/12/bits/stl_map.h \
   /usr/include/c++/12/bits/stl_multimap.h \
   /usr/include/c++/12/bits/erase_if.h \
-  /home/miha/MyNewPetProject/src/Code/ResourseHandle/ResourceHolder.inl \
-  /home/miha/MyNewPetProject/src/Code/ResourseHandle/Utility.hpp \
-  /usr/include/c++/12/sstream \
-  /usr/include/c++/12/istream \
+  /usr/include/c++/12/iostream \
+  /usr/include/c++/12/ostream \
   /usr/include/c++/12/ios \
   /usr/include/c++/12/bits/basic_ios.h \
   /usr/include/c++/12/bits/basic_ios.tcc \
-  /usr/include/c++/12/ostream \
   /usr/include/c++/12/bits/ostream.tcc \
+  /usr/include/c++/12/istream \
   /usr/include/c++/12/bits/istream.tcc \
+  /usr/include/c++/12/filesystem \
+  /usr/include/c++/12/bits/fs_fwd.h \
+  /usr/include/c++/12/bits/fs_path.h \
+  /usr/include/c++/12/iomanip \
+  /usr/include/c++/12/bits/quoted_string.h \
+  /usr/include/c++/12/sstream \
   /usr/include/c++/12/bits/sstream.tcc \
+  /usr/include/c++/12/codecvt \
+  /usr/include/c++/12/bits/fs_dir.h \
+  /usr/include/c++/12/bits/fs_ops.h \
+  /home/miha/MyNewPetProject/src/Code/ResourseHandle/ResourceHolder.inl \
+  /home/miha/MyNewPetProject/src/Code/ResourseHandle/Utility.hpp \
   /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/SFML/Graphics/Sprite.hpp \
   /home/miha/MyNewPetProject/src/Code/ResourseHandle/Utility.inl
 
@@ -1435,6 +1453,7 @@ CMakeFiles/MyProject.dir/src/Code/Game.cpp.o: /home/miha/MyNewPetProject/src/Cod
   /usr/include/c++/12/bits/stl_tree.h \
   /usr/include/c++/12/bits/stl_map.h \
   /usr/include/c++/12/bits/stl_multimap.h \
+  /usr/include/c++/12/iostream \
   /home/miha/MyNewPetProject/src/Code/ResourseHandle/ResourceHolder.inl \
   /home/miha/MyNewPetProject/src/Code/ResourseHandle/ResourceIdentifiers.h \
   /home/miha/MyNewPetProject/src/Code/State/StateStack.h \
@@ -2040,6 +2059,15 @@ CMakeFiles/MyProject.dir/src/Code/State/MenuState.cpp.o: /home/miha/MyNewPetProj
   /usr/include/c++/12/bits/sstream.tcc \
   /home/miha/MyNewPetProject/src/Code/ResourseHandle/Utility.inl \
   /home/miha/MyNewPetProject/src/Code/ResourseHandle/ResourceHolder.hpp \
+  /usr/include/c++/12/iostream \
+  /usr/include/c++/12/filesystem \
+  /usr/include/c++/12/bits/fs_fwd.h \
+  /usr/include/c++/12/bits/fs_path.h \
+  /usr/include/c++/12/iomanip \
+  /usr/include/c++/12/bits/quoted_string.h \
+  /usr/include/c++/12/codecvt \
+  /usr/include/c++/12/bits/fs_dir.h \
+  /usr/include/c++/12/bits/fs_ops.h \
   /home/miha/MyNewPetProject/src/Code/ResourseHandle/ResourceHolder.inl \
   /home/miha/MyNewPetProject/src/Code/Component/Button.h \
   /home/miha/MyNewPetProject/src/Code/Component/Label.h
@@ -2908,6 +2936,7 @@ CMakeFiles/MyProject.dir/src/Code/main.cpp.o: /home/miha/MyNewPetProject/src/Cod
   /usr/include/c++/12/bits/stl_tree.h \
   /usr/include/c++/12/bits/stl_map.h \
   /usr/include/c++/12/bits/stl_multimap.h \
+  /usr/include/c++/12/iostream \
   /home/miha/MyNewPetProject/src/Code/ResourseHandle/ResourceHolder.inl \
   /home/miha/MyNewPetProject/src/Code/ResourseHandle/ResourceIdentifiers.h \
   /home/miha/MyNewPetProject/src/Code/State/StateStack.h \
@@ -3014,14 +3043,6 @@ CMakeFiles/MyProject.dir/src/Code/main.cpp.o: /home/miha/MyNewPetProject/src/Cod
 
 /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/SFML/Graphics/Image.hpp:
 
-/usr/include/c++/12/bits/fs_dir.h:
-
-/usr/include/c++/12/bits/quoted_string.h:
-
-/usr/include/x86_64-linux-gnu/bits/flt-eval-method.h:
-
-/usr/include/c++/12/bits/fs_fwd.h:
-
 /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/SFML/Window/GlResource.hpp:
 
 /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/SFML/Graphics/Glyph.hpp:
@@ -3042,21 +3063,29 @@ CMakeFiles/MyProject.dir/src/Code/main.cpp.o: /home/miha/MyNewPetProject/src/Cod
 
 /home/miha/MyNewPetProject/src/Code/Component/Container.h:
 
-/usr/include/c++/12/bits/ostream.tcc:
+/home/miha/MyNewPetProject/src/Code/ResourseHandle/ResourceHolder.inl:
 
-/usr/include/c++/12/ostream:
+/usr/include/c++/12/bits/fs_dir.h:
+
+/usr/include/c++/12/bits/quoted_string.h:
+
+/usr/include/x86_64-linux-gnu/bits/flt-eval-method.h:
+
+/usr/include/c++/12/bits/fs_fwd.h:
+
+/usr/include/c++/12/istream:
+
+/usr/include/c++/12/bits/ostream.tcc:
 
 /usr/include/c++/12/tr1/riemann_zeta.tcc:
 
 /usr/include/c++/12/bits/basic_ios.tcc:
 
-/usr/include/c++/12/istream:
+/usr/include/c++/12/sstream:
 
 /usr/include/c++/12/bits/basic_ios.h:
 
-/usr/include/c++/12/sstream:
-
-/home/miha/MyNewPetProject/src/Code/ResourseHandle/ResourceHolder.inl:
+/usr/include/c++/12/ostream:
 
 /home/miha/MyNewPetProject/src/Code/ResourseHandle/ResourceHolder.hpp:
 
@@ -3511,6 +3540,8 @@ CMakeFiles/MyProject.dir/src/Code/main.cpp.o: /home/miha/MyNewPetProject/src/Cod
 /usr/include/x86_64-linux-gnu/bits/time.h:
 
 /usr/include/c++/12/cassert:
+
+/usr/include/c++/12/iostream:
 
 /usr/include/x86_64-linux-gnu/bits/stdio_lim.h:
 

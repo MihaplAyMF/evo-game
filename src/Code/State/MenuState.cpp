@@ -11,8 +11,6 @@ MenuState::MenuState(StateStack& stack, Context context)
 	: State(stack, context)
     , mEvoGameSprite(context.textures->get(Textures::TitleScreen))
 {
-	/*sf::Texture& texture = context.textures->get(Textures::TitleScreen);
-	mEvoGameSprite = sf::Sprite(texture);*/
 	setScale(mEvoGameSprite, sf::IntRect({0, 0}, {960, 452}));
 
 	auto evoGameLabel = std::make_shared<GUI::Label>("", *context.fonts);

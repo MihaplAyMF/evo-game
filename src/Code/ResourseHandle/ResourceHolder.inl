@@ -33,7 +33,7 @@ void ResourceHolder<Resource, Identifier>::open(Identifier id, const std::string
 
 	std::unique_ptr<Resource> resource = std::make_unique<Resource>();
 	if(!resource->openFromFile(filename))
-	{
+	{ 
 		throw std::runtime_error("ResourceHolder::load - Failed to load " + filename);
 	}
 	insertResource(id, std::move(resource));

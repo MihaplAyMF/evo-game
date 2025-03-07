@@ -10,7 +10,7 @@ message(STATUS "Projecct name: ${PROJECT_NAME}")
 set (SRC_DIR "${CMAKE_SOURCE_DIR}/src/Code")
 
 file(GLOB_RECURSE SOURCES
-  ${SRC_DIR}/*.cpp
+    ${SRC_DIR}/*.cpp
 )
 
 add_executable(MyProject ${SOURCES})
