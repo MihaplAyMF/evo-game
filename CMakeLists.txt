@@ -17,11 +17,14 @@ add_executable(MyProject ${SOURCES})
 
 set(VCPKG_FILE_DIR ${CMAKE_SOURCE_DIR}/vcpkg/installed/x64-linux)
 set(SFML_DIR "${VCPKG_FILE_DIR}/share/sfml")
+set(nlohmann_json_DIR "${VCPKG_FILE_DIR}/share/nlohmann_json")
 
 find_package(SFML COMPONENTS Network Graphics Window Audio System CONFIG REQUIRED)
+find_package(nlohmann_json CONFIG REQUIRED)
 
 target_link_libraries(MyProject
     SFML::Network SFML::Graphics SFML::Window SFML::Audio SFML::System
+    nlohmann_json::nlohmann_json
 )
 
 target_include_directories(MyProject PRIVATE 

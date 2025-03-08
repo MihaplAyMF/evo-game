@@ -52,7 +52,14 @@ MenuState::MenuState(StateStack& stack, Context context)
 }
 
 bool MenuState::handleEvent(const sf::Event& event)
-{
+{ 
+    if (const auto* keyEvent = event.getIf<sf::Event::KeyPressed>())
+    {
+        if (keyEvent->scancode == sf::Keyboard::Scan::Escape)
+        {
+		    requestStackPop();
+        }
+    }
 	mGUIContainer.handleEvent(event);
 	return true;
 }

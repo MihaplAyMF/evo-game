@@ -551,6 +551,9 @@ X11_xkbfile_INCLUDE_PATH:PATH=X11_xkbfile_INCLUDE_PATH-NOTFOUND
 //Path to a library.
 X11_xkbfile_LIB:FILEPATH=X11_xkbfile_LIB-NOTFOUND
 
+//The directory containing a CMake configuration file for nlohmann_json.
+nlohmann_json_DIR:PATH=nlohmann_json_DIR-NOTFOUND
+
 //Path to a library.
 pkgcfg_lib_PKG_FONTCONFIG_fontconfig:FILEPATH=/usr/lib/x86_64-linux-gnu/libfontconfig.so
 
@@ -731,6 +734,8 @@ FIND_PACKAGE_MESSAGE_DETAILS_UDev:INTERNAL=[/usr/include][/usr/lib/x86_64-linux-
 FIND_PACKAGE_MESSAGE_DETAILS_Vorbis:INTERNAL=[/usr/include][/usr/lib/x86_64-linux-gnu/libogg.so][/usr/include][/usr/lib/x86_64-linux-gnu/libvorbis.so][v()]
 //Details about finding X11
 FIND_PACKAGE_MESSAGE_DETAILS_X11:INTERNAL=[/usr/include][/usr/lib/x86_64-linux-gnu/libX11.so][cfound components: Xrandr Xcursor ][v()]
+//Details about finding nlohmann_json
+FIND_PACKAGE_MESSAGE_DETAILS_nlohmann_json:INTERNAL=[/home/miha/MyNewPetProject/vcpkg/installed/x64-linux/share/nlohmann_json/nlohmann_jsonConfig.cmake][v3.11.3()]
 //ADVANCED property for variable: FLAC_INCLUDE_DIR
 FLAC_INCLUDE_DIR-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: FLAC_LIBRARY

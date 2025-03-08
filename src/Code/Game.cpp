@@ -2,18 +2,22 @@
 
 #include "State.h"
 #include "StateIdentifiers.h"
+#include "Settings.h"
+#include <iostream> 
 
 const sf::Time Game::timePerFrame = sf::seconds(1.f / 60.f);
-extern const int mapWidth;
-extern const int mapHeight;
+const int mapWidth = Settings::getInstance().getWidth();
+const int mapHeight = Settings::getInstance().getHeight();
 
 Game::Game()
-    : mWindow(sf::VideoMode(sf::Vector2u(mapWidth, mapHeight)), "MyProject", sf::Style::Close)
+    : mWindow(sf::VideoMode(sf::Vector2u(mapWidth, mapHeight)), "MyProject", sf::Style::Close | sf::Style::Resize)
     , mTextures()
     , mFonts()
     , mStateStack(State::Context(mWindow, mTextures, mFonts))
 {
     mFonts.open(Fonts::Main, "/home/miha/MyNewPetProject/build/Media/Fonts/Sansation.ttf");
+
+    std::cout << mapWidth << ", " << mapHeight << std::endl;
 
 	mTextures.load(Textures::Tileset,     "/home/miha/MyNewPetProject/build/Media/Textures/nature-paltformer.png");
 	mTextures.load(Textures::TitleScreen, "/home/miha/MyNewPetProject/build/Media/Textures/title-screen.png");
@@ -52,13 +56,7 @@ void Game::handleInput()
         {
             mWindow.close();
         }
-        else if (const auto* keyEvent = event->getIf<sf::Event::KeyPressed>())
-        {
-            {	
-                mWindow.close();
-            }
-        }
-	}   
+    }
 }
 
 void Game::update(sf::Time dt)

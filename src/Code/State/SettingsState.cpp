@@ -33,12 +33,10 @@ SettingsState::SettingsState(StateStack& stack, Context context)
 
 bool SettingsState::handleEvent(const sf::Event& event)
 {
-
-   if (event.is<sf::Event::KeyPressed>())
+    if (event.is<sf::Event::KeyReleased>())
     {
-        auto keyEvent = event.getIf<sf::Event::KeyPressed>();
-        if (keyEvent->scancode == sf::Keyboard::Scan::Escape)
-        {	
+        if (event.getIf<sf::Event::KeyReleased>()->scancode == sf::Keyboard::Scan::Escape)
+        {
             requestStackPop();
         }
     }
