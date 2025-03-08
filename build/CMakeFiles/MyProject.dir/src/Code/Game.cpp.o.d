@@ -290,4 +290,6 @@ CMakeFiles/MyProject.dir/src/Code/Game.cpp.o: \
  /home/miha/MyNewPetProject/src/Code/State/State.h \
  /home/miha/MyNewPetProject/src/Code/State/MenuState.h \
  /home/miha/MyNewPetProject/src/Code/Component/Container.h \
- /home/miha/MyNewPetProject/src/Code/Component/Component.h
+ /home/miha/MyNewPetProject/src/Code/Component/Component.h \
+ /home/miha/MyNewPetProject/src/Code/State/GameState.h \
+ /home/miha/MyNewPetProject/src/Code/State/SettingsState.h

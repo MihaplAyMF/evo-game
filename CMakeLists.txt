@@ -30,4 +30,5 @@ target_include_directories(MyProject PRIVATE
     ${SRC_DIR}/ResourseHandle
     ${SRC_DIR}/Component
     ${SRC_DIR}/Entity
+    ${SRC_DIR}/GameLogic
 )

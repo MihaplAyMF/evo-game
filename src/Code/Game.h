@@ -7,6 +7,8 @@
 #include "StateStack.h"
 
 #include "MenuState.h"
+#include "GameState.h"
+#include "SettingsState.h"
 
 class Game
 {

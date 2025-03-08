@@ -33,7 +33,7 @@ MenuState::MenuState(StateStack& stack, Context context)
 	settingsButton->setText("Settings");
 	settingsButton->setCallback([this] ()
 	{
-
+		requestStackPush(States::Settings);
 	});
 
 	auto quitButton = std::make_shared<GUI::Button>(*context.fonts, *context.textures);

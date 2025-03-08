@@ -48,11 +48,16 @@ void Game::handleInput()
 	while(const std::optional event = mWindow.pollEvent())
 	{
         mStateStack.handleEvent(*event);
-        if (event->is<sf::Event::Closed>())
+        if (event->is<sf::Event::Closed>() || mStateStack.isEmpty())
         {
             mWindow.close();
         }
-        
+        else if (const auto* keyEvent = event->getIf<sf::Event::KeyPressed>())
+        {
+            {	
+                mWindow.close();
+            }
+        }
 	}   
 }
 
@@ -71,4 +76,6 @@ void Game::render()
 void Game::registerStates()
 {
     mStateStack.registerState<MenuState>(States::Menu);
+    mStateStack.registerState<GameState>(States::Game);
+    mStateStack.registerState<SettingsState>(States::Settings);
 }

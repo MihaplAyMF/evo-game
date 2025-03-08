@@ -273,6 +273,30 @@ src/Code/Game.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyProject.dir/build.make CMakeFiles/MyProject.dir/src/Code/Game.cpp.s
 .PHONY : src/Code/Game.cpp.s
 
+src/Code/GameLogic/Settings.o: src/Code/GameLogic/Settings.cpp.o
+.PHONY : src/Code/GameLogic/Settings.o
+
+# target to build an object file
+src/Code/GameLogic/Settings.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyProject.dir/build.make CMakeFiles/MyProject.dir/src/Code/GameLogic/Settings.cpp.o
+.PHONY : src/Code/GameLogic/Settings.cpp.o
+
+src/Code/GameLogic/Settings.i: src/Code/GameLogic/Settings.cpp.i
+.PHONY : src/Code/GameLogic/Settings.i
+
+# target to preprocess a source file
+src/Code/GameLogic/Settings.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyProject.dir/build.make CMakeFiles/MyProject.dir/src/Code/GameLogic/Settings.cpp.i
+.PHONY : src/Code/GameLogic/Settings.cpp.i
+
+src/Code/GameLogic/Settings.s: src/Code/GameLogic/Settings.cpp.s
+.PHONY : src/Code/GameLogic/Settings.s
+
+# target to generate assembly for a file
+src/Code/GameLogic/Settings.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyProject.dir/build.make CMakeFiles/MyProject.dir/src/Code/GameLogic/Settings.cpp.s
+.PHONY : src/Code/GameLogic/Settings.cpp.s
+
 src/Code/ResourseHandle/Utility.o: src/Code/ResourseHandle/Utility.cpp.o
 .PHONY : src/Code/ResourseHandle/Utility.o
 
@@ -344,6 +368,30 @@ src/Code/State/MenuState.s: src/Code/State/MenuState.cpp.s
 src/Code/State/MenuState.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyProject.dir/build.make CMakeFiles/MyProject.dir/src/Code/State/MenuState.cpp.s
 .PHONY : src/Code/State/MenuState.cpp.s
+
+src/Code/State/SettingsState.o: src/Code/State/SettingsState.cpp.o
+.PHONY : src/Code/State/SettingsState.o
+
+# target to build an object file
+src/Code/State/SettingsState.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyProject.dir/build.make CMakeFiles/MyProject.dir/src/Code/State/SettingsState.cpp.o
+.PHONY : src/Code/State/SettingsState.cpp.o
+
+src/Code/State/SettingsState.i: src/Code/State/SettingsState.cpp.i
+.PHONY : src/Code/State/SettingsState.i
+
+# target to preprocess a source file
+src/Code/State/SettingsState.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyProject.dir/build.make CMakeFiles/MyProject.dir/src/Code/State/SettingsState.cpp.i
+.PHONY : src/Code/State/SettingsState.cpp.i
+
+src/Code/State/SettingsState.s: src/Code/State/SettingsState.cpp.s
+.PHONY : src/Code/State/SettingsState.s
+
+# target to generate assembly for a file
+src/Code/State/SettingsState.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyProject.dir/build.make CMakeFiles/MyProject.dir/src/Code/State/SettingsState.cpp.s
+.PHONY : src/Code/State/SettingsState.cpp.s
 
 src/Code/State/State.o: src/Code/State/State.cpp.o
 .PHONY : src/Code/State/State.o
@@ -444,6 +492,9 @@ help:
 	@echo "... src/Code/Game.o"
 	@echo "... src/Code/Game.i"
 	@echo "... src/Code/Game.s"
+	@echo "... src/Code/GameLogic/Settings.o"
+	@echo "... src/Code/GameLogic/Settings.i"
+	@echo "... src/Code/GameLogic/Settings.s"
 	@echo "... src/Code/ResourseHandle/Utility.o"
 	@echo "... src/Code/ResourseHandle/Utility.i"
 	@echo "... src/Code/ResourseHandle/Utility.s"
@@ -453,6 +504,9 @@ help:
 	@echo "... src/Code/State/MenuState.o"
 	@echo "... src/Code/State/MenuState.i"
 	@echo "... src/Code/State/MenuState.s"
+	@echo "... src/Code/State/SettingsState.o"
+	@echo "... src/Code/State/SettingsState.i"
+	@echo "... src/Code/State/SettingsState.s"
 	@echo "... src/Code/State/State.o"
 	@echo "... src/Code/State/State.i"
 	@echo "... src/Code/State/State.s"
