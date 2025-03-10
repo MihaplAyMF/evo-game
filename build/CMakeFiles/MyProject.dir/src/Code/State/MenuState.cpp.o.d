@@ -227,6 +227,11 @@ CMakeFiles/MyProject.dir/src/Code/State/MenuState.cpp.o: \
  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/SFML/Window/Event.inl \
  /usr/include/c++/12/utility /usr/include/c++/12/bits/stl_relops.h \
  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/SFML/System/Clock.hpp \
+ /usr/include/c++/12/iostream /usr/include/c++/12/ostream \
+ /usr/include/c++/12/ios /usr/include/c++/12/bits/basic_ios.h \
+ /usr/include/c++/12/bits/basic_ios.tcc \
+ /usr/include/c++/12/bits/ostream.tcc /usr/include/c++/12/istream \
+ /usr/include/c++/12/bits/istream.tcc \
  /home/miha/MyNewPetProject/src/Code/State/MenuState.h \
  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/SFML/Graphics/Sprite.hpp \
  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/SFML/Graphics/Drawable.hpp \
@@ -314,11 +319,6 @@ CMakeFiles/MyProject.dir/src/Code/State/MenuState.cpp.o: \
  /usr/include/c++/12/filesystem /usr/include/c++/12/bits/fs_fwd.h \
  /usr/include/c++/12/bits/fs_path.h /usr/include/c++/12/iomanip \
  /usr/include/c++/12/bits/quoted_string.h /usr/include/c++/12/sstream \
- /usr/include/c++/12/istream /usr/include/c++/12/ios \
- /usr/include/c++/12/bits/basic_ios.h \
- /usr/include/c++/12/bits/basic_ios.tcc /usr/include/c++/12/ostream \
- /usr/include/c++/12/bits/ostream.tcc \
- /usr/include/c++/12/bits/istream.tcc \
  /usr/include/c++/12/bits/sstream.tcc /usr/include/c++/12/codecvt \
  /usr/include/c++/12/bits/fs_dir.h /usr/include/c++/12/bits/fs_ops.h \
  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/conversions/to_json.hpp \

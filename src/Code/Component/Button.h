@@ -13,7 +13,7 @@
 #include "Component.h"
 #include "ResourceIdentifiers.h"
 #include "ResourceHolder.hpp"
-
+#include "Settings.h"
 namespace GUI
 {
 	class Button : public Component
@@ -35,15 +35,17 @@ namespace GUI
 		void setText(sf::String text);
 		void setToggle(bool flag);
 
-		virtual bool isSelectable() const;
-		virtual void select();
-		virtual void deselect();
-		
-		virtual void activate();
-		virtual void deactivate();
+        sf::Text&     getText();
 
-		virtual void handleEvent(const sf::Event& event);
-		virtual void update(sf::Time dt);
+		virtual bool  isSelectable() const;
+		virtual void  select();
+		virtual void  deselect();
+		
+		virtual void  activate();
+		virtual void  deactivate();
+
+		virtual void  handleEvent(const sf::Event& event);
+		virtual void  update(sf::Time dt);
 
 
 	private:

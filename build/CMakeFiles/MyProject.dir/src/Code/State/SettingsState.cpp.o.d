@@ -356,6 +356,6 @@ CMakeFiles/MyProject.dir/src/Code/State/SettingsState.cpp.o: \
  /usr/include/x86_64-linux-gnu/c++/12/bits/c++io.h \
  /usr/include/c++/12/bits/fstream.tcc /usr/include/c++/12/list \
  /usr/include/c++/12/bits/stl_list.h /usr/include/c++/12/bits/list.tcc \
+ /home/miha/MyNewPetProject/src/Code/Component/Label.h \
  /home/miha/MyNewPetProject/src/Code/ResourseHandle/Utility.hpp \
- /home/miha/MyNewPetProject/src/Code/ResourseHandle/Utility.inl \
- /home/miha/MyNewPetProject/src/Code/Component/Label.h
+ /home/miha/MyNewPetProject/src/Code/ResourseHandle/Utility.inl

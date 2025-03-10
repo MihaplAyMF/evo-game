@@ -286,7 +286,78 @@ CMakeFiles/MyProject.dir/src/Code/Component/Button.cpp.o: /home/miha/MyNewPetPro
   /home/miha/MyNewPetProject/src/Code/ResourseHandle/ResourceIdentifiers.h \
   /home/miha/MyNewPetProject/src/Code/ResourseHandle/ResourceHolder.hpp \
   /home/miha/MyNewPetProject/src/Code/ResourseHandle/ResourceHolder.inl \
-  /home/miha/MyNewPetProject/src/Code/ResourseHandle/Utility.hpp \
+  /home/miha/MyNewPetProject/src/Code/GameLogic/Settings.h \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/json.hpp \
+  /usr/include/c++/12/algorithm \
+  /usr/include/c++/12/pstl/glue_algorithm_defs.h \
+  /usr/include/c++/12/utility \
+  /usr/include/c++/12/bits/stl_relops.h \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/adl_serializer.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/abi_macros.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/conversions/from_json.hpp \
+  /usr/include/c++/12/forward_list \
+  /usr/include/c++/12/bits/forward_list.h \
+  /usr/include/c++/12/bits/forward_list.tcc \
+  /usr/include/c++/12/valarray \
+  /usr/include/c++/12/cmath \
+  /usr/include/math.h \
+  /usr/include/x86_64-linux-gnu/bits/math-vector.h \
+  /usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h \
+  /usr/include/x86_64-linux-gnu/bits/flt-eval-method.h \
+  /usr/include/x86_64-linux-gnu/bits/fp-logb.h \
+  /usr/include/x86_64-linux-gnu/bits/fp-fast.h \
+  /usr/include/x86_64-linux-gnu/bits/mathcalls-helper-functions.h \
+  /usr/include/x86_64-linux-gnu/bits/mathcalls.h \
+  /usr/include/x86_64-linux-gnu/bits/mathcalls-narrow.h \
+  /usr/include/x86_64-linux-gnu/bits/iscanonical.h \
+  /usr/include/c++/12/bits/specfun.h \
+  /usr/include/c++/12/tr1/gamma.tcc \
+  /usr/include/c++/12/tr1/special_function_util.h \
+  /usr/include/c++/12/tr1/bessel_function.tcc \
+  /usr/include/c++/12/tr1/beta_function.tcc \
+  /usr/include/c++/12/tr1/ell_integral.tcc \
+  /usr/include/c++/12/tr1/exp_integral.tcc \
+  /usr/include/c++/12/tr1/hypergeometric.tcc \
+  /usr/include/c++/12/tr1/legendre_function.tcc \
+  /usr/include/c++/12/tr1/modified_bessel_func.tcc \
+  /usr/include/c++/12/tr1/poly_hermite.tcc \
+  /usr/include/c++/12/tr1/poly_laguerre.tcc \
+  /usr/include/c++/12/tr1/riemann_zeta.tcc \
+  /usr/include/c++/12/bits/valarray_array.h \
+  /usr/include/c++/12/bits/valarray_array.tcc \
+  /usr/include/c++/12/bits/valarray_before.h \
+  /usr/include/c++/12/bits/slice_array.h \
+  /usr/include/c++/12/bits/valarray_after.h \
+  /usr/include/c++/12/bits/gslice.h \
+  /usr/include/c++/12/bits/gslice_array.h \
+  /usr/include/c++/12/bits/mask_array.h \
+  /usr/include/c++/12/bits/indirect_array.h \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/exceptions.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/value_t.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/macro_scope.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/meta/detected.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/meta/void_t.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/thirdparty/hedley/hedley.hpp \
+  /usr/include/c++/12/version \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/string_escape.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/input/position_t.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/meta/cpp_future.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/meta/type_traits.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/iterators/iterator_traits.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/meta/call_std/begin.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/meta/call_std/end.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/json_fwd.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/string_concat.hpp \
+  /usr/include/c++/12/cstring \
+  /usr/include/string.h \
+  /usr/include/strings.h \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/meta/identity_tag.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/meta/std_fs.hpp \
+  /usr/include/c++/12/filesystem \
+  /usr/include/c++/12/bits/fs_fwd.h \
+  /usr/include/c++/12/bits/fs_path.h \
+  /usr/include/c++/12/iomanip \
+  /usr/include/c++/12/bits/quoted_string.h \
   /usr/include/c++/12/sstream \
   /usr/include/c++/12/istream \
   /usr/include/c++/12/ios \
@@ -296,6 +367,45 @@ CMakeFiles/MyProject.dir/src/Code/Component/Button.cpp.o: /home/miha/MyNewPetPro
   /usr/include/c++/12/bits/ostream.tcc \
   /usr/include/c++/12/bits/istream.tcc \
   /usr/include/c++/12/bits/sstream.tcc \
+  /usr/include/c++/12/codecvt \
+  /usr/include/c++/12/bits/fs_dir.h \
+  /usr/include/c++/12/bits/fs_ops.h \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/conversions/to_json.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/iterators/iteration_proxy.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/byte_container_with_subtype.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/hash.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/input/binary_reader.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/input/input_adapters.hpp \
+  /usr/include/c++/12/numeric \
+  /usr/include/c++/12/bits/stl_numeric.h \
+  /usr/include/c++/12/pstl/glue_numeric_defs.h \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/input/json_sax.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/input/lexer.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/meta/is_sax.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/input/parser.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/iterators/internal_iterator.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/iterators/primitive_iterator.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/iterators/iter_impl.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/iterators/json_reverse_iterator.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/json_custom_base_class.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/json_pointer.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/json_ref.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/output/binary_writer.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/output/output_adapters.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/output/serializer.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/conversions/to_chars.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/ordered_map.hpp \
+  /usr/include/c++/12/any \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/macro_unscope.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/thirdparty/hedley/hedley_undef.hpp \
+  /usr/include/c++/12/fstream \
+  /usr/include/x86_64-linux-gnu/c++/12/bits/basic_file.h \
+  /usr/include/x86_64-linux-gnu/c++/12/bits/c++io.h \
+  /usr/include/c++/12/bits/fstream.tcc \
+  /usr/include/c++/12/list \
+  /usr/include/c++/12/bits/stl_list.h \
+  /usr/include/c++/12/bits/list.tcc \
+  /home/miha/MyNewPetProject/src/Code/ResourseHandle/Utility.hpp \
   /home/miha/MyNewPetProject/src/Code/ResourseHandle/Utility.inl
 
 CMakeFiles/MyProject.dir/src/Code/Component/Component.cpp.o: /home/miha/MyNewPetProject/src/Code/Component/Component.cpp \
@@ -1552,7 +1662,7 @@ CMakeFiles/MyProject.dir/src/Code/Game.cpp.o: /home/miha/MyNewPetProject/src/Cod
   /usr/include/c++/12/list \
   /usr/include/c++/12/bits/stl_list.h \
   /usr/include/c++/12/bits/list.tcc \
-  /usr/include/c++/12/iostream
+  /home/miha/MyNewPetProject/src/Code/Component/Label.h
 
 CMakeFiles/MyProject.dir/src/Code/GameLogic/Settings.cpp.o: /home/miha/MyNewPetProject/src/Code/GameLogic/Settings.cpp \
   /usr/include/stdc-predef.h \
@@ -1916,8 +2026,7 @@ CMakeFiles/MyProject.dir/src/Code/GameLogic/Settings.cpp.o: /home/miha/MyNewPetP
   /usr/include/c++/12/bits/stl_list.h \
   /usr/include/c++/12/bits/list.tcc \
   /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/SFML/Window/VideoMode.hpp \
-  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/SFML/Window/Export.hpp \
-  /usr/include/c++/12/iostream
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/SFML/Window/Export.hpp
 
 CMakeFiles/MyProject.dir/src/Code/ResourseHandle/Utility.cpp.o: /home/miha/MyNewPetProject/src/Code/ResourseHandle/Utility.cpp \
   /usr/include/stdc-predef.h \
@@ -2508,6 +2617,114 @@ CMakeFiles/MyProject.dir/src/Code/State/GameState.cpp.o: /home/miha/MyNewPetProj
   /home/miha/MyNewPetProject/src/Code/ResourseHandle/ResourceHolder.hpp \
   /home/miha/MyNewPetProject/src/Code/ResourseHandle/ResourceHolder.inl \
   /home/miha/MyNewPetProject/src/Code/Component/Button.h \
+  /home/miha/MyNewPetProject/src/Code/GameLogic/Settings.h \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/json.hpp \
+  /usr/include/c++/12/algorithm \
+  /usr/include/c++/12/pstl/glue_algorithm_defs.h \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/adl_serializer.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/abi_macros.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/conversions/from_json.hpp \
+  /usr/include/c++/12/forward_list \
+  /usr/include/c++/12/bits/forward_list.h \
+  /usr/include/c++/12/bits/forward_list.tcc \
+  /usr/include/c++/12/valarray \
+  /usr/include/c++/12/cmath \
+  /usr/include/math.h \
+  /usr/include/x86_64-linux-gnu/bits/math-vector.h \
+  /usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h \
+  /usr/include/x86_64-linux-gnu/bits/flt-eval-method.h \
+  /usr/include/x86_64-linux-gnu/bits/fp-logb.h \
+  /usr/include/x86_64-linux-gnu/bits/fp-fast.h \
+  /usr/include/x86_64-linux-gnu/bits/mathcalls-helper-functions.h \
+  /usr/include/x86_64-linux-gnu/bits/mathcalls.h \
+  /usr/include/x86_64-linux-gnu/bits/mathcalls-narrow.h \
+  /usr/include/x86_64-linux-gnu/bits/iscanonical.h \
+  /usr/include/c++/12/bits/specfun.h \
+  /usr/include/c++/12/tr1/gamma.tcc \
+  /usr/include/c++/12/tr1/special_function_util.h \
+  /usr/include/c++/12/tr1/bessel_function.tcc \
+  /usr/include/c++/12/tr1/beta_function.tcc \
+  /usr/include/c++/12/tr1/ell_integral.tcc \
+  /usr/include/c++/12/tr1/exp_integral.tcc \
+  /usr/include/c++/12/tr1/hypergeometric.tcc \
+  /usr/include/c++/12/tr1/legendre_function.tcc \
+  /usr/include/c++/12/tr1/modified_bessel_func.tcc \
+  /usr/include/c++/12/tr1/poly_hermite.tcc \
+  /usr/include/c++/12/tr1/poly_laguerre.tcc \
+  /usr/include/c++/12/tr1/riemann_zeta.tcc \
+  /usr/include/c++/12/bits/valarray_array.h \
+  /usr/include/c++/12/bits/valarray_array.tcc \
+  /usr/include/c++/12/bits/valarray_before.h \
+  /usr/include/c++/12/bits/slice_array.h \
+  /usr/include/c++/12/bits/valarray_after.h \
+  /usr/include/c++/12/bits/gslice.h \
+  /usr/include/c++/12/bits/gslice_array.h \
+  /usr/include/c++/12/bits/mask_array.h \
+  /usr/include/c++/12/bits/indirect_array.h \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/exceptions.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/value_t.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/macro_scope.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/meta/detected.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/meta/void_t.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/thirdparty/hedley/hedley.hpp \
+  /usr/include/c++/12/version \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/string_escape.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/input/position_t.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/meta/cpp_future.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/meta/type_traits.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/iterators/iterator_traits.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/meta/call_std/begin.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/meta/call_std/end.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/json_fwd.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/string_concat.hpp \
+  /usr/include/c++/12/cstring \
+  /usr/include/string.h \
+  /usr/include/strings.h \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/meta/identity_tag.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/meta/std_fs.hpp \
+  /usr/include/c++/12/filesystem \
+  /usr/include/c++/12/bits/fs_fwd.h \
+  /usr/include/c++/12/bits/fs_path.h \
+  /usr/include/c++/12/iomanip \
+  /usr/include/c++/12/bits/quoted_string.h \
+  /usr/include/c++/12/codecvt \
+  /usr/include/c++/12/bits/fs_dir.h \
+  /usr/include/c++/12/bits/fs_ops.h \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/conversions/to_json.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/iterators/iteration_proxy.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/byte_container_with_subtype.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/hash.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/input/binary_reader.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/input/input_adapters.hpp \
+  /usr/include/c++/12/numeric \
+  /usr/include/c++/12/bits/stl_numeric.h \
+  /usr/include/c++/12/pstl/glue_numeric_defs.h \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/input/json_sax.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/input/lexer.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/meta/is_sax.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/input/parser.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/iterators/internal_iterator.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/iterators/primitive_iterator.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/iterators/iter_impl.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/iterators/json_reverse_iterator.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/json_custom_base_class.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/json_pointer.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/json_ref.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/output/binary_writer.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/output/output_adapters.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/output/serializer.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/conversions/to_chars.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/ordered_map.hpp \
+  /usr/include/c++/12/any \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/macro_unscope.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/thirdparty/hedley/hedley_undef.hpp \
+  /usr/include/c++/12/fstream \
+  /usr/include/x86_64-linux-gnu/c++/12/bits/basic_file.h \
+  /usr/include/x86_64-linux-gnu/c++/12/bits/c++io.h \
+  /usr/include/c++/12/bits/fstream.tcc \
+  /usr/include/c++/12/list \
+  /usr/include/c++/12/bits/stl_list.h \
+  /usr/include/c++/12/bits/list.tcc \
   /home/miha/MyNewPetProject/src/Code/Component/Label.h
 
 CMakeFiles/MyProject.dir/src/Code/State/MenuState.cpp.o: /home/miha/MyNewPetProject/src/Code/State/MenuState.cpp \
@@ -2782,6 +2999,14 @@ CMakeFiles/MyProject.dir/src/Code/State/MenuState.cpp.o: /home/miha/MyNewPetProj
   /usr/include/c++/12/utility \
   /usr/include/c++/12/bits/stl_relops.h \
   /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/SFML/System/Clock.hpp \
+  /usr/include/c++/12/iostream \
+  /usr/include/c++/12/ostream \
+  /usr/include/c++/12/ios \
+  /usr/include/c++/12/bits/basic_ios.h \
+  /usr/include/c++/12/bits/basic_ios.tcc \
+  /usr/include/c++/12/bits/ostream.tcc \
+  /usr/include/c++/12/istream \
+  /usr/include/c++/12/bits/istream.tcc \
   /home/miha/MyNewPetProject/src/Code/State/MenuState.h \
   /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/SFML/Graphics/Sprite.hpp \
   /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/SFML/Graphics/Drawable.hpp \
@@ -2881,13 +3106,6 @@ CMakeFiles/MyProject.dir/src/Code/State/MenuState.cpp.o: /home/miha/MyNewPetProj
   /usr/include/c++/12/iomanip \
   /usr/include/c++/12/bits/quoted_string.h \
   /usr/include/c++/12/sstream \
-  /usr/include/c++/12/istream \
-  /usr/include/c++/12/ios \
-  /usr/include/c++/12/bits/basic_ios.h \
-  /usr/include/c++/12/bits/basic_ios.tcc \
-  /usr/include/c++/12/ostream \
-  /usr/include/c++/12/bits/ostream.tcc \
-  /usr/include/c++/12/bits/istream.tcc \
   /usr/include/c++/12/bits/sstream.tcc \
   /usr/include/c++/12/codecvt \
   /usr/include/c++/12/bits/fs_dir.h \
@@ -3354,9 +3572,9 @@ CMakeFiles/MyProject.dir/src/Code/State/SettingsState.cpp.o: /home/miha/MyNewPet
   /usr/include/c++/12/list \
   /usr/include/c++/12/bits/stl_list.h \
   /usr/include/c++/12/bits/list.tcc \
+  /home/miha/MyNewPetProject/src/Code/Component/Label.h \
   /home/miha/MyNewPetProject/src/Code/ResourseHandle/Utility.hpp \
-  /home/miha/MyNewPetProject/src/Code/ResourseHandle/Utility.inl \
-  /home/miha/MyNewPetProject/src/Code/Component/Label.h
+  /home/miha/MyNewPetProject/src/Code/ResourseHandle/Utility.inl
 
 CMakeFiles/MyProject.dir/src/Code/State/State.cpp.o: /home/miha/MyNewPetProject/src/Code/State/State.cpp \
   /usr/include/stdc-predef.h \
@@ -4238,7 +4456,108 @@ CMakeFiles/MyProject.dir/src/Code/main.cpp.o: /home/miha/MyNewPetProject/src/Cod
   /home/miha/MyNewPetProject/src/Code/Component/Component.h \
   /home/miha/MyNewPetProject/src/Code/State/GameState.h \
   /home/miha/MyNewPetProject/src/Code/State/SettingsState.h \
-  /home/miha/MyNewPetProject/src/Code/Component/Button.h
+  /home/miha/MyNewPetProject/src/Code/Component/Button.h \
+  /home/miha/MyNewPetProject/src/Code/GameLogic/Settings.h \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/json.hpp \
+  /usr/include/c++/12/algorithm \
+  /usr/include/c++/12/pstl/glue_algorithm_defs.h \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/adl_serializer.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/abi_macros.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/conversions/from_json.hpp \
+  /usr/include/c++/12/forward_list \
+  /usr/include/c++/12/bits/forward_list.h \
+  /usr/include/c++/12/bits/forward_list.tcc \
+  /usr/include/c++/12/valarray \
+  /usr/include/c++/12/cmath \
+  /usr/include/math.h \
+  /usr/include/x86_64-linux-gnu/bits/math-vector.h \
+  /usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h \
+  /usr/include/x86_64-linux-gnu/bits/flt-eval-method.h \
+  /usr/include/x86_64-linux-gnu/bits/fp-logb.h \
+  /usr/include/x86_64-linux-gnu/bits/fp-fast.h \
+  /usr/include/x86_64-linux-gnu/bits/mathcalls-helper-functions.h \
+  /usr/include/x86_64-linux-gnu/bits/mathcalls.h \
+  /usr/include/x86_64-linux-gnu/bits/mathcalls-narrow.h \
+  /usr/include/x86_64-linux-gnu/bits/iscanonical.h \
+  /usr/include/c++/12/bits/specfun.h \
+  /usr/include/c++/12/tr1/gamma.tcc \
+  /usr/include/c++/12/tr1/special_function_util.h \
+  /usr/include/c++/12/tr1/bessel_function.tcc \
+  /usr/include/c++/12/tr1/beta_function.tcc \
+  /usr/include/c++/12/tr1/ell_integral.tcc \
+  /usr/include/c++/12/tr1/exp_integral.tcc \
+  /usr/include/c++/12/tr1/hypergeometric.tcc \
+  /usr/include/c++/12/tr1/legendre_function.tcc \
+  /usr/include/c++/12/tr1/modified_bessel_func.tcc \
+  /usr/include/c++/12/tr1/poly_hermite.tcc \
+  /usr/include/c++/12/tr1/poly_laguerre.tcc \
+  /usr/include/c++/12/tr1/riemann_zeta.tcc \
+  /usr/include/c++/12/bits/valarray_array.h \
+  /usr/include/c++/12/bits/valarray_array.tcc \
+  /usr/include/c++/12/bits/valarray_before.h \
+  /usr/include/c++/12/bits/slice_array.h \
+  /usr/include/c++/12/bits/valarray_after.h \
+  /usr/include/c++/12/bits/gslice.h \
+  /usr/include/c++/12/bits/gslice_array.h \
+  /usr/include/c++/12/bits/mask_array.h \
+  /usr/include/c++/12/bits/indirect_array.h \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/exceptions.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/value_t.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/macro_scope.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/meta/detected.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/meta/void_t.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/thirdparty/hedley/hedley.hpp \
+  /usr/include/c++/12/version \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/string_escape.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/input/position_t.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/meta/cpp_future.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/meta/type_traits.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/iterators/iterator_traits.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/meta/call_std/begin.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/meta/call_std/end.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/json_fwd.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/string_concat.hpp \
+  /usr/include/c++/12/cstring \
+  /usr/include/string.h \
+  /usr/include/strings.h \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/meta/identity_tag.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/meta/std_fs.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/conversions/to_json.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/iterators/iteration_proxy.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/byte_container_with_subtype.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/hash.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/input/binary_reader.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/input/input_adapters.hpp \
+  /usr/include/c++/12/numeric \
+  /usr/include/c++/12/bits/stl_numeric.h \
+  /usr/include/c++/12/pstl/glue_numeric_defs.h \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/input/json_sax.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/input/lexer.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/meta/is_sax.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/input/parser.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/iterators/internal_iterator.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/iterators/primitive_iterator.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/iterators/iter_impl.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/iterators/json_reverse_iterator.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/json_custom_base_class.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/json_pointer.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/json_ref.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/output/binary_writer.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/output/output_adapters.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/output/serializer.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/conversions/to_chars.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/ordered_map.hpp \
+  /usr/include/c++/12/any \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/macro_unscope.hpp \
+  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/thirdparty/hedley/hedley_undef.hpp \
+  /usr/include/c++/12/fstream \
+  /usr/include/x86_64-linux-gnu/c++/12/bits/basic_file.h \
+  /usr/include/x86_64-linux-gnu/c++/12/bits/c++io.h \
+  /usr/include/c++/12/bits/fstream.tcc \
+  /usr/include/c++/12/list \
+  /usr/include/c++/12/bits/stl_list.h \
+  /usr/include/c++/12/bits/list.tcc \
+  /home/miha/MyNewPetProject/src/Code/Component/Label.h
 
 
 /home/miha/MyNewPetProject/src/Code/main.cpp:
@@ -4253,11 +4572,71 @@ CMakeFiles/MyProject.dir/src/Code/main.cpp.o: /home/miha/MyNewPetProject/src/Cod
 
 /home/miha/MyNewPetProject/src/Code/GameLogic/Settings.cpp:
 
+/home/miha/MyNewPetProject/src/Code/State/GameState.h:
+
+/home/miha/MyNewPetProject/src/Code/State/MenuState.h:
+
+/home/miha/MyNewPetProject/src/Code/State/StateIdentifiers.h:
+
+/home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/SFML/System/MemoryInputStream.hpp:
+
+/home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/SFML/System/FileInputStream.hpp:
+
+/home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/SFML/System/Exception.hpp:
+
+/home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/SFML/System/Err.hpp:
+
+/home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/SFML/Window/Clipboard.hpp:
+
+/home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/SFML/Graphics/Glsl.inl:
+
+/home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/SFML/Graphics/Shader.hpp:
+
+/home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/SFML/Window/WindowBase.inl:
+
+/home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/SFML/Window/Window.hpp:
+
+/home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/SFML/Window/VideoMode.hpp:
+
+/home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/SFML/Graphics/RenderWindow.hpp:
+
+/home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/SFML/Window/ContextSettings.hpp:
+
+/home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/SFML/Graphics/RenderTexture.hpp:
+
+/home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/SFML/Graphics/Image.hpp:
+
+/home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/SFML/Window/GlResource.hpp:
+
+/home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/SFML/Graphics/Shape.hpp:
+
+/home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/SFML/Graphics/CircleShape.hpp:
+
+/home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/SFML/Graphics.hpp:
+
+/home/miha/MyNewPetProject/src/Code/Game.h:
+
+/home/miha/MyNewPetProject/src/Code/Game.cpp:
+
+/home/miha/MyNewPetProject/src/Code/Entity/DataTables.cpp:
+
+/home/miha/MyNewPetProject/src/Code/Component/Label.h:
+
+/home/miha/MyNewPetProject/src/Code/Component/Container.h:
+
 /usr/include/c++/12/bits/list.tcc:
+
+/home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/SFML/System/Sleep.hpp:
+
+/usr/include/c++/12/bits/stl_list.h:
 
 /usr/include/x86_64-linux-gnu/c++/12/bits/opt_random.h:
 
 /usr/include/c++/12/bits/fstream.tcc:
+
+/home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/SFML/Graphics/RectangleShape.hpp:
+
+/usr/include/x86_64-linux-gnu/c++/12/bits/c++io.h:
 
 /usr/include/c++/12/fstream:
 
@@ -4291,6 +4670,28 @@ CMakeFiles/MyProject.dir/src/Code/main.cpp.o: /home/miha/MyNewPetProject/src/Cod
 
 /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/conversions/to_json.hpp:
 
+/home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/macro_unscope.hpp:
+
+/usr/include/c++/12/bits/fs_dir.h:
+
+/usr/include/c++/12/bits/ostream.tcc:
+
+/usr/include/c++/12/ostream:
+
+/usr/include/c++/12/istream:
+
+/usr/include/c++/12/bits/basic_ios.h:
+
+/usr/include/c++/12/sstream:
+
+/home/miha/MyNewPetProject/src/Code/State/SettingsState.cpp:
+
+/usr/include/c++/12/bits/quoted_string.h:
+
+/home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/SFML/Graphics/Glyph.hpp:
+
+/home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/meta/std_fs.hpp:
+
 /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/string_concat.hpp:
 
 /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/meta/call_std/begin.hpp:
@@ -4319,6 +4720,10 @@ CMakeFiles/MyProject.dir/src/Code/main.cpp.o: /home/miha/MyNewPetProject/src/Cod
 
 /usr/include/c++/12/bits/valarray_array.tcc:
 
+/usr/include/c++/12/bits/basic_ios.tcc:
+
+/usr/include/c++/12/tr1/riemann_zeta.tcc:
+
 /usr/include/c++/12/tr1/poly_laguerre.tcc:
 
 /usr/include/c++/12/tr1/poly_hermite.tcc:
@@ -4341,6 +4746,14 @@ CMakeFiles/MyProject.dir/src/Code/main.cpp.o: /home/miha/MyNewPetProject/src/Cod
 
 /usr/include/x86_64-linux-gnu/bits/mathcalls-helper-functions.h:
 
+/home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/SFML/Window.hpp:
+
+/usr/include/x86_64-linux-gnu/bits/fp-logb.h:
+
+/usr/include/c++/12/bits/fs_fwd.h:
+
+/usr/include/x86_64-linux-gnu/bits/flt-eval-method.h:
+
 /usr/include/x86_64-linux-gnu/bits/math-vector.h:
 
 /usr/include/c++/12/valarray:
@@ -4353,109 +4766,15 @@ CMakeFiles/MyProject.dir/src/Code/main.cpp.o: /home/miha/MyNewPetProject/src/Cod
 
 /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/adl_serializer.hpp:
 
+/usr/include/c++/12/bits/stl_relops.h:
+
+/usr/include/c++/12/utility:
+
 /usr/include/c++/12/bits/random.tcc:
 
 /usr/include/c++/12/algorithm:
 
 /home/miha/MyNewPetProject/src/Code/GameLogic/Settings.h:
-
-/home/miha/MyNewPetProject/src/Code/State/GameState.h:
-
-/home/miha/MyNewPetProject/src/Code/State/MenuState.h:
-
-/home/miha/MyNewPetProject/src/Code/State/StateIdentifiers.h:
-
-/usr/include/c++/12/bits/stl_list.h:
-
-/home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/SFML/System/Sleep.hpp:
-
-/home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/SFML/System/MemoryInputStream.hpp:
-
-/home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/SFML/System/FileInputStream.hpp:
-
-/home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/SFML/System/Exception.hpp:
-
-/home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/SFML/System/Err.hpp:
-
-/home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/SFML/Window/Clipboard.hpp:
-
-/usr/include/x86_64-linux-gnu/bits/fp-logb.h:
-
-/home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/SFML/Window.hpp:
-
-/home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/SFML/Graphics/Glsl.inl:
-
-/home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/SFML/Graphics/Shader.hpp:
-
-/usr/include/c++/12/bits/stl_relops.h:
-
-/usr/include/c++/12/utility:
-
-/home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/SFML/Window/WindowBase.inl:
-
-/home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/SFML/Window/Window.hpp:
-
-/home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/SFML/Window/VideoMode.hpp:
-
-/home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/SFML/Graphics/RenderWindow.hpp:
-
-/home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/SFML/Window/ContextSettings.hpp:
-
-/home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/SFML/Graphics/RenderTexture.hpp:
-
-/usr/include/x86_64-linux-gnu/c++/12/bits/c++io.h:
-
-/home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/SFML/Graphics/RectangleShape.hpp:
-
-/home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/SFML/Graphics/Image.hpp:
-
-/home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/macro_unscope.hpp:
-
-/usr/include/c++/12/bits/fs_dir.h:
-
-/home/miha/MyNewPetProject/src/Code/State/SettingsState.cpp:
-
-/usr/include/c++/12/bits/quoted_string.h:
-
-/usr/include/x86_64-linux-gnu/bits/flt-eval-method.h:
-
-/usr/include/c++/12/bits/fs_fwd.h:
-
-/home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/SFML/Window/GlResource.hpp:
-
-/home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/detail/meta/std_fs.hpp:
-
-/home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/SFML/Graphics/Glyph.hpp:
-
-/home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/SFML/Graphics/Shape.hpp:
-
-/home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/SFML/Graphics/CircleShape.hpp:
-
-/home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/SFML/Graphics.hpp:
-
-/home/miha/MyNewPetProject/src/Code/Game.h:
-
-/home/miha/MyNewPetProject/src/Code/Game.cpp:
-
-/home/miha/MyNewPetProject/src/Code/Entity/DataTables.cpp:
-
-/home/miha/MyNewPetProject/src/Code/Component/Label.h:
-
-/home/miha/MyNewPetProject/src/Code/Component/Container.h:
-
-/usr/include/c++/12/bits/ostream.tcc:
-
-/usr/include/c++/12/ostream:
-
-/usr/include/c++/12/tr1/riemann_zeta.tcc:
-
-/usr/include/c++/12/bits/basic_ios.tcc:
-
-/usr/include/c++/12/istream:
-
-/usr/include/c++/12/bits/basic_ios.h:
-
-/usr/include/c++/12/sstream:
 
 /home/miha/MyNewPetProject/src/Code/ResourseHandle/ResourceHolder.inl:
 
@@ -4605,9 +4924,9 @@ CMakeFiles/MyProject.dir/src/Code/main.cpp.o: /home/miha/MyNewPetProject/src/Cod
 
 /usr/include/x86_64-linux-gnu/bits/time64.h:
 
-/usr/include/c++/12/bits/gslice_array.h:
-
 /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/SFML/Graphics/VertexBuffer.hpp:
+
+/usr/include/c++/12/bits/gslice_array.h:
 
 /usr/include/c++/12/bits/atomic_lockfree_defines.h:
 
@@ -4737,9 +5056,9 @@ CMakeFiles/MyProject.dir/src/Code/main.cpp.o: /home/miha/MyNewPetProject/src/Cod
 
 /usr/include/x86_64-linux-gnu/bits/types/clock_t.h:
 
-/usr/include/math.h:
-
 /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/SFML/Window/Touch.hpp:
+
+/usr/include/math.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/__FILE.h:
 
@@ -4769,11 +5088,11 @@ CMakeFiles/MyProject.dir/src/Code/main.cpp.o: /home/miha/MyNewPetProject/src/Cod
 
 /usr/include/c++/12/bits/concept_check.h:
 
+/home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/SFML/Graphics/Glsl.hpp:
+
 /usr/include/strings.h:
 
 /usr/include/c++/12/bits/forward_list.tcc:
-
-/home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/SFML/Graphics/Glsl.hpp:
 
 /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/SFML/Window/Event.hpp:
 

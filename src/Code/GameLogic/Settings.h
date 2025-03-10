@@ -8,6 +8,9 @@
 class Settings
 {
 public:
+
+    enum class Direction { Next, Prev };
+
     static Settings& getInstance()
     {
         static Settings instance;
@@ -18,26 +21,25 @@ public:
     void saveToFile(const std::string& filename);
     void saveDefaultSettingsToFile(const std::string& filename);
         
-    int getWidth() const;
-    int getHeight() const;    
     bool isFullscreen() const;
-    sf::Vector2u getResolution() const;
-    sf::Vector2u getClosestResolution(unsigned int width, unsigned int height) const;
 
-    void setWidth(int w);
-    void setHeight(int h);
     void setFullscreen(bool f);
-    void setResolution(sf::Vector2u r);
+    void setResolution();
+    void setNextResolution(Direction d);
 
+    sf::Vector2u getResolution() const;
+    sf::Vector2u getNextResolution() const;
+    sf::Vector2u getClosestResolution(unsigned int width, unsigned int height) const;
+    
+    int getAdaptiveValue(int baseValue);
 
 private:
     Settings(); 
     ~Settings();
 
-    int mWidth;
-    int mHeight;
-    bool mFullscreen;
-    
+    bool  mFullscreen;
+
     std::list<sf::Vector2u> mResolutions;
     std::list<sf::Vector2u>::iterator mCurrentResolution;
+    std::list<sf::Vector2u>::iterator mNextResolution;
 };

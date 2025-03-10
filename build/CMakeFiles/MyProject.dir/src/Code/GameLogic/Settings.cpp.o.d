@@ -295,5 +295,4 @@ CMakeFiles/MyProject.dir/src/Code/GameLogic/Settings.cpp.o: \
  /usr/include/c++/12/bits/fstream.tcc /usr/include/c++/12/list \
  /usr/include/c++/12/bits/stl_list.h /usr/include/c++/12/bits/list.tcc \
  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/SFML/Window/VideoMode.hpp \
- /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/SFML/Window/Export.hpp \
- /usr/include/c++/12/iostream
+ /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/SFML/Window/Export.hpp

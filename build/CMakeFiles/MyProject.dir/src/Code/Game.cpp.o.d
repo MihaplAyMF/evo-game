@@ -385,4 +385,4 @@ CMakeFiles/MyProject.dir/src/Code/Game.cpp.o: \
  /usr/include/x86_64-linux-gnu/c++/12/bits/c++io.h \
  /usr/include/c++/12/bits/fstream.tcc /usr/include/c++/12/list \
  /usr/include/c++/12/bits/stl_list.h /usr/include/c++/12/bits/list.tcc \
- /usr/include/c++/12/iostream
+ /home/miha/MyNewPetProject/src/Code/Component/Label.h

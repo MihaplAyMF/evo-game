@@ -4,10 +4,12 @@
 
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Text.hpp>
+#include <SFML/System/Vector2.hpp>
 
 #include "StateStack.h"
 #include "Container.h"
 #include "Button.h"
+#include "Label.h"
 
 class SettingsState : public State
 {
@@ -21,6 +23,6 @@ public:
 private:
 	sf::Sprite			          mEvoGameSprite;
     std::shared_ptr<GUI::Button>  mPlayButton;
+    std::shared_ptr<GUI::Label>   mEvoGameLabel; 
 	GUI::Container		          mGUIContainer;
-    Context                       mContext;
 };

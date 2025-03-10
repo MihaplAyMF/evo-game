@@ -32,13 +32,17 @@ namespace GUI
 		mText.setPosition({mText.getPosition().x, mText.getPosition().y});
 	}
 
-
-	void Button::setToggle(bool flag)
+	void Button::setToggle(bool flag) 
 	{
 		mIsToggle = flag;
 	}
 
-	bool Button::isSelectable() const
+    sf::Text& Button::getText() 
+	{
+		return mText;
+	}
+
+    bool Button::isSelectable() const
 	{
 		return true;
 	}

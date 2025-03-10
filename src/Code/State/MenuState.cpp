@@ -1,6 +1,8 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/View.hpp>
 
+#include <iostream>
+
 #include "MenuState.h"
 #include "Settings.h"
 #include "Utility.hpp"
@@ -8,41 +10,53 @@
 #include "Button.h"
 #include "Label.h"
 
-const int mapWidth = Settings::getInstance().getWidth();
-const int mapHeight = Settings::getInstance().getHeight();
-
 MenuState::MenuState(StateStack& stack, Context context)
 	: State(stack, context)
     , mEvoGameSprite(context.textures->get(Textures::TitleScreen))
 {
-	setScale(mEvoGameSprite, sf::IntRect({0, 0}, {mapWidth, mapHeight}));
+    sf::Vector2u res = Settings::getInstance().getResolution();
+	setScale(mEvoGameSprite, sf::IntRect({0, 0}, {static_cast<int>(res.x), static_cast<int>(res.y)})); 
 
 	auto evoGameLabel = std::make_shared<GUI::Label>("", *context.fonts);
-	evoGameLabel->setPosition({370, 30});
 	evoGameLabel->setText("MyGame");
+    evoGameLabel->getText().setCharacterSize(Settings::getInstance().getAdaptiveValue(70));
+    evoGameLabel->setPosition({res.x / 2.f - evoGameLabel->getText().getGlobalBounds().size.x / 2.5f, 30});
 	evoGameLabel->getText().setFillColor(sf::Color::Black);
-	evoGameLabel->getText().setCharacterSize(70);
 
-	auto playButton = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
-	playButton->setPosition({400, 150});
+    auto playButton = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
 	playButton->setText("Play");
+
+	auto settingsButton = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
+	settingsButton->setText("Settings");
+
+	auto quitButton = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
+    quitButton->setText("Quit");
+
+    int spriteSize = 16 * 4;
+    
+    float maxWidth = std::max({
+        playButton->getText().getGlobalBounds().size.x + spriteSize,
+        settingsButton->getText().getGlobalBounds().size.x + spriteSize,
+        quitButton->getText().getGlobalBounds().size.x + spriteSize
+    });
+        
+    float startX = res.x / 2.f - maxWidth / 2.f;
+
+    playButton->setPosition({startX, Settings::getInstance().getAdaptiveValue(175)});
 	playButton->setCallback([this] ()
 	{
 		requestStackPop();
 		requestStackPush(States::Game);
 	});
 
-	auto settingsButton = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
-	settingsButton->setPosition({400, 200});
-	settingsButton->setText("Settings");
+	settingsButton->setPosition({startX, Settings::getInstance().getAdaptiveValue(250)});
 	settingsButton->setCallback([this] ()
 	{
+        requestStackPop();
 		requestStackPush(States::Settings);
 	});
 
-	auto quitButton = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
-	quitButton->setPosition({400, 250});
-	quitButton->setText("Quit");
+	quitButton->setPosition({startX, Settings::getInstance().getAdaptiveValue(325)});
 	quitButton->setCallback([this] ()
 	{
 		requestStackPop();
@@ -52,7 +66,6 @@ MenuState::MenuState(StateStack& stack, Context context)
 	mGUIContainer.pack(playButton);
 	mGUIContainer.pack(settingsButton);
 	mGUIContainer.pack(quitButton);
-
 }
 
 bool MenuState::handleEvent(const sf::Event& event)

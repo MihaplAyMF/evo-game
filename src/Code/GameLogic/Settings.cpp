@@ -1,7 +1,6 @@
 #include "Settings.h"
 
 #include <SFML/Window/VideoMode.hpp>
-#include <iostream>
 
 Settings::Settings() 
 {
@@ -31,9 +30,15 @@ void Settings::loadFromFile(const std::string& filename)
             nlohmann::json j;
             file >> j;
 
-            mWidth = j["video"]["width"];
-            mHeight = j["video"]["height"];
+            sf::Vector2u loadedResolution(j["video"]["width"],  j["video"]["height"]);
             mFullscreen = j["video"]["fullscreen"];
+            
+            auto it = std::find(mResolutions.begin(), mResolutions.end(), loadedResolution);
+            if (it != mResolutions.end()) 
+            {
+                mCurrentResolution = it;
+                mNextResolution = mCurrentResolution;
+            }
         } 
         catch (const std::exception& e) 
         {
@@ -49,8 +54,8 @@ void Settings::loadFromFile(const std::string& filename)
 void Settings::saveToFile(const std::string& filename) 
 {
     nlohmann::json j;
-    j["video"]["width"] = mWidth;
-    j["video"]["height"] = mHeight;
+    j["video"]["width"] = mCurrentResolution->x;
+    j["video"]["height"] = mCurrentResolution->y;
     j["video"]["fullscreen"] = mFullscreen;
 
     std::ofstream file(filename);
@@ -70,8 +75,6 @@ void Settings::saveDefaultSettingsToFile(const std::string& filename)
 
     sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
 
-    std::cout << desktop.size.x << ", " << desktop.size.y << std::endl;
-
     auto it = std::find(mResolutions.begin(), mResolutions.end(), sf::Vector2u(desktop.size.x, desktop.size.y));
     if (it != mResolutions.end())
     {
@@ -84,13 +87,12 @@ void Settings::saveDefaultSettingsToFile(const std::string& filename)
     }
 
     const auto& res = *mCurrentResolution;
+    mNextResolution = mCurrentResolution;
 
     j["video"]["width"] = res.x;   
     j["video"]["height"] = res.y;   
     j["video"]["fullscreen"] = false; 
 
-    mWidth = res.x;
-    mHeight = res.y;
     mFullscreen = false;
 
     std::ofstream file(filename);
@@ -104,24 +106,59 @@ void Settings::saveDefaultSettingsToFile(const std::string& filename)
     }
 }
 
-int Settings::getWidth() const 
-{ 
-    return mWidth; 
-}
-
-int Settings::getHeight() const 
-{ 
-    return mHeight; 
-}
-
 bool Settings::isFullscreen() const 
 {
     return mFullscreen; 
 }
 
+void Settings::setFullscreen(bool f) 
+{
+    mFullscreen = f; 
+}
+
+void Settings::setResolution()
+{
+    mCurrentResolution = mNextResolution;   
+}
+
+void Settings::setNextResolution(Direction direction)
+{
+    if (mResolutions.empty()) return;
+
+    switch (direction) 
+    {
+        case Direction::Next: 
+        {
+            ++mNextResolution;
+            if (mNextResolution == mResolutions.end()) 
+            {
+                mNextResolution = mResolutions.begin();   
+            }
+            break;
+        }
+        case Direction::Prev:
+        {    
+            if (mNextResolution == mResolutions.begin()) 
+            {
+                mNextResolution = std::prev(mResolutions.end());
+            } 
+            else 
+            {
+                --mNextResolution;
+            }
+            break;
+        }
+    }
+}
+
 sf::Vector2u Settings::getResolution() const
 {
     return *mCurrentResolution;
+}
+
+sf::Vector2u Settings::getNextResolution() const
+{
+    return *mNextResolution;
 }
 
 sf::Vector2u Settings::getClosestResolution(unsigned int width, unsigned int height) const
@@ -141,18 +178,15 @@ sf::Vector2u Settings::getClosestResolution(unsigned int width, unsigned int hei
     return closest;
 }
 
-void Settings::setWidth(int w)
-{ 
-    mWidth = w; 
-}
-
-void Settings::setHeight(int h) 
+int Settings::getAdaptiveValue(int baseValue)
 {
-    mHeight = h; 
-}
+    float baseWidth = 1980.f;
+    float factor = std::sqrt(mCurrentResolution->x / baseWidth);
 
-void Settings::setFullscreen(bool f) 
-{
-    mFullscreen = f; 
+    int newValue = static_cast<int>(baseValue * factor);
+
+    newValue = std::max(newValue, 10); 
+
+    return newValue;
 }
 
