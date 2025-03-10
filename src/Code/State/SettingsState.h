@@ -7,6 +7,7 @@
 
 #include "StateStack.h"
 #include "Container.h"
+#include "Button.h"
 
 class SettingsState : public State
 {
@@ -18,6 +19,8 @@ public:
 	virtual void draw();
 
 private:
-	sf::Sprite			  mEvoGameSprite;
-	GUI::Container		  mGUIContainer;
+	sf::Sprite			          mEvoGameSprite;
+    std::shared_ptr<GUI::Button>  mPlayButton;
+	GUI::Container		          mGUIContainer;
+    Context                       mContext;
 };

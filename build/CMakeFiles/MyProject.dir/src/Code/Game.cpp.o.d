@@ -293,6 +293,7 @@ CMakeFiles/MyProject.dir/src/Code/Game.cpp.o: \
  /home/miha/MyNewPetProject/src/Code/Component/Component.h \
  /home/miha/MyNewPetProject/src/Code/State/GameState.h \
  /home/miha/MyNewPetProject/src/Code/State/SettingsState.h \
+ /home/miha/MyNewPetProject/src/Code/Component/Button.h \
  /home/miha/MyNewPetProject/src/Code/GameLogic/Settings.h \
  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/nlohmann/json.hpp \
  /usr/include/c++/12/algorithm \
@@ -382,4 +383,6 @@ CMakeFiles/MyProject.dir/src/Code/Game.cpp.o: \
  /usr/include/c++/12/fstream \
  /usr/include/x86_64-linux-gnu/c++/12/bits/basic_file.h \
  /usr/include/x86_64-linux-gnu/c++/12/bits/c++io.h \
- /usr/include/c++/12/bits/fstream.tcc /usr/include/c++/12/iostream
+ /usr/include/c++/12/bits/fstream.tcc /usr/include/c++/12/list \
+ /usr/include/c++/12/bits/stl_list.h /usr/include/c++/12/bits/list.tcc \
+ /usr/include/c++/12/iostream

@@ -2,16 +2,20 @@
 #include <SFML/Graphics/View.hpp>
 
 #include "MenuState.h"
+#include "Settings.h"
 #include "Utility.hpp"
 #include "ResourceHolder.hpp"
 #include "Button.h"
 #include "Label.h"
 
+const int mapWidth = Settings::getInstance().getWidth();
+const int mapHeight = Settings::getInstance().getHeight();
+
 MenuState::MenuState(StateStack& stack, Context context)
 	: State(stack, context)
     , mEvoGameSprite(context.textures->get(Textures::TitleScreen))
 {
-	setScale(mEvoGameSprite, sf::IntRect({0, 0}, {960, 452}));
+	setScale(mEvoGameSprite, sf::IntRect({0, 0}, {mapWidth, mapHeight}));
 
 	auto evoGameLabel = std::make_shared<GUI::Label>("", *context.fonts);
 	evoGameLabel->setPosition({370, 30});

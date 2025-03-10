@@ -17,6 +17,7 @@ namespace GUI
 	{
 		changeTexture(Unselected);
 		mSprite.setScale(sf::Vector2f(gameScale, gameScale));
+        mText.setPosition({mText.getPosition().x + 45, mText.getPosition().y});
 	}
 
 	void Button::setCallback(Callback callback)
@@ -28,7 +29,7 @@ namespace GUI
 	{
 		mText.setString(text);
 		mText.setCharacterSize(30);
-		mText.setPosition(sf::Vector2f(mText.getPosition().x + 45, mText.getPosition().y));
+		mText.setPosition({mText.getPosition().x, mText.getPosition().y});
 	}
 
 

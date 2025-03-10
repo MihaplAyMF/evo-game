@@ -2,13 +2,14 @@
 #include <SFML/Graphics/View.hpp>
 
 #include "SettingsState.h"
+#include "Settings.h"
 #include "Utility.hpp"
 #include "ResourceHolder.hpp"
-#include "Button.h"
 #include "Label.h"
 
 SettingsState::SettingsState(StateStack& stack, Context context)
 	: State(stack, context)
+    , mContext(context)  
     , mEvoGameSprite(context.textures->get(Textures::TitleScreen))
 {
 	setScale(mEvoGameSprite, sf::IntRect({0, 0}, {960, 452}));
@@ -19,15 +20,16 @@ SettingsState::SettingsState(StateStack& stack, Context context)
 	evoGameLabel->getText().setFillColor(sf::Color::Black);
 	evoGameLabel->getText().setCharacterSize(70);
 
-	auto playButton = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
-	playButton->setPosition({400, 150});
-	playButton->setText("test");
-	playButton->setCallback([this] ()
+    mPlayButton = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
+	mPlayButton->setPosition({400, 150});
+	mPlayButton->setText("Resolution: ");
+	mPlayButton->setCallback([this] ()
 	{
+        
 	});
 
 	mGUIContainer.pack(evoGameLabel);
-	mGUIContainer.pack(playButton);
+	mGUIContainer.pack(mPlayButton);
 
 }
 
@@ -38,6 +40,19 @@ bool SettingsState::handleEvent(const sf::Event& event)
         if (event.getIf<sf::Event::KeyReleased>()->scancode == sf::Keyboard::Scan::Escape)
         {
             requestStackPop();
+        }
+    }
+    else if (event.is<sf::Event::KeyPressed>())
+    {
+        if (event.getIf<sf::Event::KeyPressed>()->scancode == sf::Keyboard::Scan::Left)
+        {
+            mContext.window->close();
+            mContext.window->create(sf::VideoMode({500, 500}), "SFML Window");
+            mPlayButton->setText("Resolution: X, Y");
+        } 
+        else if (event.getIf<sf::Event::KeyPressed>()->scancode == sf::Keyboard::Scan::Right)
+        {
+            mPlayButton->setText("Resolution: X, Y");
         }
     }
 
