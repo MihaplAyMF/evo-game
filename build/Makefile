@@ -225,30 +225,6 @@ src/Code/Component/Label.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyProject.dir/build.make CMakeFiles/MyProject.dir/src/Code/Component/Label.cpp.s
 .PHONY : src/Code/Component/Label.cpp.s
 
-src/Code/Entity/DataTables.o: src/Code/Entity/DataTables.cpp.o
-.PHONY : src/Code/Entity/DataTables.o
-
-# target to build an object file
-src/Code/Entity/DataTables.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyProject.dir/build.make CMakeFiles/MyProject.dir/src/Code/Entity/DataTables.cpp.o
-.PHONY : src/Code/Entity/DataTables.cpp.o
-
-src/Code/Entity/DataTables.i: src/Code/Entity/DataTables.cpp.i
-.PHONY : src/Code/Entity/DataTables.i
-
-# target to preprocess a source file
-src/Code/Entity/DataTables.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyProject.dir/build.make CMakeFiles/MyProject.dir/src/Code/Entity/DataTables.cpp.i
-.PHONY : src/Code/Entity/DataTables.cpp.i
-
-src/Code/Entity/DataTables.s: src/Code/Entity/DataTables.cpp.s
-.PHONY : src/Code/Entity/DataTables.s
-
-# target to generate assembly for a file
-src/Code/Entity/DataTables.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyProject.dir/build.make CMakeFiles/MyProject.dir/src/Code/Entity/DataTables.cpp.s
-.PHONY : src/Code/Entity/DataTables.cpp.s
-
 src/Code/Game.o: src/Code/Game.cpp.o
 .PHONY : src/Code/Game.o
 
@@ -486,9 +462,6 @@ help:
 	@echo "... src/Code/Component/Label.o"
 	@echo "... src/Code/Component/Label.i"
 	@echo "... src/Code/Component/Label.s"
-	@echo "... src/Code/Entity/DataTables.o"
-	@echo "... src/Code/Entity/DataTables.i"
-	@echo "... src/Code/Entity/DataTables.s"
 	@echo "... src/Code/Game.o"
 	@echo "... src/Code/Game.i"
 	@echo "... src/Code/Game.s"

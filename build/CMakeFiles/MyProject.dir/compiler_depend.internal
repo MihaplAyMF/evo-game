@@ -1212,12 +1212,6 @@ CMakeFiles/MyProject.dir/src/Code/Component/Label.cpp.o
  /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/SFML/Graphics/Sprite.hpp
  /home/miha/MyNewPetProject/src/Code/ResourseHandle/Utility.inl
 
-CMakeFiles/MyProject.dir/src/Code/Entity/DataTables.cpp.o
- /home/miha/MyNewPetProject/src/Code/Entity/DataTables.cpp
- /usr/include/stdc-predef.h
- /home/miha/MyNewPetProject/src/Code/Entity/DataTables.h
- /home/miha/MyNewPetProject/src/Code/ResourseHandle/ResourceIdentifiers.h
-
 CMakeFiles/MyProject.dir/src/Code/Game.cpp.o
  /home/miha/MyNewPetProject/src/Code/Game.cpp
  /usr/include/stdc-predef.h

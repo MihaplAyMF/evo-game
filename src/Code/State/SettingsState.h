@@ -20,9 +20,15 @@ public:
 	virtual bool update(sf::Time dt);
 	virtual void draw();
 
+    void updateWindow();
+    void updateTextAppearance();
+
 private:
 	sf::Sprite			          mEvoGameSprite;
-    std::shared_ptr<GUI::Button>  mPlayButton;
+    std::shared_ptr<GUI::Button>  mResolButton;
+    std::shared_ptr<GUI::Button>  mFullscreenButton;
     std::shared_ptr<GUI::Label>   mEvoGameLabel; 
 	GUI::Container		          mGUIContainer;
+
+    int testInt = 30;
 };

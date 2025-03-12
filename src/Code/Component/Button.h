@@ -36,6 +36,7 @@ namespace GUI
 		void setToggle(bool flag);
 
         sf::Text&     getText();
+        bool          isActive();
 
 		virtual bool  isSelectable() const;
 		virtual void  select();
@@ -56,6 +57,6 @@ namespace GUI
 		Callback		   mCallback;
 		sf::Sprite		   mSprite;
 		sf::Text		   mText;
-		bool			   mIsToggle; 
+		bool			   mIsActive; 
 	};
 }

@@ -1208,11 +1208,6 @@ CMakeFiles/MyProject.dir/src/Code/Component/Label.cpp.o: /home/miha/MyNewPetProj
   /home/miha/MyNewPetProject/vcpkg/installed/x64-linux/include/SFML/Graphics/Sprite.hpp \
   /home/miha/MyNewPetProject/src/Code/ResourseHandle/Utility.inl
 
-CMakeFiles/MyProject.dir/src/Code/Entity/DataTables.cpp.o: /home/miha/MyNewPetProject/src/Code/Entity/DataTables.cpp \
-  /usr/include/stdc-predef.h \
-  /home/miha/MyNewPetProject/src/Code/Entity/DataTables.h \
-  /home/miha/MyNewPetProject/src/Code/ResourseHandle/ResourceIdentifiers.h
-
 CMakeFiles/MyProject.dir/src/Code/Game.cpp.o: /home/miha/MyNewPetProject/src/Code/Game.cpp \
   /usr/include/stdc-predef.h \
   /home/miha/MyNewPetProject/src/Code/Game.h \
@@ -4618,8 +4613,6 @@ CMakeFiles/MyProject.dir/src/Code/main.cpp.o: /home/miha/MyNewPetProject/src/Cod
 
 /home/miha/MyNewPetProject/src/Code/Game.cpp:
 
-/home/miha/MyNewPetProject/src/Code/Entity/DataTables.cpp:
-
 /home/miha/MyNewPetProject/src/Code/Component/Label.h:
 
 /home/miha/MyNewPetProject/src/Code/Component/Container.h:
@@ -5039,8 +5032,6 @@ CMakeFiles/MyProject.dir/src/Code/main.cpp.o: /home/miha/MyNewPetProject/src/Cod
 /usr/include/c++/12/bits/std_abs.h:
 
 /usr/include/x86_64-linux-gnu/bits/types.h:
-
-/home/miha/MyNewPetProject/src/Code/Entity/DataTables.h:
 
 /usr/include/x86_64-linux-gnu/bits/stdint-intn.h:
 

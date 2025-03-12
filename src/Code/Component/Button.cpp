@@ -4,8 +4,9 @@
 
 #include "Button.h"
 #include "Utility.hpp"
+#include "Settings.h"
 
-extern const float gameScale;
+float gameScale = Settings::getInstance().getScale();
 
 namespace GUI
 {
@@ -13,7 +14,7 @@ namespace GUI
 		: mCallback()
 		, mSprite(textures.get(Textures::Tileset), sf::IntRect({80, 144}, {16, 16}))
 		, mText(fonts.get(Fonts::Main), "", 16)
-		, mIsToggle(false)
+		, mIsActive(false)
 	{
 		changeTexture(Unselected);
 		mSprite.setScale(sf::Vector2f(gameScale, gameScale));
@@ -34,13 +35,18 @@ namespace GUI
 
 	void Button::setToggle(bool flag) 
 	{
-		mIsToggle = flag;
+		mIsActive = flag;
 	}
 
     sf::Text& Button::getText() 
 	{
 		return mText;
 	}
+ 
+    bool Button::isActive()
+    {
+        return mSprite.getTextureRect() == sf::IntRect({80, 144}, {16, 16});
+    }    
 
     bool Button::isSelectable() const
 	{
@@ -65,13 +71,13 @@ namespace GUI
 	{
 		Component::activate();
 
-		if(mIsToggle)
+		if(mIsActive)
 			changeTexture(Unselected);
 
 		if(mCallback)
 			mCallback();
 
-		if(!mIsToggle)
+		if(!mIsActive)
 			deactivate();
 	}
 

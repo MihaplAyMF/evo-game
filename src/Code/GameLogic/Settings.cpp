@@ -2,16 +2,16 @@
 
 #include <SFML/Window/VideoMode.hpp>
 
-Settings::Settings() 
+Settings::Settings()
 {
+    mScale = 2.f;
+
     mResolutions.push_back(sf::Vector2u(800, 600));
     mResolutions.push_back(sf::Vector2u(1024, 768));
     mResolutions.push_back(sf::Vector2u(1280, 720));
     mResolutions.push_back(sf::Vector2u(1366, 768));
     mResolutions.push_back(sf::Vector2u(1600, 900));
     mResolutions.push_back(sf::Vector2u(1920, 1080));
-    mResolutions.push_back(sf::Vector2u(2560, 1440));
-    mResolutions.push_back(sf::Vector2u(3840, 2160));    
 
     loadFromFile("settings.json");    
 }
@@ -151,9 +151,17 @@ void Settings::setNextResolution(Direction direction)
     }
 }
 
+void Settings::setScale(float s)
+{
+    mScale = s;
+}
+
 sf::Vector2u Settings::getResolution() const
 {
-    return *mCurrentResolution;
+    if (mFullscreen)
+        return {sf::VideoMode::getDesktopMode().size.x, sf::VideoMode::getDesktopMode().size.y};
+    else 
+        return *mCurrentResolution;
 }
 
 sf::Vector2u Settings::getNextResolution() const
@@ -178,15 +186,19 @@ sf::Vector2u Settings::getClosestResolution(unsigned int width, unsigned int hei
     return closest;
 }
 
-int Settings::getAdaptiveValue(int baseValue)
+float Settings::getScale()
+{
+    return mScale;
+}
+
+float Settings::getAdaptiveValue(int baseValue)
 {
     float baseWidth = 1980.f;
     float factor = std::sqrt(mCurrentResolution->x / baseWidth);
 
-    int newValue = static_cast<int>(baseValue * factor);
+    float newValue = static_cast<int>(baseValue * factor);
 
-    newValue = std::max(newValue, 10); 
+    newValue = std::max(newValue, 30.f); 
 
     return newValue;
 }
-

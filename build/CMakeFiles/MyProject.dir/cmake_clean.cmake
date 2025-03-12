@@ -7,8 +7,6 @@ file(REMOVE_RECURSE
   "CMakeFiles/MyProject.dir/src/Code/Component/Container.cpp.o.d"
   "CMakeFiles/MyProject.dir/src/Code/Component/Label.cpp.o"
   "CMakeFiles/MyProject.dir/src/Code/Component/Label.cpp.o.d"
-  "CMakeFiles/MyProject.dir/src/Code/Entity/DataTables.cpp.o"
-  "CMakeFiles/MyProject.dir/src/Code/Entity/DataTables.cpp.o.d"
   "CMakeFiles/MyProject.dir/src/Code/Game.cpp.o"
   "CMakeFiles/MyProject.dir/src/Code/Game.cpp.o.d"
   "CMakeFiles/MyProject.dir/src/Code/GameLogic/Settings.cpp.o"

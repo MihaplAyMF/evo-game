@@ -26,18 +26,21 @@ public:
     void setFullscreen(bool f);
     void setResolution();
     void setNextResolution(Direction d);
+    void setScale(float s);
 
     sf::Vector2u getResolution() const;
     sf::Vector2u getNextResolution() const;
     sf::Vector2u getClosestResolution(unsigned int width, unsigned int height) const;
     
-    int getAdaptiveValue(int baseValue);
+    float getScale();  
+    float getAdaptiveValue(int baseValue);
 
 private:
     Settings(); 
     ~Settings();
 
     bool  mFullscreen;
+    float mScale;
 
     std::list<sf::Vector2u> mResolutions;
     std::list<sf::Vector2u>::iterator mCurrentResolution;

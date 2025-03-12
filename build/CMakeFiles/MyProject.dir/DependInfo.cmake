@@ -12,7 +12,6 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/miha/MyNewPetProject/src/Code/Component/Component.cpp" "CMakeFiles/MyProject.dir/src/Code/Component/Component.cpp.o" "gcc" "CMakeFiles/MyProject.dir/src/Code/Component/Component.cpp.o.d"
   "/home/miha/MyNewPetProject/src/Code/Component/Container.cpp" "CMakeFiles/MyProject.dir/src/Code/Component/Container.cpp.o" "gcc" "CMakeFiles/MyProject.dir/src/Code/Component/Container.cpp.o.d"
   "/home/miha/MyNewPetProject/src/Code/Component/Label.cpp" "CMakeFiles/MyProject.dir/src/Code/Component/Label.cpp.o" "gcc" "CMakeFiles/MyProject.dir/src/Code/Component/Label.cpp.o.d"
-  "/home/miha/MyNewPetProject/src/Code/Entity/DataTables.cpp" "CMakeFiles/MyProject.dir/src/Code/Entity/DataTables.cpp.o" "gcc" "CMakeFiles/MyProject.dir/src/Code/Entity/DataTables.cpp.o.d"
   "/home/miha/MyNewPetProject/src/Code/Game.cpp" "CMakeFiles/MyProject.dir/src/Code/Game.cpp.o" "gcc" "CMakeFiles/MyProject.dir/src/Code/Game.cpp.o.d"
   "/home/miha/MyNewPetProject/src/Code/GameLogic/Settings.cpp" "CMakeFiles/MyProject.dir/src/Code/GameLogic/Settings.cpp.o" "gcc" "CMakeFiles/MyProject.dir/src/Code/GameLogic/Settings.cpp.o.d"
   "/home/miha/MyNewPetProject/src/Code/ResourseHandle/Utility.cpp" "CMakeFiles/MyProject.dir/src/Code/ResourseHandle/Utility.cpp.o" "gcc" "CMakeFiles/MyProject.dir/src/Code/ResourseHandle/Utility.cpp.o.d"

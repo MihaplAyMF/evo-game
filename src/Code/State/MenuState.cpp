@@ -15,6 +15,7 @@ MenuState::MenuState(StateStack& stack, Context context)
     , mEvoGameSprite(context.textures->get(Textures::TitleScreen))
 {
     sf::Vector2u res = Settings::getInstance().getResolution();
+
 	setScale(mEvoGameSprite, sf::IntRect({0, 0}, {static_cast<int>(res.x), static_cast<int>(res.y)})); 
 
 	auto evoGameLabel = std::make_shared<GUI::Label>("", *context.fonts);
@@ -25,12 +26,15 @@ MenuState::MenuState(StateStack& stack, Context context)
 
     auto playButton = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
 	playButton->setText("Play");
+    playButton->getText().setCharacterSize(Settings::getInstance().getAdaptiveValue(30));
 
 	auto settingsButton = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
 	settingsButton->setText("Settings");
-
-	auto quitButton = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
+    settingsButton->getText().setCharacterSize(Settings::getInstance().getAdaptiveValue(30));
+	
+    auto quitButton = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
     quitButton->setText("Quit");
+    quitButton->getText().setCharacterSize(Settings::getInstance().getAdaptiveValue(30));
 
     int spriteSize = 16 * 4;
     
