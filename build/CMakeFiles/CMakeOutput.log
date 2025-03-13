@@ -451,3 +451,122 @@ Parsed CXX implicit link information from above output:
   implicit fwks: []
 
 
+Determining if the function XOpenDisplay exists in the /usr/lib/x86_64-linux-gnu/libX11.so;/usr/lib/x86_64-linux-gnu/libXext.so passed with the following output:
+Change Dir: /home/miha/EvoGame/build/CMakeFiles/CMakeScratch/TryCompile-UF2jFf
+
+Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_86856/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_86856.dir/build.make CMakeFiles/cmTC_86856.dir/build
+gmake[1]: Entering directory '/home/miha/EvoGame/build/CMakeFiles/CMakeScratch/TryCompile-UF2jFf'
+Building C object CMakeFiles/cmTC_86856.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=XOpenDisplay -o CMakeFiles/cmTC_86856.dir/CheckFunctionExists.c.o -c /home/miha/EvoGame/build/CMakeFiles/CMakeScratch/TryCompile-UF2jFf/CheckFunctionExists.c
+Linking C executable cmTC_86856
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_86856.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=XOpenDisplay CMakeFiles/cmTC_86856.dir/CheckFunctionExists.c.o -o cmTC_86856  /usr/lib/x86_64-linux-gnu/libX11.so /usr/lib/x86_64-linux-gnu/libXext.so 
+gmake[1]: Leaving directory '/home/miha/EvoGame/build/CMakeFiles/CMakeScratch/TryCompile-UF2jFf'
+
+
+
+Determining if the function gethostbyname exists passed with the following output:
+Change Dir: /home/miha/EvoGame/build/CMakeFiles/CMakeScratch/TryCompile-TV4Pve
+
+Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_8479c/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_8479c.dir/build.make CMakeFiles/cmTC_8479c.dir/build
+gmake[1]: Entering directory '/home/miha/EvoGame/build/CMakeFiles/CMakeScratch/TryCompile-TV4Pve'
+Building C object CMakeFiles/cmTC_8479c.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=gethostbyname -o CMakeFiles/cmTC_8479c.dir/CheckFunctionExists.c.o -c /home/miha/EvoGame/build/CMakeFiles/CMakeScratch/TryCompile-TV4Pve/CheckFunctionExists.c
+Linking C executable cmTC_8479c
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_8479c.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=gethostbyname CMakeFiles/cmTC_8479c.dir/CheckFunctionExists.c.o -o cmTC_8479c 
+gmake[1]: Leaving directory '/home/miha/EvoGame/build/CMakeFiles/CMakeScratch/TryCompile-TV4Pve'
+
+
+
+Determining if the function connect exists passed with the following output:
+Change Dir: /home/miha/EvoGame/build/CMakeFiles/CMakeScratch/TryCompile-0RIBSA
+
+Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_dbad1/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_dbad1.dir/build.make CMakeFiles/cmTC_dbad1.dir/build
+gmake[1]: Entering directory '/home/miha/EvoGame/build/CMakeFiles/CMakeScratch/TryCompile-0RIBSA'
+Building C object CMakeFiles/cmTC_dbad1.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=connect -o CMakeFiles/cmTC_dbad1.dir/CheckFunctionExists.c.o -c /home/miha/EvoGame/build/CMakeFiles/CMakeScratch/TryCompile-0RIBSA/CheckFunctionExists.c
+Linking C executable cmTC_dbad1
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_dbad1.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=connect CMakeFiles/cmTC_dbad1.dir/CheckFunctionExists.c.o -o cmTC_dbad1 
+gmake[1]: Leaving directory '/home/miha/EvoGame/build/CMakeFiles/CMakeScratch/TryCompile-0RIBSA'
+
+
+
+Determining if the function remove exists passed with the following output:
+Change Dir: /home/miha/EvoGame/build/CMakeFiles/CMakeScratch/TryCompile-wvlLEn
+
+Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_5ecb3/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_5ecb3.dir/build.make CMakeFiles/cmTC_5ecb3.dir/build
+gmake[1]: Entering directory '/home/miha/EvoGame/build/CMakeFiles/CMakeScratch/TryCompile-wvlLEn'
+Building C object CMakeFiles/cmTC_5ecb3.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=remove -o CMakeFiles/cmTC_5ecb3.dir/CheckFunctionExists.c.o -c /home/miha/EvoGame/build/CMakeFiles/CMakeScratch/TryCompile-wvlLEn/CheckFunctionExists.c
+Linking C executable cmTC_5ecb3
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_5ecb3.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=remove CMakeFiles/cmTC_5ecb3.dir/CheckFunctionExists.c.o -o cmTC_5ecb3 
+gmake[1]: Leaving directory '/home/miha/EvoGame/build/CMakeFiles/CMakeScratch/TryCompile-wvlLEn'
+
+
+
+Determining if the function shmat exists passed with the following output:
+Change Dir: /home/miha/EvoGame/build/CMakeFiles/CMakeScratch/TryCompile-8elL7y
+
+Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_15d23/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_15d23.dir/build.make CMakeFiles/cmTC_15d23.dir/build
+gmake[1]: Entering directory '/home/miha/EvoGame/build/CMakeFiles/CMakeScratch/TryCompile-8elL7y'
+Building C object CMakeFiles/cmTC_15d23.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=shmat -o CMakeFiles/cmTC_15d23.dir/CheckFunctionExists.c.o -c /home/miha/EvoGame/build/CMakeFiles/CMakeScratch/TryCompile-8elL7y/CheckFunctionExists.c
+Linking C executable cmTC_15d23
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_15d23.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=shmat CMakeFiles/cmTC_15d23.dir/CheckFunctionExists.c.o -o cmTC_15d23 
+gmake[1]: Leaving directory '/home/miha/EvoGame/build/CMakeFiles/CMakeScratch/TryCompile-8elL7y'
+
+
+
+Determining if the function IceConnectionNumber exists in the ICE passed with the following output:
+Change Dir: /home/miha/EvoGame/build/CMakeFiles/CMakeScratch/TryCompile-VIi4Xx
+
+Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_7f453/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_7f453.dir/build.make CMakeFiles/cmTC_7f453.dir/build
+gmake[1]: Entering directory '/home/miha/EvoGame/build/CMakeFiles/CMakeScratch/TryCompile-VIi4Xx'
+Building C object CMakeFiles/cmTC_7f453.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=IceConnectionNumber -o CMakeFiles/cmTC_7f453.dir/CheckFunctionExists.c.o -c /home/miha/EvoGame/build/CMakeFiles/CMakeScratch/TryCompile-VIi4Xx/CheckFunctionExists.c
+Linking C executable cmTC_7f453
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_7f453.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=IceConnectionNumber CMakeFiles/cmTC_7f453.dir/CheckFunctionExists.c.o -o cmTC_7f453  -lICE 
+gmake[1]: Leaving directory '/home/miha/EvoGame/build/CMakeFiles/CMakeScratch/TryCompile-VIi4Xx'
+
+
+
+Performing C SOURCE FILE Test CMAKE_HAVE_LIBC_PTHREAD succeeded with the following output:
+Change Dir: /home/miha/EvoGame/build/CMakeFiles/CMakeScratch/TryCompile-JyMXub
+
+Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_75a21/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_75a21.dir/build.make CMakeFiles/cmTC_75a21.dir/build
+gmake[1]: Entering directory '/home/miha/EvoGame/build/CMakeFiles/CMakeScratch/TryCompile-JyMXub'
+Building C object CMakeFiles/cmTC_75a21.dir/src.c.o
+/usr/bin/cc -DCMAKE_HAVE_LIBC_PTHREAD   -o CMakeFiles/cmTC_75a21.dir/src.c.o -c /home/miha/EvoGame/build/CMakeFiles/CMakeScratch/TryCompile-JyMXub/src.c
+Linking C executable cmTC_75a21
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_75a21.dir/link.txt --verbose=1
+/usr/bin/cc CMakeFiles/cmTC_75a21.dir/src.c.o -o cmTC_75a21 
+gmake[1]: Leaving directory '/home/miha/EvoGame/build/CMakeFiles/CMakeScratch/TryCompile-JyMXub'
+
+
+Source file was:
+#include <pthread.h>
+
+static void* test_func(void* data)
+{
+  return data;
+}
+
+int main(void)
+{
+  pthread_t thread;
+  pthread_create(&thread, NULL, test_func, NULL);
+  pthread_detach(thread);
+  pthread_cancel(thread);
+  pthread_join(thread, NULL);
+  pthread_atfork(NULL, NULL, NULL);
+  pthread_exit(NULL);
+
+  return 0;
+}
+
+
