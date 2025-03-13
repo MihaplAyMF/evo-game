@@ -1,12 +1,12 @@
 #pragma once
-
 #include <vector>
 
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Text.hpp>
 
 #include "StateStack.h"
-#include "Container.h"
+#include "World.h"
+#include "PlayerMove.h"
 
 class GameState : public State
 {
@@ -18,6 +18,7 @@ public:
 	virtual void draw();
 
 private:
-	sf::Sprite			  mEvoGameSprite;
-	GUI::Container		  mGUIContainer;
+	World mWorld;
+	PlayerMove& mPlayer;
+
 };

@@ -1,29 +1,50 @@
-#include <SFML/Graphics/RenderWindow.hpp>
-#include <SFML/Graphics/View.hpp>
-
 #include "GameState.h"
-#include "Utility.hpp"
-#include "ResourceHolder.hpp"
-#include "Button.h"
-#include "Label.h"
 
 GameState::GameState(StateStack& stack, Context context)
 	: State(stack, context)
-    , mEvoGameSprite(context.textures->get(Textures::TitleScreen))
+	, mWorld(*context.window, *context.fonts)
+	, mPlayer(*context.player)
 {
-
 }
 
 bool GameState::handleEvent(const sf::Event& event)
 {
+	CommandQueue& commands = mWorld.getCommandQueue();
+	mPlayer.handleEvent(event, commands);
+
+	if(event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
+	{
+		mWorld.clean();
+		requestStackPop();
+		requestStackPush(States::Menu);
+	}
+
 	return true;
 }
 
 bool GameState::update(sf::Time dt)
 {
+	mWorld.update(dt);
+
+	//if(!mWorld.hasAliveEagle())
+	//{
+	//	requestStackPush(States::GameOver);
+	//}
+	//else 
+	if(!mWorld.hasAlivePlayer())
+	{
+		mWorld.clean();
+		requestStackPop();
+		requestStackPush(States::Menu);
+	}
+
+	CommandQueue& commands = mWorld.getCommandQueue();
+	mPlayer.handleRealtimeInput(commands);
+
 	return true;
 }
 
 void GameState::draw()
 {
+	mWorld.draw();
 }

@@ -30,8 +30,11 @@ target_link_libraries(EvoGame
 target_include_directories(EvoGame PRIVATE 
     ${SRC_DIR}
     ${SRC_DIR}/State
+    ${SRC_DIR}/State/StateLogic
     ${SRC_DIR}/ResourseHandle
     ${SRC_DIR}/Component
     ${SRC_DIR}/Entity
     ${SRC_DIR}/GameLogic
+    ${SRC_DIR}/InputHandle   
+    ${SRC_DIR}/Node
 )

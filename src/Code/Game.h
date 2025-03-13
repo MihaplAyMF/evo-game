@@ -8,6 +8,7 @@
 
 #include "MenuState.h"
 #include "GameState.h"
+#include "PlayerMove.h"
 #include "SettingsState.h"
 
 class Game
@@ -29,6 +30,7 @@ private:
     sf::RenderWindow mWindow;
     TextureHolder    mTextures;
     FontHolder       mFonts;
+	PlayerMove		 mPlayer;
 
     StateStack       mStateStack;
 };

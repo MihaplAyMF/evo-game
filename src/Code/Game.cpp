@@ -9,7 +9,7 @@ const sf::Time Game::timePerFrame = sf::seconds(1.f / 60.f);
 Game::Game()
     : mTextures()
     , mFonts()
-    , mStateStack(State::Context(mWindow, mTextures, mFonts))
+    , mStateStack(State::Context(mWindow, mTextures, mFonts, mPlayer))
 {
     sf::Vector2u res = Settings::getInstance().getResolution();
 
