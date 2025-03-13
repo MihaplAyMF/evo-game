@@ -22,7 +22,8 @@ public:
     void saveDefaultSettingsToFile(const std::string& filename);
         
     bool isFullscreen() const;
-
+    bool isResolutionEqual() const;
+    
     void setFullscreen(bool f);
     void setResolution();
     void setNextResolution(Direction d);

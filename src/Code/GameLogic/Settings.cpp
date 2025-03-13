@@ -111,6 +111,10 @@ bool Settings::isFullscreen() const
     return mFullscreen; 
 }
 
+bool Settings::isResolutionEqual() const {
+    return mCurrentResolution == mNextResolution;
+}
+
 void Settings::setFullscreen(bool f) 
 {
     mFullscreen = f; 
@@ -194,7 +198,7 @@ float Settings::getScale()
 float Settings::getAdaptiveValue(int baseValue)
 {
     float baseWidth = 1980.f;
-    float factor = std::sqrt(mCurrentResolution->x / baseWidth);
+    float factor = std::pow(baseWidth / mCurrentResolution->x, 1/3);
 
     float newValue = static_cast<int>(baseValue * factor);
 

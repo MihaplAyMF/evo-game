@@ -1,7 +1,7 @@
 {
     "video": {
-        "fullscreen": true,
-        "height": 600,
-        "width": 800
+        "fullscreen": false,
+        "height": 900,
+        "width": 1600
     }
 }

@@ -7,13 +7,17 @@
 const sf::Time Game::timePerFrame = sf::seconds(1.f / 60.f);
 
 Game::Game()
-    : mWindow(sf::VideoMode(sf::Vector2u(Settings::getInstance().getResolution().x,
-                                         Settings::getInstance().getResolution().y))
-        , "MyProject", sf::Style::Close | sf::Style::Resize)
-    , mTextures()
+    : mTextures()
     , mFonts()
     , mStateStack(State::Context(mWindow, mTextures, mFonts))
 {
+    sf::Vector2u res = Settings::getInstance().getResolution();
+
+    if(Settings::getInstance().isFullscreen())
+        mWindow.create(sf::VideoMode({res.x, res.y}), "SFML Window", sf::State::Fullscreen);
+    else 
+        mWindow.create(sf::VideoMode({res.x, res.y}), "SFML Window", sf::Style::Default);
+
     mFonts.open(Fonts::Main, "/home/miha/MyNewPetProject/build/Media/Fonts/Sansation.ttf");
 
 	mTextures.load(Textures::Tileset,     "/home/miha/MyNewPetProject/build/Media/Textures/nature-paltformer.png");

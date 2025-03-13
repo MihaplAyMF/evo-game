@@ -12,7 +12,6 @@ SettingsState::SettingsState(StateStack& stack, Context context)
     , mEvoGameLabel(std::make_shared<GUI::Label>("Settings", *context.fonts))
     , mResolButton(std::make_shared<GUI::Button>(*context.fonts, *context.textures))
     , mFullscreenButton(std::make_shared<GUI::Button>(*context.fonts, *context.textures))
-
 {
     sf::Vector2u res = Settings::getInstance().getResolution();
     setScale(mEvoGameSprite, sf::IntRect({0, 0}, {static_cast<int>(res.x), static_cast<int>(res.y)})); 
@@ -21,10 +20,13 @@ SettingsState::SettingsState(StateStack& stack, Context context)
     
 	mResolButton->setText("Resolution: " + std::to_string(res.x) + ", " + std::to_string(res.y));	
     mResolButton->setCallback([this] ()
-	{
-        Settings::getInstance().setResolution();
-        updateWindow();
-	});
+	{ 
+        if(!Settings::getInstance().isResolutionEqual())
+        {
+            Settings::getInstance().setResolution();
+            updateWindow();
+        }
+    });
 
     mFullscreenButton->setCallback([this] ()
 	{
