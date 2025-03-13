@@ -17,7 +17,8 @@ SettingsState::SettingsState(StateStack& stack, Context context)
     setScale(mEvoGameSprite, sf::IntRect({0, 0}, {static_cast<int>(res.x), static_cast<int>(res.y)})); 
 
 	mEvoGameLabel->getText().setFillColor(sf::Color::Black);
-    
+     
+    res = Settings::getInstance().getCurrentResolution();
 	mResolButton->setText("Resolution: " + std::to_string(res.x) + ", " + std::to_string(res.y));	
     mResolButton->setCallback([this] ()
 	{ 

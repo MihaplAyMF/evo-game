@@ -173,6 +173,11 @@ sf::Vector2u Settings::getNextResolution() const
     return *mNextResolution;
 }
 
+sf::Vector2u Settings::getCurrentResolution() const
+{
+    return *mCurrentResolution;
+}
+
 sf::Vector2u Settings::getClosestResolution(unsigned int width, unsigned int height) const
 {
     sf::Vector2u closest = mResolutions.front();   

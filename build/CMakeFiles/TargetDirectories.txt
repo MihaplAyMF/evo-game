@@ -1,3 +1,0 @@
-/home/miha/MyNewPetProject/build/CMakeFiles/MyProject.dir
-/home/miha/MyNewPetProject/build/CMakeFiles/edit_cache.dir
-/home/miha/MyNewPetProject/build/CMakeFiles/rebuild_cache.dir
