@@ -18,13 +18,19 @@ add_executable(EvoGame ${SOURCES})
 set(VCPKG_FILE_DIR ${CMAKE_SOURCE_DIR}/vcpkg/installed/x64-linux)
 set(SFML_DIR "${VCPKG_FILE_DIR}/share/sfml")
 set(nlohmann_json_DIR "${VCPKG_FILE_DIR}/share/nlohmann_json")
+set(box2d_DIR "${VCPKG_FILE_DIR}/share/box2d")
+set(tinyxml2_DIR "${VCPKG_FILE_DIR}/share/tinyxml2")
 
 find_package(SFML COMPONENTS Network Graphics Window Audio System CONFIG REQUIRED)
 find_package(nlohmann_json CONFIG REQUIRED)
+find_package(box2d CONFIG REQUIRED)
+find_package(tinyxml2 CONFIG REQUIRED)
 
 target_link_libraries(EvoGame
     SFML::Network SFML::Graphics SFML::Window SFML::Audio SFML::System
     nlohmann_json::nlohmann_json
+     box2d::box2d
+    tinyxml2::tinyxml2
 )
 
 target_include_directories(EvoGame PRIVATE 

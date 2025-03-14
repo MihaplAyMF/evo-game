@@ -6,8 +6,6 @@
 #include "Utility.hpp"
 #include "Settings.h"
 
-float gameScale = Settings::getInstance().getScale();
-
 namespace GUI
 {
 	Button::Button(const FontHolder& fonts, const TextureHolder& textures)
@@ -16,6 +14,8 @@ namespace GUI
 		, mText(fonts.get(Fonts::Main), "", 16)
 		, mIsActive(false)
 	{
+        float gameScale = Settings::getInstance().getScale();
+
 		changeTexture(Unselected);
 		mSprite.setScale(sf::Vector2f(gameScale, gameScale));
         mText.setPosition({mText.getPosition().x + 45, mText.getPosition().y});

@@ -1,4 +1,4 @@
-#pragma ocne
+::#pragma ocne
 
 #include <SFML/Graphics.hpp>
 

@@ -4,6 +4,7 @@
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/RenderStates.hpp>
 
+#include "Settings.h"
 #include "Player.h"
 #include "DataTables.h"
 #include "Utility.hpp"
@@ -11,8 +12,9 @@
 #include "ResourceHolder.hpp"
 
 extern const float boxScale;
-extern const float gameScale;
 extern b2World world;
+
+float gameScale = Settings::getInstance().getScale();
 
 namespace
 {
@@ -29,15 +31,15 @@ Player::Player(Type type, const TextureHolder& textures, sf::FloatRect rect)
 {
 	sf::FloatRect bounds = mSprite.getLocalBounds();
 	
-	mSprite.setScale(gameScale, gameScale);
+	mSprite.setScale({gameScale, gameScale});
 	
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_dynamicBody;
-	bodyDef.position.Set(rect.left / boxScale, (rect.top - rect.height) / boxScale);
+	bodyDef.position.Set(rect.position.x / boxScale, (rect.position.y - rect.size.y) / boxScale);
 	bodyDef.fixedRotation = true;
 	mBody = world.CreateBody(&bodyDef);
 	b2PolygonShape shape;
-	shape.SetAsBox((rect.width - 7) / 2 / boxScale, (rect.height - 4) / 2 / boxScale);
+	shape.SetAsBox((rect.size.x - 7) / 2 / boxScale, (rect.size.y - 4) / 2 / boxScale);
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &shape;
 	fixtureDef.density = 1.0f; fixtureDef.friction = 0.0f;

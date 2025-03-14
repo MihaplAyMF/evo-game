@@ -12,11 +12,14 @@ bool GameState::handleEvent(const sf::Event& event)
 	CommandQueue& commands = mWorld.getCommandQueue();
 	mPlayer.handleEvent(event, commands);
 
-	if(event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
-	{
-		mWorld.clean();
-		requestStackPop();
-		requestStackPush(States::Menu);
+    if (const auto* keyPressed = event.getIf<sf::Event::KeyPressed>())
+    {
+        if (keyPressed->scancode == sf::Keyboard::Scancode::Escape)
+	    {
+		    mWorld.clean();
+	    	requestStackPop();
+		    requestStackPush(States::Menu);
+        }
 	}
 
 	return true;

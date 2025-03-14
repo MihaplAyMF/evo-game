@@ -8,11 +8,11 @@ Block::Block(sf::FloatRect rect, sf::Vector2i tileSize)
 {
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_staticBody;
-	bodyDef.position.Set((rect.left + tileSize.x / 2 * (rect.width / tileSize.x - 1)) / boxScale,
-						 (rect.top + tileSize.y / 2 * (rect.height / tileSize.y - 1)) / boxScale);
+	bodyDef.position.Set((rect.position.x  + tileSize.x / 2 * (rect.size.x / tileSize.x - 1)) / boxScale,
+						 (rect.position.y + tileSize.y / 2 * (rect.size.y / tileSize.y - 1)) / boxScale);
 	mBody = world.CreateBody(&bodyDef);
 	b2PolygonShape shape;
-	shape.SetAsBox(rect.width / 2 / boxScale, rect.height / 2 / boxScale);
+	shape.SetAsBox(rect.size.x / 2 / boxScale, rect.size.y / 2 / boxScale);
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &shape;
 	fixtureDef.density = 0.0f; fixtureDef.friction = 0.1f;
