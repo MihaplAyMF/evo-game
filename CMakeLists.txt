@@ -29,7 +29,7 @@ find_package(tinyxml2 CONFIG REQUIRED)
 target_link_libraries(EvoGame
     SFML::Network SFML::Graphics SFML::Window SFML::Audio SFML::System
     nlohmann_json::nlohmann_json
-     box2d::box2d
+    box2d::box2d
     tinyxml2::tinyxml2
 )
 

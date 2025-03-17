@@ -2,7 +2,7 @@
 #include <SFML/Graphics/RenderStates.hpp>
 
 #include "Coin.h"
-#include "ResourceHolder.hpp"
+#include "ResourceHolder.hpp"  // IWYU pragma: keep 
 
 extern const float boxScale;
 extern const float gameScale;

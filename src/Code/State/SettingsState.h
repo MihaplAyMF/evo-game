@@ -1,7 +1,5 @@
 #pragma once
 
-#include <vector>
-
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Text.hpp>
 #include <SFML/System/Vector2.hpp>

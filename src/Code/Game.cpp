@@ -3,6 +3,9 @@
 #include "State.h"
 #include "StateIdentifiers.h"
 #include "Settings.h"
+#include "MenuState.h"
+#include "GameState.h"
+#include "SettingsState.h"
 
 const sf::Time Game::timePerFrame = sf::seconds(1.f / 60.f);
 

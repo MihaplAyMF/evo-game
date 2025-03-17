@@ -1,12 +1,15 @@
 #include "Settings.h"
 
+#include <SFML/System/Vector2.hpp>
 #include <SFML/Window/VideoMode.hpp>
+#include <fstream>
 
 Settings::Settings()
 {
     mScale = 2.f;
 
     mResolutions.push_back(sf::Vector2u(800, 600));
+    mResolutions.push_back(sf::Vector2u(960, 448)); // Delete later
     mResolutions.push_back(sf::Vector2u(1024, 768));
     mResolutions.push_back(sf::Vector2u(1280, 720));
     mResolutions.push_back(sf::Vector2u(1366, 768));

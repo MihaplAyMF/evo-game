@@ -1,9 +1,8 @@
-#include <iostream>
 #include <tinyxml2.h>
-#include <filesystem> 
+//#include <filesystem> 
 #include <fstream>
-#include <iostream>
 
+#include "ResourceIdentifiers.h"
 #include "Settings.h"
 #include "World.h"
 #include "Block.h"
@@ -18,35 +17,35 @@ extern b2World world;
 sf::Vector2u res = Settings::getInstance().getResolution();
 const float zoomValue = 1.2;
 
-std::string getImagePath(std::string xmlFilePath)
-{
-    std::string imagePath;
-    tinyxml2::XMLDocument doc;
-
-    if(doc.LoadFile(xmlFilePath.c_str()) == tinyxml2::XML_SUCCESS)
-    {
-        tinyxml2::XMLElement* root = doc.FirstChildElement("tileset");
-        if(root)
-        {
-            tinyxml2::XMLElement* imageElement = root->FirstChildElement("image");
-            if(imageElement)
-            {
-                const char* source = imageElement->Attribute("source");
-                if(source)
-                {
-                    std::filesystem::path xmlPath(xmlFilePath);
-                    std::filesystem::path xmlDirectory = xmlPath.parent_path();
-                    std::filesystem::path relativeImagePath(source);
-
-                    std::filesystem::path absoluteImagePath = std::filesystem::canonical(xmlDirectory / relativeImagePath);
-                    imagePath = absoluteImagePath.string();
-                }
-            }
-        }
-    }
-
-    return imagePath;
-}
+/*std::string getImagePath(std::string xmlFilePath)*/
+/*{*/
+/*    std::string imagePath;*/
+/*    tinyxml2::XMLDocument doc;*/
+/**/
+/*    if(doc.LoadFile(xmlFilePath.c_str()) == tinyxml2::XML_SUCCESS)*/
+/*    {*/
+/*        tinyxml2::XMLElement* root = doc.FirstChildElement("tileset");*/
+/*        if(root)*/
+/*        {*/
+/*            tinyxml2::XMLElement* imageElement = root->FirstChildElement("image");*/
+/*            if(imageElement)*/
+/*            {*/
+/*                const char* source = imageElement->Attribute("source");*/
+/*                if(source)*/
+/*                {*/
+/*                    std::filesystem::path xmlPath(xmlFilePath);*/
+/*                    std::filesystem::path xmlDirectory = xmlPath.parent_path();*/
+/*                    std::filesystem::path relativeImagePath(source);*/
+/**/
+/*                    std::filesystem::path absoluteImagePath = std::filesystem::canonical(xmlDirectory / relativeImagePath);*/
+/*                    imagePath = absoluteImagePath.string();*/
+/*                }*/
+/*            }*/
+/*        }*/
+/*    }*/
+/**/
+/*    return imagePath;*/
+/*}*/
 
 bool matchesCategories(SceneNode::Pair& colliders, Category::Type type1, Category::Type type2)
 {
@@ -69,12 +68,12 @@ bool matchesCategories(SceneNode::Pair& colliders, Category::Type type1, Categor
 
 }
 
-World::World(sf::RenderWindow& window, FontHolder& fonts)
+World::World(sf::RenderWindow& window, TextureHolder& texture, FontHolder& fonts)
     : mTarget(window)
     , mWorldView(sf::FloatRect({0, 0}, {window.getSize().x / zoomValue, window.getSize().y / zoomValue}))
     , mHUDView(window.getDefaultView())
     , mFonts(fonts)
-    , mTextures()
+    , mTextures(texture)
     , mPlayer(nullptr)
     , mGlobalPos(0, 0)
     , mPlayerPos(0, 0)
@@ -84,36 +83,36 @@ World::World(sf::RenderWindow& window, FontHolder& fonts)
     , mCoinSprite(mTextures.get(Textures::Tileset))
 {
     loadGameState();
-    loadTexture(mCurrentMap);
+    //loadTexture(mCurrentMap);
     createHUD();
     buildScene();
 }
 
-bool World::loadTexture(std::string filename)
-{
-    tinyxml2::XMLDocument levelFile;
-
-    if(levelFile.LoadFile(filename.c_str()) != tinyxml2::XML_SUCCESS)
-    {
-        std::cerr << "Loading XML file \"" << filename << "\" failed." << std::endl;
-        return false;
-    }
-
-    tinyxml2::XMLElement* map;
-    map = levelFile.FirstChildElement("map");
-
-    tinyxml2::XMLElement* tilesetElement;
-    tilesetElement = map->FirstChildElement("tileset");
-    std::string fileImagePath = tilesetElement->Attribute("source");
-
-    std::string imagePath = getImagePath("Media/Map/" + fileImagePath);
-
-    mTextures.load(Textures::Tileset, imagePath);
-    mTextures.get(Textures::Tileset).setSmooth(false);
-    
-    return true;
-}
-
+/*bool World::loadTexture(std::string filename)*/
+/*{*/
+/*    tinyxml2::XMLDocument levelFile;*/
+/**/
+/*    if(levelFile.LoadFile(filename.c_str()) != tinyxml2::XML_SUCCESS)*/
+/*    {*/
+/*        std::cerr << "Loading XML file \"" << filename << "\" failed." << std::endl;*/
+/*        return false;*/
+/*    }*/
+/**/
+/*    tinyxml2::XMLElement* map;*/
+/*    map = levelFile.FirstChildElement("map");*/
+/**/
+/*    tinyxml2::XMLElement* tilesetElement;*/
+/*    tilesetElement = map->FirstChildElement("tileset");*/
+/*    std::string fileImagePath = tilesetElement->Attribute("source");*/
+/**/
+/*    std::string imagePath = getImagePath("Media/Map/" + fileImagePath);*/
+/**/
+/*    //mTextures.load(Textures::Tileset, imagePath);*/
+/*    mTextures.get(Textures::Tileset).setSmooth(false);*/
+/**/
+/*    return true;*/
+/*}*/
+/**/
 void World::update(sf::Time dt)
 {
     world.Step(1 / 60.f, 8, 3);
@@ -178,7 +177,7 @@ void World::saveFirstGameState()
     std::ofstream saveFile(filename, std::ios::binary);
     if(!saveFile.is_open())
     {
-        std::cerr << "Failed to open save file." << std::endl;
+        //std::cerr << "Failed to open save file." << std::endl;
         return;
     }
 
@@ -207,7 +206,7 @@ bool World::loadFromFile(std::string filename)
 
     if(levelFile.LoadFile(filename.c_str()) != tinyxml2::XML_SUCCESS)
     {
-        std::cerr << "Loading XML file \"" << filename << "\" failed." << std::endl;
+        //std::cerr << "Loading XML file \"" << filename << "\" failed." << std::endl;
         return false;
     }
 
@@ -229,7 +228,7 @@ bool World::loadFromFile(std::string filename)
     int rows = mTextures.get(Textures::Tileset).getSize().y / tileHeight;
 
     std::vector<sf::IntRect> subRects;
-
+    
     for(int y = 0; y < rows; y++)
         for(int x = 0; x < columns; x++)
         {
@@ -248,18 +247,18 @@ bool World::loadFromFile(std::string filename)
 
         tinyxml2::XMLElement* layerDataElement;
         layerDataElement = layerElement->FirstChildElement("data");
-
-        if(layerDataElement == NULL)
-        {
-            std::cout << "Bad map. No layer information found." << std::endl;
-        }
+        /**/
+        /*if(layerDataElement == NULL)*/
+        /*{*/
+        /*    std::cout << "Bad map. No layer information found." << std::endl;*/
+        /*}*/
 
         tinyxml2::XMLElement* tileElement;
         tileElement = layerDataElement->FirstChildElement("tile");
 
         if(tileElement == NULL)
         {
-            std::cout << "Bad map. No tile information found." << std::endl;
+            //std::cout << "Bad map. No tile information found." << std::endl;
             return false;
         }
 
@@ -348,13 +347,13 @@ bool World::loadFromFile(std::string filename)
 
                 sf::FloatRect rect;
                 
-                rect.position = {y * gameScale, x * gameScale};
-                rect.size = {height * gameScale, width * gameScale};
+                rect.position = {x * gameScale, y * gameScale};
+                rect.size = {width * gameScale, height * gameScale};
 
                 if(objectName == "player")
                 {
                     mStartPos = sf::Vector2f({rect.position.x, rect.position.y - rect.size.y});
-                    rect.position  = {mPlayerPos.y, mPlayerPos.x};
+                    rect.position  = {mPlayerPos.x, mPlayerPos.y};
 
                     int tileGID;
                     const char* gidAttr = objectElement->Attribute("gid");
@@ -404,10 +403,10 @@ bool World::loadFromFile(std::string filename)
             objectGroupElement = objectGroupElement->NextSiblingElement("objectgroup");
         }
     }
-    else
-    {
-        std::cout << "No object layers found..." << std::endl;
-    }
+    /*else*/
+    /*{*/
+    /*    std::cout << "No object layers found..." << std::endl;*/
+    /*}*/
 
     return true;
 }
@@ -431,7 +430,6 @@ void World::buildScene()
 
 void World::handleCollisions()
 {
-
     std::set<SceneNode::Pair> colisionPairs;
     mSceneGraph.checkSceneCollision(mSceneGraph, colisionPairs);
 
@@ -534,7 +532,7 @@ void World::saveGameState()
     std::ofstream saveFile(filename, std::ios::binary);
     if(!saveFile.is_open())
     {
-        std::cerr << "Failed to open save file." << std::endl;
+        //std::cerr << "Failed to open save file." << std::endl;
         return;
     }
     
@@ -564,7 +562,7 @@ void World::loadGameState()
     std::ifstream loadFile(filename, std::ios::binary);
     if(!loadFile)
     {
-        std::cerr << "Save file not found. Creating a new one." << std::endl;
+        //std::cerr << "Save file not found. Creating a new one." << std::endl;
         saveFirstGameState();
         return;
     }
@@ -588,7 +586,7 @@ void World::loadGameState()
 
     //mPlayer->setPosition(playerPos);
 
-    // Load other game state as needed
+    //Load other game state as needed
 
     loadFile.close();
 }

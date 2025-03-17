@@ -1,15 +1,11 @@
-::#pragma ocne
+#pragma ocne
 
 #include <SFML/Graphics.hpp>
 
-#include "ResourceHolder.hpp"
+#include "ResourceHolder.hpp" // IWYU pragma: keep 
 #include "ResourceIdentifiers.h"
-#include "StateStack.h"
-
-#include "MenuState.h"
-#include "GameState.h"
 #include "PlayerMove.h"
-#include "SettingsState.h"
+#include "StateStack.h"
 
 class Game
 {

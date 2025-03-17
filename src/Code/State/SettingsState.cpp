@@ -1,10 +1,10 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/View.hpp>
 
+//#include "ResourceHolder.hpp"
 #include "SettingsState.h"
 #include "Settings.h"
 #include "Utility.hpp"
-#include "ResourceHolder.hpp"
 
 SettingsState::SettingsState(StateStack& stack, Context context)
 	: State(stack, context)

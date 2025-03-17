@@ -16,13 +16,12 @@
 #include "SpriteNode.h"
 #include "Player.h"
 #include "Label.h"
-
     
 class World 
 {
 public:
 
-    explicit World(sf::RenderWindow& window, FontHolder& fonts);
+    explicit World(sf::RenderWindow& window, TextureHolder& texture, FontHolder& fonts);
     
     World(const World&) = delete;
     World& operator=(const World&) = delete;
@@ -67,7 +66,7 @@ private:
     sf::RenderTarget& mTarget;
     sf::RenderTexture mSceneTexture;
     sf::View mWorldView, mHUDView;
-    TextureHolder mTextures;
+    TextureHolder& mTextures;
     FontHolder& mFonts;
     std::string mCurrentMap;
 

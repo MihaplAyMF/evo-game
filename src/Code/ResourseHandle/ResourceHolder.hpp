@@ -3,7 +3,7 @@
 #include <map>
 #include <string>
 #include <memory>
-#include <stdexcept>
+#include <stdexcept> // IWYU pragma: export
 #include <cassert>
 
 template <typename Resource, typename Identifier>
@@ -29,4 +29,4 @@ private:
 	std::map<Identifier, std::unique_ptr<Resource>>	mResourceMap;
 };
 
-#include "ResourceHolder.inl"
+#include "ResourceHolder.inl" 
