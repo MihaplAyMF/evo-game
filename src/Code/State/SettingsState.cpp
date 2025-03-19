@@ -1,9 +1,12 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/View.hpp>
+#include <SFML/Graphics/Texture.hpp>
 
 #include "SettingsState.h"
 #include "Settings.h"
 #include "Utility.hpp"
+#include <SFML/System/Vector2.hpp>
+#include <SFML/Window/VideoMode.hpp>
 #include <iostream>
 
 SettingsState::SettingsState(StateStack& stack, Context context)
@@ -12,28 +15,31 @@ SettingsState::SettingsState(StateStack& stack, Context context)
     , mEvoGameLabel(std::make_shared<GUI::Label>("Settings", *context.fonts))
     , mResolButton(std::make_shared<GUI::Button>(*context.fonts, *context.textures))
     , mFullscreenButton(std::make_shared<GUI::Button>(*context.fonts, *context.textures))
+    , mSettings(Settings::getInstance())
 {
     getContext().window->setVerticalSyncEnabled(true);
-
-    sf::Vector2u res = Settings::getInstance().getCurrentResolution();
+    
+    bool isFullscreen = mSettings.isFullscreen();
+    sf::Vector2u res = isFullscreen ?  mSettings.getMaxResolution() : mSettings.getCurrentResolution();
+    
     setScale(mEvoGameSprite, sf::IntRect({0, 0}, {static_cast<int>(res.x), static_cast<int>(res.y)})); 
+    
+    mEvoGameLabel->getText().setFillColor(sf::Color::Black);
 
-	mEvoGameLabel->getText().setFillColor(sf::Color::Black);
-     
-    res = Settings::getInstance().getCurrentResolution();
+    res = mSettings.getCurrentResolution();
 	mResolButton->setText("Resolution: " + std::to_string(res.x) + ", " + std::to_string(res.y));	
-    mResolButton->setCallback([this] ()
-	{ 
-        if(!Settings::getInstance().isResolutionEqual())
+    mResolButton->setCallback([this] () 
+    { 
+        if(!mSettings.isResolutionEqual())
         {
-            Settings::getInstance().setCurrentResolution();
+            mSettings.setCurrentResolution();
             updateWindow();
-        }
-    });
+        }}
+    );
 
     mFullscreenButton->setCallback([this] ()
 	{
-        Settings::getInstance().setFullscreen(!Settings::getInstance().isFullscreen());
+        mSettings.setFullscreen(!mSettings.isFullscreen());
         updateWindow();
     });
 
@@ -59,15 +65,15 @@ bool SettingsState::handleEvent(const sf::Event& event)
         if (event.getIf<sf::Event::KeyPressed>()->scancode == sf::Keyboard::Scan::Left
             && mResolButton->isActive())
         { 
-            Settings::getInstance().setNextResolution(Settings::Direction::Prev);
-            sf::Vector2u res = Settings::getInstance().getNextResolution();
+            mSettings.setNextResolution(Settings::Direction::Prev);
+            sf::Vector2u res = mSettings.getNextResolution();
             mResolButton->setText("Resolution: " + std::to_string(res.x) + ", " + std::to_string(res.y));
         }
         else if (event.getIf<sf::Event::KeyPressed>()->scancode == sf::Keyboard::Scan::Right
             && mResolButton->isActive())
         {
-            Settings::getInstance().setNextResolution(Settings::Direction::Next);
-            sf::Vector2u res = Settings::getInstance().getNextResolution();
+            mSettings.setNextResolution(Settings::Direction::Next);
+            sf::Vector2u res = mSettings.getNextResolution();
             mResolButton->setText("Resolution: " + std::to_string(res.x) + ", " + std::to_string(res.y));
         }
     }
@@ -94,41 +100,43 @@ void SettingsState::draw()
 
 void SettingsState::updateWindow()
 {
-    sf::Vector2u res = Settings::getInstance().getCurrentResolution();
-     std::cout << res.x << ", " << res.y << std::endl;
-
-    bool isFullscreen = Settings::getInstance().isFullscreen();
+    bool isFullscreen = mSettings.isFullscreen();
+    sf::Vector2u res = mSettings.getCurrentResolution(); 
     
     getContext().window->close();
     if(isFullscreen)
         getContext().window->create(sf::VideoMode({res.x, res.y}), "SFML Window", sf::State::Fullscreen);
     else 
         getContext().window->create(sf::VideoMode({res.x, res.y}), "SFML Window", sf::Style::Default);
-    
-    res = {sf::VideoMode::getDesktopMode().size.x, sf::VideoMode::getDesktopMode().size.y};
+     
+    res = isFullscreen ? sf::Vector2u(1920, 1080) : mSettings.getCurrentResolution();
     setScale(mEvoGameSprite, sf::IntRect({0, 0}, {static_cast<int>(res.x), static_cast<int>(res.y)})); 
+    
+    std::cout << res.x << ", " << res.y << std::endl; 
     updateTextAppearance();
 }
 
 void SettingsState::updateTextAppearance()
 {
-    sf::Vector2u res = Settings::getInstance().getCurrentResolution();
+    bool isFullscreen = mSettings.isFullscreen();
+    
+    sf::Vector2u res = isFullscreen ?  mSettings.getMaxResolution(): mSettings.getCurrentResolution();
 
-    mEvoGameLabel->getText().setCharacterSize(Settings::getInstance().getAdaptiveValue(70));
+    mEvoGameLabel->getText().setCharacterSize(mSettings.getAdaptiveValue(70));
     mEvoGameLabel->setPosition({res.x / 2.f - mEvoGameLabel->getText().getGlobalBounds().size.x / 2.f, 60});
 
-    mResolButton->getText().setCharacterSize(Settings::getInstance().getAdaptiveValue(30));
+    mResolButton->getText().setCharacterSize(mSettings.getAdaptiveValue(30));
     mResolButton->setText(mResolButton->getText().getString()); 
     
-    mFullscreenButton->getText().setCharacterSize(Settings::getInstance().getAdaptiveValue(30));
-	mFullscreenButton->setText("Fullscreen: " + std::to_string(Settings::getInstance().isFullscreen()));
+    mFullscreenButton->getText().setCharacterSize(mSettings.getAdaptiveValue(30));
+	mFullscreenButton->setText("Fullscreen: " + std::to_string(mSettings.isFullscreen()));
 
     float resolTextWidth = mResolButton->getText().getGlobalBounds().size.x;
     float fullscreenTextWidth = mFullscreenButton->getText().getGlobalBounds().size.x;
     float maxWidth = std::max(resolTextWidth, fullscreenTextWidth);
     float centerX = res.x / 2.f - maxWidth / 2.f;
 
-    mResolButton->setPosition({centerX, Settings::getInstance().getAdaptiveValue(200)});
-    mFullscreenButton->setPosition({centerX, Settings::getInstance().getAdaptiveValue(250)});
+    mResolButton->setPosition({centerX, mSettings.getAdaptiveValue(200)});
+    mFullscreenButton->setPosition({centerX, mSettings.getAdaptiveValue(250)});
 }
 

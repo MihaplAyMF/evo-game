@@ -14,6 +14,7 @@ Game::Game()
     , mFonts()
     , mStateStack(State::Context(mWindow, mTextures, mFonts, mPlayer))
 {
+   
     sf::Vector2u res = Settings::getInstance().getCurrentResolution();
 
     if(Settings::getInstance().isFullscreen())
@@ -25,7 +26,7 @@ Game::Game()
 
 	mTextures.load(Textures::Tileset,     "/home/miha/EvoGame/build/Media/Textures/nature-paltformer.png");
 	mTextures.load(Textures::TitleScreen, "/home/miha/EvoGame/build/Media/Textures/title-screen.png");
-    
+
     registerStates();
 	mStateStack.pushState(States::Menu);
 }

@@ -1,19 +1,25 @@
 #include "Settings.h"
 
+#include <SFML/Graphics.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Window/VideoMode.hpp>
+
 #include <fstream>
 
 Settings::Settings()
 {
     mScale = 2.f;
 
+    mMaxResolution = sf::VideoMode::getDesktopMode().size;
+
+    mResolutions.push_back(sf::Vector2u(640, 480));
     mResolutions.push_back(sf::Vector2u(800, 600));
-    mResolutions.push_back(sf::Vector2u(960, 448));
     mResolutions.push_back(sf::Vector2u(1024, 768));
     mResolutions.push_back(sf::Vector2u(1280, 720));
-    mResolutions.push_back(sf::Vector2u(1366, 768));
-    mResolutions.push_back(sf::Vector2u(1600, 900));
+    mResolutions.push_back(sf::Vector2u(1280, 800));
+    mResolutions.push_back(sf::Vector2u(1280, 1024));
+    mResolutions.push_back(sf::Vector2u(1440, 900));
+    mResolutions.push_back(sf::Vector2u(1680, 1050));
     mResolutions.push_back(sf::Vector2u(1920, 1080));
 
     loadFromFile("settings.json");    
@@ -76,9 +82,7 @@ void Settings::saveDefaultSettingsToFile(const std::string& filename)
 {
     nlohmann::json j;
 
-    sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
-
-    auto it = std::find(mResolutions.begin(), mResolutions.end(), sf::Vector2u(desktop.size.x, desktop.size.y));
+    auto it = std::find(mResolutions.begin(), mResolutions.end(), sf::Vector2u(mMaxResolution.x, mMaxResolution.y));
     if (it != mResolutions.end())
     {
         mCurrentResolution = it;
@@ -86,7 +90,7 @@ void Settings::saveDefaultSettingsToFile(const std::string& filename)
     else
     {
         mCurrentResolution = mResolutions.begin();
-        mCurrentResolution = std::find(mResolutions.begin(), mResolutions.end(), getClosestResolution(desktop.size.x, desktop.size.y));
+        mCurrentResolution = std::find(mResolutions.begin(), mResolutions.end(), getClosestResolution(mMaxResolution.x, mMaxResolution.y));
     }
 
     const auto& res = *mCurrentResolution;
@@ -125,7 +129,9 @@ void Settings::setFullscreen(bool f)
 
 void Settings::setCurrentResolution()
 {
-    mCurrentResolution = mNextResolution;   
+    if (mNextResolution != mResolutions.end()) {
+        mCurrentResolution = mNextResolution;
+    }
 }
 
 void Settings::setNextResolution(Direction direction)
@@ -171,6 +177,11 @@ sf::Vector2u Settings::getNextResolution() const
 sf::Vector2u Settings::getCurrentResolution() const
 {
     return *mCurrentResolution;
+}
+
+sf::Vector2u Settings::getMaxResolution() const
+{
+    return mMaxResolution;
 }
 
 sf::Vector2u Settings::getClosestResolution(unsigned int width, unsigned int height) const

@@ -19,9 +19,6 @@ enum class Fonts
 {
 	Main,
 };
-/**/
-/*template <typename Resource, typename Identifier>*/
-/*class ResourceHolder;*/
 
 typedef ResourceHolder<sf::Texture, Textures>   TextureHolder;
 typedef ResourceHolder<sf::Font, Fonts>			FontHolder;

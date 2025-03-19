@@ -30,6 +30,7 @@ public:
 
     sf::Vector2u getCurrentResolution() const;
     sf::Vector2u getNextResolution() const;
+    sf::Vector2u getMaxResolution() const;
     sf::Vector2u getClosestResolution(unsigned int width, unsigned int height) const;
     
     float getScale();  
@@ -45,4 +46,5 @@ private:
     std::list<sf::Vector2u> mResolutions;
     std::list<sf::Vector2u>::iterator mCurrentResolution;
     std::list<sf::Vector2u>::iterator mNextResolution;
+    sf::Vector2u mMaxResolution;
 };

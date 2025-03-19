@@ -11,7 +11,10 @@ MenuState::MenuState(StateStack& stack, Context context)
 	: State(stack, context)
     , mEvoGameSprite(context.textures->get(Textures::TitleScreen))
 {
-    sf::Vector2u res = Settings::getInstance().getCurrentResolution();
+    Settings& set = Settings::getInstance();
+    bool isFullscreen = set.isFullscreen();
+    
+    sf::Vector2u res = isFullscreen ?  set.getMaxResolution() : set.getCurrentResolution();
 
 	setScale(mEvoGameSprite, sf::IntRect({0, 0}, {static_cast<int>(res.x), static_cast<int>(res.y)})); 
 

@@ -4,6 +4,7 @@
 #include <SFML/Graphics/Text.hpp>
 #include <SFML/System/Vector2.hpp>
 
+#include "Settings.h"
 #include "StateStack.h"
 #include "Container.h"
 #include "Button.h"
@@ -28,5 +29,5 @@ private:
     std::shared_ptr<GUI::Label>   mEvoGameLabel; 
 	GUI::Container		          mGUIContainer;
 
-    int testInt = 30;
+    Settings& mSettings;
 };
