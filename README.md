@@ -1,5 +1,5 @@
-[![en](https://img.shields.io/badge/Language-English-red.svg)](https://github.com/MihaplAyMF/evo-game/blob/main/README.md)
-[![ua](https://img.shields.io/badge/Language-Ukrainian-green.svg)](https://github.com/MihaplAyMF/evo-game/blob/main/README.ua.md)
+[![en](https://img.shields.io/badge/Language-English-red.svg)](https://github.com/MihaplAyMF/evo-game/blob/master/README.md)
+[![ua](https://img.shields.io/badge/Language-Ukrainian-green.svg)](https://github.com/MihaplAyMF/evo-game/blob/master/README.ua.md)
 
 # EvoGame
 
@@ -13,30 +13,42 @@
 
 ### Cloning the Project
 
-```git clone https://github.com/MihaplAyMF/evo-game.git
-cd evo-game```
+~~~sh
+git clone https://github.com/MihaplAyMF/evo-game.git
+cd evo-game
+~~~
 
 ### Installing Vcpkg
 
-```mkdir vcpkg && cd vcpkg
+```sh
+mkdir vcpkg && cd vcpkg
 git clone https://github.com/microsoft/vcpkg.git
 ./bootstrap-vcpkg.sh  # For Linux/macOS
-.\bootstrap-vcpkg.bat  # For Windows```
+.\bootstrap-vcpkg.bat  # For Windows
+```
 
 ### Installing Required Libraries
 
-```mkdir vcpkg && cd vcpkg
+```sh
+mkdir vcpkg && cd vcpkg
 git clone https://github.com/microsoft/vcpkg.git
 ./bootstrap-vcpkg.sh  # For Linux/macOS
-.\bootstrap-vcpkg.bat  # For Windows```
+.\bootstrap-vcpkg.bat  # For Windows
+```
 
 ### Building the Project
-```./vcpkg install sfml box2d tinyxml2 nlohmann-json  # Linux/macOS
-.\vcpkg.exe install sfml box2d tinyxml2 nlohmann-json  # Windows```
+
+```sh
+./vcpkg install sfml box2d tinyxml2 nlohmann-json  # Linux/macOS
+.\vcpkg.exe install sfml box2d tinyxml2 nlohmann-json  # Windows
+```
 
 ### Running the Project
-```./my_new_pet_project  # Linux/macOS
-.\my_new_pet_project.exe  # Windows```
+
+```sh
+./my_new_pet_project  # Linux/macOS
+.\my_new_pet_project.exe  # Windows
+```
 
 ### Notes
 * All libraries are installed inside the project directory to simplify compilation.
