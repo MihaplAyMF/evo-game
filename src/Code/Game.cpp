@@ -14,7 +14,7 @@ Game::Game()
     , mFonts()
     , mStateStack(State::Context(mWindow, mTextures, mFonts, mPlayer))
 {
-    sf::Vector2u res = Settings::getInstance().getResolution();
+    sf::Vector2u res = Settings::getInstance().getCurrentResolution();
 
     if(Settings::getInstance().isFullscreen())
         mWindow.create(sf::VideoMode({res.x, res.y}), "SFML Window", sf::State::Fullscreen);

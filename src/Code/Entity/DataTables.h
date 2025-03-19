@@ -1,7 +1,6 @@
 #pragma once
 
 #include <vector>
-#include <functional>
 
 #include <SFML/System/Time.hpp>
 #include <SFML/Graphics/Color.hpp>
@@ -32,3 +31,5 @@ struct PlayerData
 };
 
 std::vector<PlayerData>   initializePlayerData();
+float getBoxScale();
+b2World& getWorld();

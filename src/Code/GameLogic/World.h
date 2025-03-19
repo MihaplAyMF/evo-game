@@ -1,19 +1,14 @@
 #pragma once
 
 #include <string>
-#include <vector>
 #include <array>
-#include <deque>
 #include <map>
-#include <unordered_set>
 
 #include <SFML/Graphics.hpp>
 #include <box2d/box2d.h>
 
-#include "ResourceHolder.hpp"
 #include "ResourceIdentifiers.h"
 #include "CommandQueue.h"
-#include "SpriteNode.h"
 #include "Player.h"
 #include "Label.h"
     
@@ -73,6 +68,8 @@ private:
     SceneNode mSceneGraph;
     std::array<SceneNode*, LayerCount> mSceneLayers;
     CommandQueue mCommandQueue;
+    
+    b2World& mWorld;
 
     Player* mPlayer;
     sf::Vector2f mGlobalPos;

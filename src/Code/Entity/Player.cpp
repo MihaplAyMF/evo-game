@@ -1,5 +1,4 @@
 #include <cmath>
-#include <string>
 
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/RenderStates.hpp>
@@ -9,7 +8,6 @@
 #include "DataTables.h"
 #include "Utility.hpp"
 #include "CommandQueue.h"
-#include "ResourceHolder.hpp"
 
 extern const float boxScale;
 extern b2World world;

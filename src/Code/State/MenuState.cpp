@@ -1,12 +1,9 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/View.hpp>
 
-#include <iostream>
-
 #include "MenuState.h"
 #include "Settings.h"
 #include "Utility.hpp"
-#include "ResourceHolder.hpp"
 #include "Button.h"
 #include "Label.h"
 
@@ -14,7 +11,7 @@ MenuState::MenuState(StateStack& stack, Context context)
 	: State(stack, context)
     , mEvoGameSprite(context.textures->get(Textures::TitleScreen))
 {
-    sf::Vector2u res = Settings::getInstance().getResolution();
+    sf::Vector2u res = Settings::getInstance().getCurrentResolution();
 
 	setScale(mEvoGameSprite, sf::IntRect({0, 0}, {static_cast<int>(res.x), static_cast<int>(res.y)})); 
 

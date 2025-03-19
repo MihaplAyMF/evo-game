@@ -1,10 +1,7 @@
-#include <string>
-#include <algorithm>
 #include <map>
 
 #include "PlayerMove.h"
 #include "Player.h"
-
 
 struct PlayerMover
 {

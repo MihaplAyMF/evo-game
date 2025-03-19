@@ -1,10 +1,7 @@
 #pragma once
 
-#include <vector>
-#include <string>
 #include <memory>
 #include <functional>
-#include <map>
 
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Text.hpp>
@@ -12,8 +9,7 @@
 
 #include "Component.h"
 #include "ResourceIdentifiers.h"
-#include "ResourceHolder.hpp"
-#include "Settings.h"
+
 namespace GUI
 {
 	class Button : public Component

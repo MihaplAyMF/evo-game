@@ -24,13 +24,12 @@ public:
     bool isResolutionEqual() const;
     
     void setFullscreen(bool f);
-    void setResolution();
+    void setCurrentResolution();
     void setNextResolution(Direction d);
     void setScale(float s);
 
-    sf::Vector2u getResolution() const;
-    sf::Vector2u getNextResolution() const;
     sf::Vector2u getCurrentResolution() const;
+    sf::Vector2u getNextResolution() const;
     sf::Vector2u getClosestResolution(unsigned int width, unsigned int height) const;
     
     float getScale();  

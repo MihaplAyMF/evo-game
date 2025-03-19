@@ -1,10 +1,10 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/View.hpp>
 
-//#include "ResourceHolder.hpp"
 #include "SettingsState.h"
 #include "Settings.h"
 #include "Utility.hpp"
+#include <iostream>
 
 SettingsState::SettingsState(StateStack& stack, Context context)
 	: State(stack, context)
@@ -13,7 +13,9 @@ SettingsState::SettingsState(StateStack& stack, Context context)
     , mResolButton(std::make_shared<GUI::Button>(*context.fonts, *context.textures))
     , mFullscreenButton(std::make_shared<GUI::Button>(*context.fonts, *context.textures))
 {
-    sf::Vector2u res = Settings::getInstance().getResolution();
+    getContext().window->setVerticalSyncEnabled(true);
+
+    sf::Vector2u res = Settings::getInstance().getCurrentResolution();
     setScale(mEvoGameSprite, sf::IntRect({0, 0}, {static_cast<int>(res.x), static_cast<int>(res.y)})); 
 
 	mEvoGameLabel->getText().setFillColor(sf::Color::Black);
@@ -24,7 +26,7 @@ SettingsState::SettingsState(StateStack& stack, Context context)
 	{ 
         if(!Settings::getInstance().isResolutionEqual())
         {
-            Settings::getInstance().setResolution();
+            Settings::getInstance().setCurrentResolution();
             updateWindow();
         }
     });
@@ -92,7 +94,9 @@ void SettingsState::draw()
 
 void SettingsState::updateWindow()
 {
-    sf::Vector2u res = Settings::getInstance().getResolution();
+    sf::Vector2u res = Settings::getInstance().getCurrentResolution();
+     std::cout << res.x << ", " << res.y << std::endl;
+
     bool isFullscreen = Settings::getInstance().isFullscreen();
     
     getContext().window->close();
@@ -100,14 +104,15 @@ void SettingsState::updateWindow()
         getContext().window->create(sf::VideoMode({res.x, res.y}), "SFML Window", sf::State::Fullscreen);
     else 
         getContext().window->create(sf::VideoMode({res.x, res.y}), "SFML Window", sf::Style::Default);
-
+    
+    res = {sf::VideoMode::getDesktopMode().size.x, sf::VideoMode::getDesktopMode().size.y};
     setScale(mEvoGameSprite, sf::IntRect({0, 0}, {static_cast<int>(res.x), static_cast<int>(res.y)})); 
     updateTextAppearance();
 }
 
 void SettingsState::updateTextAppearance()
 {
-    sf::Vector2u res = Settings::getInstance().getResolution();
+    sf::Vector2u res = Settings::getInstance().getCurrentResolution();
 
     mEvoGameLabel->getText().setCharacterSize(Settings::getInstance().getAdaptiveValue(70));
     mEvoGameLabel->setPosition({res.x / 2.f - mEvoGameLabel->getText().getGlobalBounds().size.x / 2.f, 60});

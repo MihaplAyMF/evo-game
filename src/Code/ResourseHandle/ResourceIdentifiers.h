@@ -1,4 +1,5 @@
 #pragma once
+#include "ResourceHolder.hpp"
 
 namespace sf
 {
@@ -18,9 +19,9 @@ enum class Fonts
 {
 	Main,
 };
-
-template <typename Resource, typename Identifier>
-class ResourceHolder;
+/**/
+/*template <typename Resource, typename Identifier>*/
+/*class ResourceHolder;*/
 
 typedef ResourceHolder<sf::Texture, Textures>   TextureHolder;
 typedef ResourceHolder<sf::Font, Fonts>			FontHolder;

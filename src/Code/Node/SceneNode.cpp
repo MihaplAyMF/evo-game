@@ -184,7 +184,7 @@ sf::FloatRect SceneNode::getBoundingRect() const
 bool collision(const SceneNode& lhs, const SceneNode& rhs)
 {
     auto intersection = lhs.getBoundingRect().findIntersection(rhs.getBoundingRect());
-    return intersection.has_value(); // Повертаємо true, якщо перетин існує
+    return intersection.has_value(); 
 }
 
 float distance(const SceneNode& lhs, const SceneNode& rhs)

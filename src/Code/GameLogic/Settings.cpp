@@ -9,7 +9,7 @@ Settings::Settings()
     mScale = 2.f;
 
     mResolutions.push_back(sf::Vector2u(800, 600));
-    mResolutions.push_back(sf::Vector2u(960, 448)); // Delete later
+    mResolutions.push_back(sf::Vector2u(960, 448));
     mResolutions.push_back(sf::Vector2u(1024, 768));
     mResolutions.push_back(sf::Vector2u(1280, 720));
     mResolutions.push_back(sf::Vector2u(1366, 768));
@@ -123,7 +123,7 @@ void Settings::setFullscreen(bool f)
     mFullscreen = f; 
 }
 
-void Settings::setResolution()
+void Settings::setCurrentResolution()
 {
     mCurrentResolution = mNextResolution;   
 }
@@ -161,14 +161,6 @@ void Settings::setNextResolution(Direction direction)
 void Settings::setScale(float s)
 {
     mScale = s;
-}
-
-sf::Vector2u Settings::getResolution() const
-{
-    if (mFullscreen)
-        return {sf::VideoMode::getDesktopMode().size.x, sf::VideoMode::getDesktopMode().size.y};
-    else 
-        return *mCurrentResolution;
 }
 
 sf::Vector2u Settings::getNextResolution() const

@@ -3,6 +3,7 @@
 #include <SFML/Graphics/Sprite.hpp>
 
 #include "Entity.h"
+#include "ResourceIdentifiers.h"
 
 class Coin : public Entity
 {

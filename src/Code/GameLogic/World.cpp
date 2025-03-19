@@ -1,8 +1,8 @@
 #include <tinyxml2.h>
-//#include <filesystem> 
 #include <fstream>
 
-#include "ResourceIdentifiers.h"
+#include "DataTables.h"
+#include "SpriteNode.h"
 #include "Settings.h"
 #include "World.h"
 #include "Block.h"
@@ -10,42 +10,13 @@
 #include "Ladder.h"
 #include "Exit.h"
 
+#include <iostream>
+
 extern const float boxScale;
 extern const float gameScale;
-extern b2World world;
 
-sf::Vector2u res = Settings::getInstance().getResolution();
+sf::Vector2u res = Settings::getInstance().getCurrentResolution();
 const float zoomValue = 1.2;
-
-/*std::string getImagePath(std::string xmlFilePath)*/
-/*{*/
-/*    std::string imagePath;*/
-/*    tinyxml2::XMLDocument doc;*/
-/**/
-/*    if(doc.LoadFile(xmlFilePath.c_str()) == tinyxml2::XML_SUCCESS)*/
-/*    {*/
-/*        tinyxml2::XMLElement* root = doc.FirstChildElement("tileset");*/
-/*        if(root)*/
-/*        {*/
-/*            tinyxml2::XMLElement* imageElement = root->FirstChildElement("image");*/
-/*            if(imageElement)*/
-/*            {*/
-/*                const char* source = imageElement->Attribute("source");*/
-/*                if(source)*/
-/*                {*/
-/*                    std::filesystem::path xmlPath(xmlFilePath);*/
-/*                    std::filesystem::path xmlDirectory = xmlPath.parent_path();*/
-/*                    std::filesystem::path relativeImagePath(source);*/
-/**/
-/*                    std::filesystem::path absoluteImagePath = std::filesystem::canonical(xmlDirectory / relativeImagePath);*/
-/*                    imagePath = absoluteImagePath.string();*/
-/*                }*/
-/*            }*/
-/*        }*/
-/*    }*/
-/**/
-/*    return imagePath;*/
-/*}*/
 
 bool matchesCategories(SceneNode::Pair& colliders, Category::Type type1, Category::Type type2)
 {
@@ -56,7 +27,7 @@ bool matchesCategories(SceneNode::Pair& colliders, Category::Type type1, Categor
     {
         return true;
     }
-    else if(type1 & category2 && type2 & category1)
+    else if(type1 & category2 && type2 & category1) 
     {
         std::swap(colliders.first, colliders.second);
         return true;
@@ -69,11 +40,12 @@ bool matchesCategories(SceneNode::Pair& colliders, Category::Type type1, Categor
 }
 
 World::World(sf::RenderWindow& window, TextureHolder& texture, FontHolder& fonts)
-    : mTarget(window)
-    , mWorldView(sf::FloatRect({0, 0}, {window.getSize().x / zoomValue, window.getSize().y / zoomValue}))
+    : mWorldView(sf::FloatRect({0, 0}, {window.getSize().x / zoomValue, window.getSize().y / zoomValue}))
     , mHUDView(window.getDefaultView())
+    , mTarget(window)
     , mFonts(fonts)
     , mTextures(texture)
+    , mWorld(getWorld())
     , mPlayer(nullptr)
     , mGlobalPos(0, 0)
     , mPlayerPos(0, 0)
@@ -82,40 +54,16 @@ World::World(sf::RenderWindow& window, TextureHolder& texture, FontHolder& fonts
     , mHeartSprite(mTextures.get(Textures::Tileset))
     , mCoinSprite(mTextures.get(Textures::Tileset))
 {
+    std::cout << res.x << ", " << res.y << std::endl;
+
     loadGameState();
-    //loadTexture(mCurrentMap);
     createHUD();
     buildScene();
 }
 
-/*bool World::loadTexture(std::string filename)*/
-/*{*/
-/*    tinyxml2::XMLDocument levelFile;*/
-/**/
-/*    if(levelFile.LoadFile(filename.c_str()) != tinyxml2::XML_SUCCESS)*/
-/*    {*/
-/*        std::cerr << "Loading XML file \"" << filename << "\" failed." << std::endl;*/
-/*        return false;*/
-/*    }*/
-/**/
-/*    tinyxml2::XMLElement* map;*/
-/*    map = levelFile.FirstChildElement("map");*/
-/**/
-/*    tinyxml2::XMLElement* tilesetElement;*/
-/*    tilesetElement = map->FirstChildElement("tileset");*/
-/*    std::string fileImagePath = tilesetElement->Attribute("source");*/
-/**/
-/*    std::string imagePath = getImagePath("Media/Map/" + fileImagePath);*/
-/**/
-/*    //mTextures.load(Textures::Tileset, imagePath);*/
-/*    mTextures.get(Textures::Tileset).setSmooth(false);*/
-/**/
-/*    return true;*/
-/*}*/
-/**/
 void World::update(sf::Time dt)
 {
-    world.Step(1 / 60.f, 8, 3);
+    mWorld.Step(1 / 60.f, 8, 3);
     changeMapPlayerOutsideView();
 
     
@@ -161,11 +109,11 @@ void World::cleanup()
         }
     }
 
-    b2Body* body = world.GetBodyList();
+    b2Body* body = mWorld.GetBodyList();
     while(body != nullptr)                                                      
     {
         b2Body* nextBody = body->GetNext(); 
-        world.DestroyBody(body); 
+        mWorld.DestroyBody(body); 
         body = nextBody;
     }
 }
@@ -181,7 +129,6 @@ void World::saveFirstGameState()
         return;
     }
 
-    // Save player state    
     mGlobalPos = sf::Vector2f(0, 0);
     mPlayerPos = sf::Vector2f(0, 0);
     mCurrentMap = "Media/Map/Map1.tmx";
@@ -195,7 +142,6 @@ void World::saveFirstGameState()
     size_t length = mCurrentMap.size();
     saveFile.write(reinterpret_cast<const char*>(&length), sizeof(length));
     saveFile.write(mCurrentMap.c_str(), length);
-    // Save other game state as needed
 
     saveFile.close();
 }
@@ -247,11 +193,6 @@ bool World::loadFromFile(std::string filename)
 
         tinyxml2::XMLElement* layerDataElement;
         layerDataElement = layerElement->FirstChildElement("data");
-        /**/
-        /*if(layerDataElement == NULL)*/
-        /*{*/
-        /*    std::cout << "Bad map. No layer information found." << std::endl;*/
-        /*}*/
 
         tinyxml2::XMLElement* tileElement;
         tileElement = layerDataElement->FirstChildElement("tile");
@@ -402,12 +343,7 @@ bool World::loadFromFile(std::string filename)
             }
             objectGroupElement = objectGroupElement->NextSiblingElement("objectgroup");
         }
-    }
-    /*else*/
-    /*{*/
-    /*    std::cout << "No object layers found..." << std::endl;*/
-    /*}*/
-
+    }    
     return true;
 }
 
@@ -424,8 +360,6 @@ void World::buildScene()
     }
 
     loadFromFile(mCurrentMap);
-
-    //mPlayer->setPos(mStartPos); 
 }
 
 void World::handleCollisions()
@@ -441,7 +375,6 @@ void World::handleCollisions()
             
             mCoinIDCollected[mCurrentMap].insert(coin.getObjectID());
             coin.remove();
-            coin.getBodyObject()->DestroyFixture(coin.getBodyObject()->GetFixtureList());
             mCoinCollected++;
             mCoinLabel.setText(std::to_string(mCoinCollected));
         }
@@ -567,7 +500,6 @@ void World::loadGameState()
         return;
     }
 
-    // Load player state
     loadFile.read(reinterpret_cast<char*>(&mGlobalPos.x), sizeof(mGlobalPos.x));
     loadFile.read(reinterpret_cast<char*>(&mGlobalPos.y), sizeof(mGlobalPos.y));
 
@@ -579,14 +511,10 @@ void World::loadGameState()
 
     char* buffer = new char[length + 1];
     loadFile.read(buffer, length);
-    buffer[length] = '\0'; // Null-terminate the string
+    buffer[length] = '\0';
 
     mCurrentMap = buffer;
     delete[] buffer;
-
-    //mPlayer->setPosition(playerPos);
-
-    //Load other game state as needed
 
     loadFile.close();
 }

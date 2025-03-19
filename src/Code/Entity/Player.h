@@ -5,7 +5,7 @@
 #include "Entity.h"
 #include "CommandQueue.h"
 #include "ResourceIdentifiers.h"
-
+#include "DataTables.h"
 
 class Player : public Entity
 {
@@ -31,7 +31,6 @@ public:
 	void setIsLadder(bool isLadder);
 	void setIsExit(bool isExit);
 	void setPos(sf::Vector2f pos);
-
 
 private:
 	virtual void		  drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const;

@@ -2,7 +2,6 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "ResourceHolder.hpp" // IWYU pragma: keep 
 #include "ResourceIdentifiers.h"
 #include "PlayerMove.h"
 #include "StateStack.h"
