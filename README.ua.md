@@ -1,5 +1,5 @@
-[![en](https://img.shields.io/badge/Language-English-red.svg)](https://github.com/MihaplAyMF/evo-game/blob/main/README.md)
-[![ua](https://img.shields.io/badge/Language-Ukrainian-green.svg)](https://github.com/MihaplAyMF/evo-game/blob/main/README.ua.md)
+[![en](https://img.shields.io/badge/Language-English-red.svg)](https://github.com/MihaplAyMF/evo-game/blob/master/README.md)
+[![ua](https://img.shields.io/badge/Language-Ukrainian-green.svg)](https://github.com/MihaplAyMF/evo-game/blob/master/README.ua.md)
 
 # EvoGame
 
@@ -14,33 +14,43 @@
 
 ### Клонування проєкту
     
- ```git clone https://github.com/MihaplAyMF/evo-game.git```
- ```cd evo-game```
+```sh
+git clone https://github.com/MihaplAyMF/evo-game.git
+cd evo-game
+```
 
 ### Встановлення Vcpkg
 
- ```mkdir vcpkg && cd vcpkg
- git clone https://github.com/microsoft/vcpkg.git
- ./bootstrap-vcpkg.sh  # Для Linux/macOS
- .\bootstrap-vcpkg.bat  # Для Windows```
+```sh
+mkdir vcpkg && cd vcpkg
+git clone https://github.com/microsoft/vcpkg.git
+./bootstrap-vcpkg.sh  # Для Linux/macOS
+.\bootstrap-vcpkg.bat  # Для Windows
+```
 
 ### Встановлення необхідних бібліотек
 
- ```./vcpkg install sfml box2d tinyxml2 nlohmann-json  # Linux/macOS
- .\vcpkg.exe install sfml box2d tinyxml2 nlohmann-json  # Windows```
+```sh
+./vcpkg install sfml box2d tinyxml2 nlohmann-json  # Linux/macOS
+.\vcpkg.exe install sfml box2d tinyxml2 nlohmann-json  # Windows
+```
 
 ### Збірка проєкту
 
- ```cd ..
- mkdir build && cd build
- cmake .. -G "Ninja"  # Для Windows рекомендується Ninja
- make  # Linux/macOS
- ninja  # Windows```
+```sh
+cd ..
+mkdir build && cd build
+cmake .. -G "Ninja"  # Для Windows рекомендується Ninja
+make  # Linux/macOS
+ninja  # Windows
+```
 
 ### Запуск гри
 
-``` ./my_new_pet_project  # Linux/macOS
- .\my_new_pet_project.exe  # Windows```
+```sh
+ ./my_new_pet_project  # Linux/macOS
+.\my_new_pet_project.exe  # Windows
+```
 
 ### Замітки
 * Усі бібліотеки встановлюються у внутрішню папку проєкту, що спрощує компіляцію.
