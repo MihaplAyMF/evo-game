@@ -22,8 +22,8 @@ cd evo-game
 ### Встановлення Vcpkg
 
 ```sh
-mkdir vcpkg && cd vcpkg
 git clone https://github.com/microsoft/vcpkg.git
+cd vcpkg
 ./bootstrap-vcpkg.sh  # Для Linux/macOS
 .\bootstrap-vcpkg.bat  # Для Windows
 ```
@@ -40,9 +40,8 @@ git clone https://github.com/microsoft/vcpkg.git
 ```sh
 cd ..
 mkdir build && cd build
-cmake .. -G "Ninja"  # Для Windows рекомендується Ninja
+cmake ..
 make  # Linux/macOS
-ninja  # Windows
 ```
 
 ### Запуск гри
@@ -51,11 +50,5 @@ ninja  # Windows
  ./my_new_pet_project  # Linux/macOS
 .\my_new_pet_project.exe  # Windows
 ```
-
-### Замітки
-* Усі бібліотеки встановлюються у внутрішню папку проєкту, що спрощує компіляцію.
-* Для Windows рекомендується використовувати Ninja або Visual Studio.
-* Для Linux/macOS потрібно мати make, gcc, g++.
-* Для Windows бажано використовувати MSVC або MinGW.
-
+На Windows, якщо використовується Visual Studio, після генерації файлів CMake у build потрібно відкрити .sln файл та зібрати проєкт звідти.
 
