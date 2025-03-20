@@ -16,7 +16,11 @@ file(GLOB_RECURSE SOURCES
 
 add_executable(EvoGame ${SOURCES})
 
-set(VCPKG_FILE_DIR ${CMAKE_SOURCE_DIR}/vcpkg/installed/x64-linux)
+if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+    set(VCPKG_FILE_DIR ${CMAKE_SOURCE_DIR}/vcpkg/installed/x64-linux)
+elseif(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    set(VCPKG_FILE_DIR ${CMAKE_SOURCE_DIR}/vcpkg/installed/x64-windows)
+endif()
 set(SFML_DIR "${VCPKG_FILE_DIR}/share/sfml")
 set(nlohmann_json_DIR "${VCPKG_FILE_DIR}/share/nlohmann_json")
 set(box2d_DIR "${VCPKG_FILE_DIR}/share/box2d")
@@ -45,3 +49,10 @@ target_include_directories(EvoGame PRIVATE
     ${SRC_DIR}/InputHandle   
     ${SRC_DIR}/Node
 )
+
+add_custom_command(TARGET EvoGame POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+    $<IF:$<CONFIG:Debug>,${VCPKG_FILE_DIR}/debug/bin,${VCPKG_FILE_DIR}/bin>
+    $<TARGET_FILE_DIR:EvoGame>
+)
+

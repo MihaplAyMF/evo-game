@@ -12,8 +12,6 @@
 extern const float boxScale;
 extern b2World world;
 
-float gameScale = Settings::getInstance().getScale();
-
 namespace
 {
 	const std::vector<PlayerData> Table = initializePlayerData();
@@ -28,7 +26,8 @@ Player::Player(Type type, const TextureHolder& textures, sf::FloatRect rect)
 	, mIsExit(false)
 {
 	sf::FloatRect bounds = mSprite.getLocalBounds();
-	
+	float gameScale = Settings::getInstance().getScale();
+
 	mSprite.setScale({gameScale, gameScale});
 	
 	b2BodyDef bodyDef;

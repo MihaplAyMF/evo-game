@@ -22,10 +22,10 @@ Game::Game()
     else 
         mWindow.create(sf::VideoMode({res.x, res.y}), "SFML Window", sf::Style::Default);
 
-    mFonts.open(Fonts::Main, "/home/miha/EvoGame/build/Media/Fonts/Sansation.ttf");
+    mFonts.open(Fonts::Main, "C:/Files/EvoGame/build/Debug/Media/Fonts/Sansation.ttf");
 
-	mTextures.load(Textures::Tileset,     "/home/miha/EvoGame/build/Media/Textures/nature-paltformer.png");
-	mTextures.load(Textures::TitleScreen, "/home/miha/EvoGame/build/Media/Textures/title-screen.png");
+	mTextures.load(Textures::Tileset,     "C:/Files/EvoGame/build/Debug/Media/Textures/nature-paltformer.png");
+	mTextures.load(Textures::TitleScreen, "C:/Files/EvoGame/build/Debug/Media/Textures/title-screen.png");
 
     registerStates();
 	mStateStack.pushState(States::Menu);

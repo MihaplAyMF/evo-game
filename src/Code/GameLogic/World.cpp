@@ -13,7 +13,7 @@
 #include <iostream>
 
 extern const float boxScale;
-extern const float gameScale;
+float gameScale = Settings::getInstance().getScale();
 
 sf::Vector2u res = Settings::getInstance().getCurrentResolution();
 const float zoomValue = 1.2;
@@ -359,6 +359,7 @@ void World::buildScene()
         mSceneGraph.attachChild(std::move(layer));
     }
 
+    std::cout << mCurrentMap << std::endl;
     loadFromFile(mCurrentMap);
 }
 

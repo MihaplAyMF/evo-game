@@ -1,10 +1,10 @@
 #include "Game.h"
 
 #ifdef _WIN32
-    #include <windows.h>
-    int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
+#include <windows.h>
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 #else
-    int main()
+int main()
 #endif
 {
     Game game;
