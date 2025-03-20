@@ -45,7 +45,7 @@ make  # Linux/macOS
 ```
 
 ### Запуск гри
-
+Перед запуском вам потрібно скопіювати папку src/Media до папки build
 ```sh
  ./my_new_pet_project  # Linux/macOS
 .\my_new_pet_project.exe  # Windows
