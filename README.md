@@ -37,16 +37,16 @@ cd vcpkg
 ### Building the Project
 
 ```sh
-./vcpkg install sfml box2d tinyxml2 nlohmann-json  # Linux/macOS
-.\vcpkg.exe install sfml box2d tinyxml2 nlohmann-json  # Windows
-```
-
-### Running the Project
-
-```sh
 cd ..
 mkdir build && cd build
 cmake ..
 make  # Linux/macOS
+```
+
+### Running the Project
+Before running, you need to copy the src/Media folder to the build folder
+```sh
+ ./my_new_pet_project  # Linux/macOS
+.\my_new_pet_project.exe  # Windows
 ```
 On Windows, if using Visual Studio, after generating CMake files in the build directory, open the .sln file and build the project from there.
