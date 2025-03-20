@@ -21,8 +21,8 @@ cd evo-game
 ### Installing Vcpkg
 
 ```sh
-mkdir vcpkg && cd vcpkg
 git clone https://github.com/microsoft/vcpkg.git
+cd vcpkg
 ./bootstrap-vcpkg.sh  # For Linux/macOS
 .\bootstrap-vcpkg.bat  # For Windows
 ```
@@ -30,28 +30,23 @@ git clone https://github.com/microsoft/vcpkg.git
 ### Installing Required Libraries
 
 ```sh
-mkdir vcpkg && cd vcpkg
-git clone https://github.com/microsoft/vcpkg.git
-./bootstrap-vcpkg.sh  # For Linux/macOS
-.\bootstrap-vcpkg.bat  # For Windows
+./vcpkg install sfml box2d tinyxml2 nlohmann-json  # Linux/macOS
+.\vcpkg.exe install sfml box2d tinyxml2 nlohmann-json  # Windows
 ```
 
 ### Building the Project
 
 ```sh
-./vcpkg install sfml box2d tinyxml2 nlohmann-json  # Linux/macOS
-.\vcpkg.exe install sfml box2d tinyxml2 nlohmann-json  # Windows
+cd ..
+mkdir build && cd build
+cmake ..
+make  # Linux/macOS
 ```
 
 ### Running the Project
-
+Before running, you need to copy the src/Media folder to the build folder
 ```sh
-./my_new_pet_project  # Linux/macOS
+ ./my_new_pet_project  # Linux/macOS
 .\my_new_pet_project.exe  # Windows
 ```
-
-### Notes
-* All libraries are installed inside the project directory to simplify compilation.
-* For Windows, it is recommended to use Ninja or Visual Studio.
-* For Linux/macOS, make sure to have make, gcc, and g++ installed.
-* For Windows, it is preferable to use MSVC or MinGW.
+On Windows, if using Visual Studio, after generating CMake files in the build directory, open the .sln file and build the project from there.
