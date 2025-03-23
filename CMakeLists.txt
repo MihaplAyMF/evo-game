@@ -49,10 +49,11 @@ target_include_directories(EvoGame PRIVATE
     ${SRC_DIR}/InputHandle   
     ${SRC_DIR}/Node
 )
-
-add_custom_command(TARGET EvoGame POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_directory
-    $<IF:$<CONFIG:Debug>,${VCPKG_FILE_DIR}/debug/bin,${VCPKG_FILE_DIR}/bin>
-    $<TARGET_FILE_DIR:EvoGame>
-)
+if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    add_custom_command(TARGET EvoGame POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        $<IF:$<CONFIG:Debug>,${VCPKG_FILE_DIR}/debug/bin,${VCPKG_FILE_DIR}/bin>
+        $<TARGET_FILE_DIR:EvoGame>
+    )
+endif()
 

@@ -20,8 +20,8 @@ SettingsState::SettingsState(StateStack& stack, Context context)
     getContext().window->setVerticalSyncEnabled(true);
     
     bool isFullscreen = mSettings.isFullscreen();
-    sf::Vector2u res = isFullscreen ?  mSettings.getMaxResolution() : mSettings.getCurrentResolution();
-    
+    /*sf::Vector2u res = isFullscreen ?  mSettings.getMaxResolution() : mSettings.getCurrentResolution();*/
+    sf::Vector2u res = mSettings.getCurrentResolution(); 
     setScale(mEvoGameSprite, sf::IntRect({0, 0}, {static_cast<int>(res.x), static_cast<int>(res.y)})); 
     
     mEvoGameLabel->getText().setFillColor(sf::Color::Black);
@@ -109,18 +109,18 @@ void SettingsState::updateWindow()
     else 
         getContext().window->create(sf::VideoMode({res.x, res.y}), "SFML Window", sf::Style::Default);
      
-    res = isFullscreen ? sf::Vector2u(1920, 1080) : mSettings.getCurrentResolution();
+    res = isFullscreen ? mSettings.getMaxResolution() : mSettings.getCurrentResolution();
     setScale(mEvoGameSprite, sf::IntRect({0, 0}, {static_cast<int>(res.x), static_cast<int>(res.y)})); 
     
     std::cout << res.x << ", " << res.y << std::endl; 
-    updateTextAppearance();
+    //updateTextAppearance();
 }
 
 void SettingsState::updateTextAppearance()
 {
     bool isFullscreen = mSettings.isFullscreen();
     
-    sf::Vector2u res = isFullscreen ?  mSettings.getMaxResolution(): mSettings.getCurrentResolution();
+    sf::Vector2u res = isFullscreen ?  mSettings.getMaxResolution() : mSettings.getCurrentResolution();
 
     mEvoGameLabel->getText().setCharacterSize(mSettings.getAdaptiveValue(70));
     mEvoGameLabel->setPosition({res.x / 2.f - mEvoGameLabel->getText().getGlobalBounds().size.x / 2.f, 60});

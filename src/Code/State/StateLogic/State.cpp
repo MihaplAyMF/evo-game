@@ -1,4 +1,3 @@
-#include "State.h"
 #include "StateStack.h"
 
 State::Context::Context(sf::RenderWindow& window, TextureHolder& textures, FontHolder& fonts, PlayerMove& player)

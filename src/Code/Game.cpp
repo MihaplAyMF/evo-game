@@ -1,5 +1,7 @@
 #include "Game.h"
 
+#include <filesystem>
+
 #include "State.h"
 #include "StateIdentifiers.h"
 #include "Settings.h"
@@ -7,6 +9,7 @@
 #include "GameState.h"
 #include "SettingsState.h"
 
+namespace fs = std::filesystem;
 const sf::Time Game::timePerFrame = sf::seconds(1.f / 60.f);
 
 Game::Game()
@@ -22,10 +25,12 @@ Game::Game()
     else 
         mWindow.create(sf::VideoMode({res.x, res.y}), "SFML Window", sf::Style::Default);
 
-    mFonts.open(Fonts::Main, "C:/Files/EvoGame/build/Debug/Media/Fonts/Sansation.ttf");
+    fs::path path = fs::current_path();
 
-	mTextures.load(Textures::Tileset,     "C:/Files/EvoGame/build/Debug/Media/Textures/nature-paltformer.png");
-	mTextures.load(Textures::TitleScreen, "C:/Files/EvoGame/build/Debug/Media/Textures/title-screen.png");
+    mFonts.open(Fonts::Main, (path / "Media/Fonts/Sansation.ttf").string());
+
+    mTextures.load(Textures::Tileset,     (path / "Media/Textures/nature-paltformer.png").string());
+    mTextures.load(Textures::TitleScreen, (path / "Media/Textures/title-screen.png").string());
 
     registerStates();
 	mStateStack.pushState(States::Menu);
