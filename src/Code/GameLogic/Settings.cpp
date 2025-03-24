@@ -5,22 +5,20 @@
 #include <SFML/Window/VideoMode.hpp>
 
 #include <fstream>
+#include <iostream>
 
 Settings::Settings()
 {
     mScale = 2.f;
 
     mMaxResolution = sf::VideoMode::getDesktopMode().size;
+    std::vector<sf::VideoMode> modes = sf::VideoMode::getFullscreenModes();
 
-    mResolutions.push_back(sf::Vector2u(640, 480));
-    mResolutions.push_back(sf::Vector2u(800, 600));
-    mResolutions.push_back(sf::Vector2u(1024, 768));
-    mResolutions.push_back(sf::Vector2u(1280, 720));
-    mResolutions.push_back(sf::Vector2u(1280, 800));
-    mResolutions.push_back(sf::Vector2u(1280, 1024));
-    mResolutions.push_back(sf::Vector2u(1440, 900));
-    mResolutions.push_back(sf::Vector2u(1680, 1050));
-    mResolutions.push_back(sf::Vector2u(1920, 1080));
+    for (const auto& mode : modes) 
+    {
+        if(mode.bitsPerPixel == 32)
+            mResolutions.push_back(mode.size);
+    }
 
     loadFromFile("settings.json");    
 }

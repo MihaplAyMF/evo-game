@@ -1,6 +1,8 @@
 #include <tinyxml2.h>
 #include <fstream>
 
+#include <iostream>
+
 #include "DataTables.h"
 #include "SpriteNode.h"
 #include "Settings.h"
@@ -10,13 +12,11 @@
 #include "Ladder.h"
 #include "Exit.h"
 
-#include <iostream>
-
 extern const float boxScale;
 float gameScale = Settings::getInstance().getScale();
 
 sf::Vector2u res = Settings::getInstance().getCurrentResolution();
-const float zoomValue = 1.2;
+const float zoomValue = 1;
 
 bool matchesCategories(SceneNode::Pair& colliders, Category::Type type1, Category::Type type2)
 {
@@ -40,7 +40,7 @@ bool matchesCategories(SceneNode::Pair& colliders, Category::Type type1, Categor
 }
 
 World::World(sf::RenderWindow& window, TextureHolder& texture, FontHolder& fonts)
-    : mWorldView(sf::FloatRect({0, 0}, {window.getSize().x / zoomValue, window.getSize().y / zoomValue}))
+    : mWorldView(sf::FloatRect({0, 0}, {960.f / zoomValue, 447.f / zoomValue}))
     , mHUDView(window.getDefaultView())
     , mTarget(window)
     , mFonts(fonts)
@@ -54,8 +54,6 @@ World::World(sf::RenderWindow& window, TextureHolder& texture, FontHolder& fonts
     , mHeartSprite(mTextures.get(Textures::Tileset))
     , mCoinSprite(mTextures.get(Textures::Tileset))
 {
-    std::cout << res.x << ", " << res.y << std::endl;
-
     loadGameState();
     createHUD();
     buildScene();
@@ -65,7 +63,6 @@ void World::update(sf::Time dt)
 {
     mWorld.Step(1 / 60.f, 8, 3);
     changeMapPlayerOutsideView();
-
     
     while(!mCommandQueue.isEmpty())
         mSceneGraph.onCommand(mCommandQueue.pop(), dt);
@@ -77,7 +74,6 @@ void World::update(sf::Time dt)
     updateCamera();
     
     mSceneGraph.update(dt, mCommandQueue);
-
 }
 
 void World::draw()
@@ -359,7 +355,6 @@ void World::buildScene()
         mSceneGraph.attachChild(std::move(layer));
     }
 
-    std::cout << mCurrentMap << std::endl;
     loadFromFile(mCurrentMap);
 }
 
@@ -408,19 +403,19 @@ void World::updateCamera()
 
     mPlayer->setPosition({scaledPos.x, scaledPos.y});
 
-    sf::Vector2f halfWindowSize = sf::Vector2f(mWorldView.getSize().x / 2.0f, mWorldView.getSize().y / 2.0f);
-    sf::Vector2f newCenter = scaledPos + sf::Vector2f(size.x / 2, size.y / 2);
-
-    if(newCenter.x - halfWindowSize.x < 0)
-        newCenter.x = halfWindowSize.x;
-    if(newCenter.y - halfWindowSize.y < 0)
-        newCenter.y = halfWindowSize.y;
-    if(newCenter.x + halfWindowSize.x > res.x)
-        newCenter.x = res.x - halfWindowSize.x;
-    if(newCenter.y + halfWindowSize.y > res.y)
-        newCenter.y = res.y - halfWindowSize.y;
-
-    mWorldView.setCenter(newCenter);
+    /*sf::Vector2f halfWindowSize = sf::Vector2f(mWorldView.getSize().x / 2.0f, mWorldView.getSize().y / 2.0f);*/
+    /*sf::Vector2f newCenter = scaledPos + sf::Vector2f(size.x / 2, size.y / 2);*/
+    /**/
+    /*if(newCenter.x - halfWindowSize.x < 0)*/
+    /*    newCenter.x = halfWindowSize.x;*/
+    /*if(newCenter.y - halfWindowSize.y < 0)*/
+    /*    newCenter.y = halfWindowSize.y;*/
+    /*if(newCenter.x + halfWindowSize.x > res.x)*/
+    /*    newCenter.x = res.x - halfWindowSize.x;*/
+    /*if(newCenter.y + halfWindowSize.y > res.y)*/
+    /*    newCenter.y = res.y - halfWindowSize.y;*/
+    /**/
+    /*mWorldView.setCenter(newCenter);*/
 }
 
 void World::createHUD()
@@ -530,7 +525,7 @@ void World::switchMap(const std::string& filename)
 
 void World::changeMapPlayerOutsideView()
 {
-    auto gameBounds = getEvoGameBounds();
+    sf::FloatRect gameBounds = {{0,0}, {mWorldView.getSize().x, mWorldView.getSize().y}};
     auto playerBounds = mPlayer->getBoundingRect();
     
     mPlayerPos = sf::Vector2f(playerBounds.position.x, playerBounds.position.y + playerBounds.size.y);

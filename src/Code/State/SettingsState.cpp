@@ -20,8 +20,7 @@ SettingsState::SettingsState(StateStack& stack, Context context)
     getContext().window->setVerticalSyncEnabled(true);
     
     bool isFullscreen = mSettings.isFullscreen();
-    /*sf::Vector2u res = isFullscreen ?  mSettings.getMaxResolution() : mSettings.getCurrentResolution();*/
-    sf::Vector2u res = mSettings.getCurrentResolution(); 
+    sf::Vector2u res = isFullscreen ?  mSettings.getMaxResolution() : mSettings.getCurrentResolution();
     setScale(mEvoGameSprite, sf::IntRect({0, 0}, {static_cast<int>(res.x), static_cast<int>(res.y)})); 
     
     mEvoGameLabel->getText().setFillColor(sf::Color::Black);
@@ -112,8 +111,7 @@ void SettingsState::updateWindow()
     res = isFullscreen ? mSettings.getMaxResolution() : mSettings.getCurrentResolution();
     setScale(mEvoGameSprite, sf::IntRect({0, 0}, {static_cast<int>(res.x), static_cast<int>(res.y)})); 
     
-    std::cout << res.x << ", " << res.y << std::endl; 
-    //updateTextAppearance();
+    updateTextAppearance();
 }
 
 void SettingsState::updateTextAppearance()
@@ -139,4 +137,3 @@ void SettingsState::updateTextAppearance()
     mResolButton->setPosition({centerX, mSettings.getAdaptiveValue(200)});
     mFullscreenButton->setPosition({centerX, mSettings.getAdaptiveValue(250)});
 }
-
