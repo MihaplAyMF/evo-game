@@ -420,18 +420,18 @@ void World::updateCamera()
 
 void World::createHUD()
 {
-    mCoinLabel.setText(std::to_string(mCoinCollected));
     mCoinLabel.getText().setFillColor(sf::Color::Black);
-    mCoinLabel.getText().setCharacterSize(25);
-    mCoinLabel.setPosition({64, 64});
+    mCoinLabel.getText().setCharacterSize(35);    
+    mCoinLabel.setPosition({110, 110});
+    mCoinLabel.setText(std::to_string(mCoinCollected));
     
     mHeartSprite.setTextureRect(sf::IntRect({96, 112}, {16, 16}));
-    mHeartSprite.setScale({gameScale * zoomValue, gameScale * zoomValue});
-    mHeartSprite.setPosition({16, 16});
+    mHeartSprite.setScale({gameScale * zoomValue * 2, gameScale * zoomValue * 2});
+    mHeartSprite.setPosition({16, 32});
 
     mCoinSprite.setTextureRect(sf::IntRect({80, 112}, {16, 16}));
-    mCoinSprite.setScale({gameScale * zoomValue, gameScale * zoomValue});
-    mCoinSprite.setPosition({16, 48});
+    mCoinSprite.setScale({gameScale * zoomValue * 2, gameScale * zoomValue * 2});
+    mCoinSprite.setPosition({16, 80});
 }
 
 void World::drawHUD()
@@ -545,7 +545,15 @@ void World::changeMapPlayerOutsideView()
             mPlayerPos = sf::Vector2f(gameBounds.position.x, playerBounds.position.y + playerBounds.size.y); 
             mCurrentMap = "Media/Map/Map3.tmx";
             switchMap(mCurrentMap);
+        }       
+        else if(mGlobalPos == sf::Vector2f(2, 0))
+        {
+            mGlobalPos.x += 1;
+            mPlayerPos = sf::Vector2f(gameBounds.position.x, playerBounds.position.y + playerBounds.size.y); 
+            mCurrentMap = "Media/Map/Map5.tmx";
+            switchMap(mCurrentMap);
         }
+
     }
     else if(playerBounds.position.x + playerBounds.size.x < gameBounds.position.x) 
     {
@@ -570,6 +578,14 @@ void World::changeMapPlayerOutsideView()
             mCurrentMap = "Media/Map/Map2.tmx";
             switchMap(mCurrentMap);
         }
+        else if(mGlobalPos == sf::Vector2f(3, 0))
+        {
+            mGlobalPos.x -= 1;
+            mPlayerPos = sf::Vector2f(gameBounds.size.x - playerBounds.size.x, playerBounds.position.y + playerBounds.size.y); 
+            mCurrentMap = "Media/Map/Map3.tmx";
+            switchMap(mCurrentMap);
+        }
+
     }
     else if(playerBounds.position.y + playerBounds.size.y > gameBounds.position.y + gameBounds.size.y)
     {
