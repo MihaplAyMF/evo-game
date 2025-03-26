@@ -15,12 +15,10 @@ PauseState::PauseState(StateStack& stack, Context context)
 	sf::Font& font = context.fonts->get(Fonts::Main);
 	sf::Vector2f windowSize = context.window->getView().getSize();
 
-
-    auto mPausedText = std::make_shared<GUI::Label>("Settings", *context.fonts);
-	//mPausedText->getText().setFont(font);
+    auto mPausedText = std::make_shared<GUI::Label>("Game Paused", *context.fonts);
 	mPausedText->getText().setCharacterSize(70);
-	//centerOrigin(mPausedText);
-	mPausedText->setPosition({0.4f * windowSize.x, 0.35f * windowSize.y});
+	centerOrigin(mPausedText->getText());
+    mPausedText->setPosition({0.5f * windowSize.x, 0.4f * windowSize.y});
     mPausedText->getText().setString("Game Paused");
 	
     auto returnButton = std::make_shared<GUI::Button>(*context.fonts, *context.textures);

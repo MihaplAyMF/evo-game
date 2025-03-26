@@ -63,7 +63,7 @@ void World::update(sf::Time dt)
 {
     mWorld.Step(1 / 60.f, 8, 3);
     changeMapPlayerOutsideView();
-    
+
     while(!mCommandQueue.isEmpty())
         mSceneGraph.onCommand(mCommandQueue.pop(), dt);
 
@@ -72,7 +72,7 @@ void World::update(sf::Time dt)
     playerUpdate();
     handleCollisions();
     updateCamera();
-    
+
     mSceneGraph.update(dt, mCommandQueue);
 }
 
@@ -126,7 +126,7 @@ void World::saveFirstGameState()
     }
 
     mGlobalPos = sf::Vector2f(0, 0);
-    mPlayerPos = sf::Vector2f(0, 0);
+    mPlayerPos = sf::Vector2f(128, 385);
     mCurrentMap = "Media/Map/Map1.tmx";
 
     saveFile.write(reinterpret_cast<const char*>(&mGlobalPos.x), sizeof(mGlobalPos.x));
@@ -289,7 +289,9 @@ bool World::loadFromFile(std::string filename)
 
                 if(objectName == "player")
                 {
-                    mStartPos = sf::Vector2f({rect.position.x, rect.position.y - rect.size.y});
+                    mStartPos = sf::Vector2f({rect.position.x, rect.position.y - rect.size.y});    
+                    std::cout << "Saving player pos: " << mStartPos.x << ", " << mStartPos.y << std::endl; 
+
                     rect.position  = {mPlayerPos.x, mPlayerPos.y};
 
                     int tileGID;
@@ -382,12 +384,12 @@ void World::handleCollisions()
         {
             if(mPlayer->getIsExit() == true)
             {
-               if(mGlobalPos == sf::Vector2f(0, 0))
-               {
-                   mGlobalPos.x -= 1;
-                   mCurrentMap = "Media/Map/Map0.tmx";
-                   switchMap(mCurrentMap);
-               }
+                if(mGlobalPos == sf::Vector2f(0, 0))
+                {
+                    mGlobalPos.x -= 1;
+                    mCurrentMap = "Media/Map/Map0.tmx";
+                    switchMap(mCurrentMap);
+                }
             }
         }
     }
@@ -469,12 +471,13 @@ void World::saveGameState()
         return;
 
     // Save player state    
-    
+    std::cout << "Saving player pos: " << mPlayerPos.x << ", " << mPlayerPos.y << std::endl; 
     saveFile.write(reinterpret_cast<const char*>(&mGlobalPos.x), sizeof(mGlobalPos.x));
     saveFile.write(reinterpret_cast<const char*>(&mGlobalPos.y), sizeof(mGlobalPos.y));
 
     saveFile.write(reinterpret_cast<const char*>(&mPlayerPos.x), sizeof(mPlayerPos.x));
     saveFile.write(reinterpret_cast<const char*>(&mPlayerPos.y), sizeof(mPlayerPos.y));
+    std::cout << "afrer saving: " << mPlayer->getPosition().x << ", " << mPlayer->getPosition().y << std::endl;
 
     size_t length = mCurrentMap.size();
     saveFile.write(reinterpret_cast<const char*>(&length), sizeof(length));
@@ -516,7 +519,9 @@ void World::loadGameState()
 }
 
 void World::switchMap(const std::string& filename)
-{
+{ 
+    std::cout << "Switch map" << mPlayer->getPosition().x << ", " << mPlayer->getPosition().y << std::endl;
+
     saveGameState();
     cleanup();
     loadGameState();
@@ -553,7 +558,6 @@ void World::changeMapPlayerOutsideView()
             mCurrentMap = "Media/Map/Map5.tmx";
             switchMap(mCurrentMap);
         }
-
     }
     else if(playerBounds.position.x + playerBounds.size.x < gameBounds.position.x) 
     {
@@ -590,12 +594,14 @@ void World::changeMapPlayerOutsideView()
     else if(playerBounds.position.y + playerBounds.size.y > gameBounds.position.y + gameBounds.size.y)
     {
         mPlayer->setPos(mStartPos);
+        mPlayerPos = mStartPos;
+        mPlayer->damage(1);
     }
 }
 
 bool World::hasAlivePlayer()
-{    
-    return true;
+{   
+    return mPlayer->getHitpoints() != 0;
 }
 
 sf::FloatRect World::getViewBounds() const

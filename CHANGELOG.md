@@ -4,13 +4,12 @@
 - Added settings state
 - Implemented the ability to change resolution
 - Fullscreen mode
+- game states: pause, loss/win
 
 Planned:
 - Transition between locations with the F key
 - Add NPCs
 - Add enemies
-- Add game states: pause, loss/win
-
 
 ## 0.3.0 
 

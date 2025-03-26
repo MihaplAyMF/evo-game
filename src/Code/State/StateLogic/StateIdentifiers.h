@@ -7,5 +7,7 @@ enum class States
     Settings,
 	Game,
     Pause,
-    Over
+    GameOver,
+    GameWon
 };
+

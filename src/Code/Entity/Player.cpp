@@ -132,6 +132,11 @@ sf::FloatRect Player::getBoundingRect() const
 	return getWorldTransform().transformRect(mSprite.getGlobalBounds());
 }
 
+bool Player::isDestroyed() const
+{
+	return false;
+}
+
 bool Player::getIsExit() const
 {
 	return mIsExit;

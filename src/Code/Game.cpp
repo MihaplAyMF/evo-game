@@ -10,6 +10,7 @@
 #include "MenuState.h"
 #include "GameState.h"
 #include "PauseState.h"
+#include "OverState.h"
 
 namespace fs = std::filesystem;
 const sf::Time Game::timePerFrame = sf::seconds(1.f / 60.f);
@@ -91,4 +92,6 @@ void Game::registerStates()
     mStateStack.registerState<GameState>(States::Game);
     mStateStack.registerState<SettingsState>(States::Settings);
     mStateStack.registerState<PauseState>(States::Pause);
+	mStateStack.registerState<OverState>(States::GameOver, "Game over!");
+	mStateStack.registerState<OverState>(States::GameWon, "You won!");
 }

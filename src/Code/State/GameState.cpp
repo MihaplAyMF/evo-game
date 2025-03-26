@@ -17,7 +17,6 @@ bool GameState::handleEvent(const sf::Event& event)
         if (keyPressed->scancode == sf::Keyboard::Scancode::Escape)
 	    {
 		    requestStackPush(States::Pause);
-            //mWorld.clean();
         }
 	}
 
@@ -33,16 +32,9 @@ bool GameState::update(sf::Time dt)
 {
 	mWorld.update(dt);
 
-	//if(!mWorld.hasAliveEagle())
-	//{
-	//	requestStackPush(States::GameOver);
-	//}
-	//else 
 	if(!mWorld.hasAlivePlayer())
 	{
-		mWorld.clean();
-		requestStackPop();
-		requestStackPush(States::Menu);
+		requestStackPush(States::GameOver);
 	}
 
 	CommandQueue& commands = mWorld.getCommandQueue();

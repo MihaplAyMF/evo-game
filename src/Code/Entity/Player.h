@@ -26,7 +26,8 @@ public:
 
 	virtual unsigned int  getCategory() const;
 	virtual sf::FloatRect getBoundingRect() const;
-	bool getIsExit() const;
+	virtual bool isDestroyed() const;
+    bool getIsExit() const;
 
 	void setIsLadder(bool isLadder);
 	void setIsExit(bool isExit);

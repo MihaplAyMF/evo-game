@@ -12,7 +12,7 @@ public:
 	PauseState(StateStack& stack, Context context);
 
 	~PauseState();
-	
+    
     virtual bool handleEvent(const sf::Event& event);
 	virtual bool update(sf::Time dt);
 	virtual void draw();

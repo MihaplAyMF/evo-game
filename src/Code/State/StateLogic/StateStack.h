@@ -31,6 +31,9 @@ public:
 
 	template<typename T>
 	void registerState(States stateID);
+	
+    template<typename T, typename Param>
+	void registerState(States stateID, Param arg);
 
 	void update(sf::Time dt);
 	void draw();
@@ -66,5 +69,14 @@ void StateStack::registerState(States stateID)
 	mFactories[stateID] = [this]()
 	{
 		return State::Ptr(new T(*this, mContext));
+	};
+}
+
+template<typename T, typename Param>
+void StateStack::registerState(States stateID, Param arg)
+{
+	mFactories[stateID] = [this, arg] ()
+	{
+		return State::Ptr(new T(*this, mContext, arg));
 	};
 }
