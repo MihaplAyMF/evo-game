@@ -16,13 +16,17 @@ bool GameState::handleEvent(const sf::Event& event)
     {
         if (keyPressed->scancode == sf::Keyboard::Scancode::Escape)
 	    {
-		    mWorld.clean();
-	    	requestStackPop();
-		    requestStackPush(States::Menu);
+		    requestStackPush(States::Pause);
+            //mWorld.clean();
         }
 	}
 
 	return true;
+}
+
+GameState::~GameState()
+{
+    mWorld.clean();    
 }
 
 bool GameState::update(sf::Time dt)

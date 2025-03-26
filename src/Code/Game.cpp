@@ -1,13 +1,15 @@
 #include "Game.h"
 
 #include <filesystem>
+#include <iostream>
 
 #include "State.h"
 #include "StateIdentifiers.h"
+#include "SettingsState.h"
 #include "Settings.h"
 #include "MenuState.h"
 #include "GameState.h"
-#include "SettingsState.h"
+#include "PauseState.h"
 
 namespace fs = std::filesystem;
 const sf::Time Game::timePerFrame = sf::seconds(1.f / 60.f);
@@ -17,6 +19,8 @@ Game::Game()
     , mFonts()
     , mStateStack(State::Context(mWindow, mTextures, mFonts, mPlayer))
 {
+    sf::ContextSettings settings;
+ std::cout << "OpenGL Context Version: " << settings.majorVersion << "." << settings.minorVersion << std::endl;
    
     sf::Vector2u res = Settings::getInstance().getCurrentResolution();
 
@@ -86,4 +90,5 @@ void Game::registerStates()
     mStateStack.registerState<MenuState>(States::Menu);
     mStateStack.registerState<GameState>(States::Game);
     mStateStack.registerState<SettingsState>(States::Settings);
+    mStateStack.registerState<PauseState>(States::Pause);
 }

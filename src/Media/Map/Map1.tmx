@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="30" height="14" tilewidth="16" tileheight="16" infinite="0" nextlayerid="10" nextobjectid="117">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="30" height="14" tilewidth="16" tileheight="16" infinite="0" nextlayerid="10" nextobjectid="120">
  <tileset firstgid="1" source="nature-paltformer-tileset-16x16.tsx"/>
  <layer id="2" name="Background" width="30" height="14">
   <data>
@@ -1275,7 +1275,7 @@
  </layer>
  <layer id="4" name="Object view" width="30" height="14">
   <data>
-   <tile/>
+   <tile gid="3"/>
    <tile/>
    <tile/>
    <tile/>
@@ -1305,7 +1305,7 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile gid="23"/>
+   <tile gid="10"/>
    <tile/>
    <tile/>
    <tile/>
@@ -1335,7 +1335,7 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile gid="37"/>
+   <tile gid="10"/>
    <tile gid="49"/>
    <tile/>
    <tile/>
@@ -1726,13 +1726,14 @@
   <object id="99" name="coin" gid="63" x="128" y="128" width="16" height="16"/>
   <object id="101" name="ladder" x="112" y="80" width="16" height="48"/>
   <object id="102" name="ladder" x="160" y="128" width="16" height="64"/>
-  <object id="105" name="block" x="0" y="128" width="48" height="64"/>
   <object id="107" name="coin" gid="55" x="48" y="128" width="16" height="16"/>
-  <object id="108" name="block" x="48" y="128" width="16" height="16"/>
+  <object id="108" name="block" x="0.25" y="128" width="63.75" height="16"/>
   <object id="111" name="coin" gid="55" x="32" y="128" width="16" height="16"/>
   <object id="112" name="entry" x="224" y="176" width="16" height="16"/>
   <object id="113" name="block" x="0" y="48" width="48" height="16"/>
   <object id="114" name="block" x="0" y="64" width="32" height="16"/>
   <object id="115" name="block" x="0" y="80" width="16" height="48"/>
+  <object id="117" name="block" x="0.5" y="145" width="47.25" height="47"/>
+  <object id="118" name="block" x="0" y="0" width="16" height="48"/>
  </objectgroup>
 </map>

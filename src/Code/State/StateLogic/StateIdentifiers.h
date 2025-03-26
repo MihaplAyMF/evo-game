@@ -6,4 +6,6 @@ enum class States
 	Menu,
     Settings,
 	Game,
+    Pause,
+    Over
 };

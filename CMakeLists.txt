@@ -56,6 +56,8 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
         $<TARGET_FILE_DIR:EvoGame>
     )
 endif()
+
+message(STATUS "Copying files from ${CMAKE_SOURCE_DIR}/src/Media to $<TARGET_FILE_DIR:EvoGame>/Media")
 add_custom_command(TARGET EvoGame POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory
     ${CMAKE_SOURCE_DIR}/src/Media

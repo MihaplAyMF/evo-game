@@ -206,12 +206,5 @@ float Settings::getScale()
 
 float Settings::getAdaptiveValue(int baseValue)
 {
-    float baseWidth = 1980.f;
-    float factor = std::pow(baseWidth / mCurrentResolution->x, 1/3);
-
-    float newValue = static_cast<int>(baseValue * factor);
-
-    newValue = std::max(newValue, 30.f); 
-
-    return newValue;
+    return baseValue;
 }
