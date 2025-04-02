@@ -11,7 +11,9 @@
 #include "CommandQueue.h"
 #include "Player.h"
 #include "Label.h"
-    
+   
+#include "MapLoader.h"
+
 class World 
 {
 public:
@@ -50,13 +52,6 @@ private:
     sf::FloatRect getViewBounds() const;
     sf::FloatRect getEvoGameBounds() const;
 
-    enum Layer
-    {
-        Background,
-        Air,
-        LayerCount
-    };
-
 private:
     sf::RenderTarget& mTarget;
     sf::RenderTexture mSceneTexture;
@@ -70,6 +65,10 @@ private:
     CommandQueue mCommandQueue;
     
     b2World& mWorld;
+    float mBoxScale;
+    float mGameScale;
+
+    MapLoader mMapLoader;
 
     Player* mPlayer;
     sf::Vector2f mGlobalPos;
@@ -80,7 +79,6 @@ private:
     sf::Sprite mCoinSprite;
     GUI::Label mCoinLabel;
     int mCoinCollected;
-
     std::map<std::string, std::set<int>> mCoinIDCollected;
 
 };

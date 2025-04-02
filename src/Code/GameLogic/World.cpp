@@ -4,18 +4,10 @@
 #include <iostream>
 
 #include "DataTables.h"
-#include "SpriteNode.h"
 #include "Settings.h"
 #include "World.h"
-#include "Block.h"
 #include "Coin.h"
-#include "Ladder.h"
-#include "Exit.h"
 
-extern const float boxScale;
-float gameScale = Settings::getInstance().getScale();
-
-sf::Vector2u res = Settings::getInstance().getCurrentResolution();
 const float zoomValue = 1;
 
 bool matchesCategories(SceneNode::Pair& colliders, Category::Type type1, Category::Type type2)
@@ -40,12 +32,15 @@ bool matchesCategories(SceneNode::Pair& colliders, Category::Type type1, Categor
 }
 
 World::World(sf::RenderWindow& window, TextureHolder& texture, FontHolder& fonts)
-    : mWorldView(sf::FloatRect({0, 0}, {960.f / zoomValue, 447.f / zoomValue}))
+    : mWorldView(sf::FloatRect({0, 0}, {1920.f, 897.f}))//{960.f / zoomValue, 960.f / zoomValue}))
     , mHUDView(window.getDefaultView())
     , mTarget(window)
     , mFonts(fonts)
     , mTextures(texture)
+    , mMapLoader(mTextures)
     , mWorld(getWorld())
+    , mBoxScale(getBoxScale())
+    , mGameScale(Settings::getInstance().getScale())
     , mPlayer(nullptr)
     , mGlobalPos(0, 0)
     , mPlayerPos(0, 0)
@@ -120,10 +115,7 @@ void World::saveFirstGameState()
 
     std::ofstream saveFile(filename, std::ios::binary);
     if(!saveFile.is_open())
-    {
-        //std::cerr << "Failed to open save file." << std::endl;
         return;
-    }
 
     mGlobalPos = sf::Vector2f(0, 0);
     mPlayerPos = sf::Vector2f(128, 385);
@@ -143,206 +135,18 @@ void World::saveFirstGameState()
 }
 
 bool World::loadFromFile(std::string filename)
-{ 
-    tinyxml2::XMLDocument levelFile;
+{   
+    bool state = mMapLoader.loadFromFile(filename, mSceneLayers, mStartPos);
 
-    if(levelFile.LoadFile(filename.c_str()) != tinyxml2::XML_SUCCESS)
-    {
-        //std::cerr << "Loading XML file \"" << filename << "\" failed." << std::endl;
-        return false;
-    }
+    sf::FloatRect rect;
+    rect.position = {mPlayerPos.x, mPlayerPos.y};
+    rect.size = {16 * mGameScale, 16 * mGameScale}; // 16 - tile wight and height
 
-    tinyxml2::XMLElement* map;
-    map = levelFile.FirstChildElement("map");
+    std::unique_ptr<Player> player = std::make_unique<Player>(Player::FriedlyPlayer, mTextures, rect);
+    mPlayer = player.get();
+    mSceneLayers[Air]->attachChild(std::move(player));
 
-    int width, height, tileWidth, tileHeight, firstTileID;
-
-    map->QueryIntAttribute("width", &width);
-    map->QueryIntAttribute("height", &height);
-    map->QueryIntAttribute("tilewidth", &tileWidth);
-    map->QueryIntAttribute("tileheight", &tileHeight);
-
-    tinyxml2::XMLElement* tilesetElement;
-    tilesetElement = map->FirstChildElement("tileset");
-    tilesetElement->QueryIntAttribute("firstgid", &firstTileID);
-
-    int columns = mTextures.get(Textures::Tileset).getSize().x / tileWidth;
-    int rows = mTextures.get(Textures::Tileset).getSize().y / tileHeight;
-
-    std::vector<sf::IntRect> subRects;
-    
-    for(int y = 0; y < rows; y++)
-        for(int x = 0; x < columns; x++)
-        {
-            sf::IntRect rect;
-
-            rect.position = {x * tileWidth, y * tileHeight}; 
-            rect.size = {tileWidth, tileHeight};
-
-            subRects.push_back(rect);
-        }
-
-    tinyxml2::XMLElement* layerElement;
-    layerElement = map->FirstChildElement("layer");
-    while(layerElement)
-    {
-
-        tinyxml2::XMLElement* layerDataElement;
-        layerDataElement = layerElement->FirstChildElement("data");
-
-        tinyxml2::XMLElement* tileElement;
-        tileElement = layerDataElement->FirstChildElement("tile");
-
-        if(tileElement == NULL)
-        {
-            //std::cout << "Bad map. No tile information found." << std::endl;
-            return false;
-        }
-
-        int x = 0;
-        int y = 0;
-
-        while(tileElement)
-        {
-            int tileGID;
-            const char* gidAttr = tileElement->Attribute("gid");
-            if(gidAttr)
-            {
-                tileGID = atoi(gidAttr);
-            }
-            else
-            {
-                tileGID = 0;
-            }
-            int subRectToUse = tileGID - firstTileID;
-
-            if(subRectToUse >= 0)
-            {
-                sf::Texture& spriteTexture = mTextures.get(Textures::Tileset);
-                std::unique_ptr<SpriteNode> finishSprite(new SpriteNode(spriteTexture));
-                finishSprite->setTextureRect(subRects[subRectToUse]);
-                finishSprite->setScale({gameScale, gameScale});
-                finishSprite->setPosition({x * tileWidth * gameScale, y * tileHeight * gameScale});
-                finishSprite->setBackground(true);
-                mSceneLayers[Background]->attachChild(std::move(finishSprite));
-            }
-
-            tileElement = tileElement->NextSiblingElement("tile");
-
-            x++;
-            if(x >= width)
-            {
-                x = 0;
-                y++;
-                if(y >= height)
-                    y = 0;
-            }
-        }
-
-        layerElement = layerElement->NextSiblingElement("layer");
-    }
-
-    tinyxml2::XMLElement* objectGroupElement;
-
-    if(map->FirstChildElement("objectgroup") != NULL)
-    {
-        objectGroupElement = map->FirstChildElement("objectgroup");
-        while(objectGroupElement)
-        {
-            tinyxml2::XMLElement* objectElement;
-            objectElement = objectGroupElement->FirstChildElement("object");
-            
-            while(objectElement)
-            {
-                std::string objectType;
-                if(objectElement->Attribute("type") != NULL)
-                {
-                    objectType = objectElement->Attribute("type");
-                }
-                std::string objectName;
-                if(objectElement->Attribute("name") != NULL)
-                {
-                    objectName = objectElement->Attribute("name");
-                }
-                int objectID = atoi(objectElement->Attribute("id"));
-                
-                int x = atoi(objectElement->Attribute("x"));
-                int y = atoi(objectElement->Attribute("y"));
-
-                int width, height;
-
-                if(objectElement->Attribute("width") != NULL)
-                {
-                    width = atoi(objectElement->Attribute("width"));
-                    height = atoi(objectElement->Attribute("height"));
-                }
-                else
-                {
-                    width = subRects[atoi(objectElement->Attribute("gid")) - firstTileID].size.x;
-                    height = subRects[atoi(objectElement->Attribute("gid")) - firstTileID].size.y;
-                }
-
-                sf::FloatRect rect;
-                
-                rect.position = {x * gameScale, y * gameScale};
-                rect.size = {width * gameScale, height * gameScale};
-
-                if(objectName == "player")
-                {
-                    mStartPos = sf::Vector2f({rect.position.x, rect.position.y - rect.size.y});    
-                    std::cout << "Saving player pos: " << mStartPos.x << ", " << mStartPos.y << std::endl; 
-
-                    rect.position  = {mPlayerPos.x, mPlayerPos.y};
-
-                    int tileGID;
-                    const char* gidAttr = objectElement->Attribute("gid");
-                    if(gidAttr)
-                    {
-                        tileGID = atoi(gidAttr);
-                    }
-                    else
-                    {
-                        tileGID = 0;
-                    }
-                    int subRectToUse = tileGID - firstTileID;
-
-                    std::unique_ptr<Player> player = std::make_unique<Player>(Player::FriedlyPlayer, mTextures, rect);
-                    mPlayer = player.get();
-                    mPlayer->setTextureRect(subRects[subRectToUse]);
-                    mSceneLayers[Air]->attachChild(std::move(player));
-                }
-                else if(objectName == "block") 
-                {
-                    sf::Vector2i tileSize(tileWidth * gameScale, tileHeight * gameScale);
-
-                    std::unique_ptr<Block> block = std::make_unique<Block>(rect, tileSize);
-                    mSceneLayers[Air]->attachChild(std::move(block));
-                }
-                else if(objectName == "coin")
-                {
-                    auto& coins = mCoinIDCollected[mCurrentMap];
-                    if(coins.find(objectID) == coins.end())
-                    {
-                        std::unique_ptr<Coin> coin = std::make_unique<Coin>(mTextures, objectID, rect);
-                        mSceneLayers[Air]->attachChild(std::move(coin));
-                    }
-                }
-                else if(objectName == "ladder")
-                {
-                    std::unique_ptr<Ladder> ladder = std::make_unique<Ladder>(rect);
-                    mSceneLayers[Air]->attachChild(std::move(ladder));
-                }
-                else if(objectName == "exit")
-                {
-                    std::unique_ptr<Exit> exit = std::make_unique<Exit>(rect);
-                    mSceneLayers[Air]->attachChild(std::move(exit));
-                }
-                objectElement = objectElement->NextSiblingElement("object");
-            }
-            objectGroupElement = objectGroupElement->NextSiblingElement("objectgroup");
-        }
-    }    
-    return true;
+    return state;
 }
 
 void World::buildScene()
@@ -401,7 +205,7 @@ void World::updateCamera()
 
     sf::Vector2f pos(body->GetPosition().x, body->GetPosition().y);
     sf::Vector2f size(mPlayer->getBoundingRect().position);
-    sf::Vector2f scaledPos(pos.x * boxScale, pos.y * boxScale);
+    sf::Vector2f scaledPos(pos.x * mBoxScale, pos.y * mBoxScale);
 
     mPlayer->setPosition({scaledPos.x, scaledPos.y});
 
@@ -428,11 +232,11 @@ void World::createHUD()
     mCoinLabel.setText(std::to_string(mCoinCollected));
     
     mHeartSprite.setTextureRect(sf::IntRect({96, 112}, {16, 16}));
-    mHeartSprite.setScale({gameScale * zoomValue * 2, gameScale * zoomValue * 2});
+    mHeartSprite.setScale({mGameScale * zoomValue, mGameScale * zoomValue});
     mHeartSprite.setPosition({16, 32});
 
     mCoinSprite.setTextureRect(sf::IntRect({80, 112}, {16, 16}));
-    mCoinSprite.setScale({gameScale * zoomValue * 2, gameScale * zoomValue * 2});
+    mCoinSprite.setScale({mGameScale * zoomValue, mGameScale * zoomValue});
     mCoinSprite.setPosition({16, 80});
 }
 
@@ -462,15 +266,11 @@ void World::saveGameState()
 
     std::ofstream saveFile(filename, std::ios::binary);
     if(!saveFile.is_open())
-    {
-        //std::cerr << "Failed to open save file." << std::endl;
         return;
-    }
     
     if(mPlayer == nullptr)
         return;
 
-    // Save player state    
     std::cout << "Saving player pos: " << mPlayerPos.x << ", " << mPlayerPos.y << std::endl; 
     saveFile.write(reinterpret_cast<const char*>(&mGlobalPos.x), sizeof(mGlobalPos.x));
     saveFile.write(reinterpret_cast<const char*>(&mGlobalPos.y), sizeof(mGlobalPos.y));
@@ -482,7 +282,6 @@ void World::saveGameState()
     size_t length = mCurrentMap.size();
     saveFile.write(reinterpret_cast<const char*>(&length), sizeof(length));
     saveFile.write(mCurrentMap.c_str(), length);
-    // Save other game state as needed
 
     saveFile.close();
 }
@@ -494,7 +293,6 @@ void World::loadGameState()
     std::ifstream loadFile(filename, std::ios::binary);
     if(!loadFile)
     {
-        //std::cerr << "Save file not found. Creating a new one." << std::endl;
         saveFirstGameState();
         return;
     }
@@ -611,6 +409,7 @@ sf::FloatRect World::getViewBounds() const
 
 sf::FloatRect World::getEvoGameBounds() const
 {
+    sf::Vector2u res = Settings::getInstance().getCurrentResolution();
     return sf::FloatRect({0.f, 0.f}, {static_cast<float>(res.x), static_cast<float>(res.y)});
 }
 

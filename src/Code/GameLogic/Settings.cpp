@@ -5,11 +5,10 @@
 #include <SFML/Window/VideoMode.hpp>
 
 #include <fstream>
-#include <iostream>
 
 Settings::Settings()
 {
-    mScale = 2.f;
+    mScale = 4.f;
 
     mMaxResolution = sf::VideoMode::getDesktopMode().size;
     std::vector<sf::VideoMode> modes = sf::VideoMode::getFullscreenModes();

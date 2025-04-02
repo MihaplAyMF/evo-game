@@ -9,7 +9,6 @@ Coin::Coin(const TextureHolder& textures, int objectID, sf::FloatRect rect)
 	, mSprite(textures.get(Textures::Tileset), sf::IntRect({80, 112}, {16, 16}))
 	, mObjectID(objectID)
 {
-
 	float gameScale = Settings::getInstance().getScale();
 	mSprite.setScale({gameScale, gameScale});
 	mSprite.setPosition({rect.position.x, rect.position.y - rect.size.y});

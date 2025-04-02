@@ -64,7 +64,7 @@ void Player::setTextureRect(sf::IntRect rect)
 void Player::movePlayer(Action type)
 {
 	b2Vec2 velocity(0.f, 0.f); 
-	float playerSpeed = 5.f;
+	float playerSpeed = 10.f;
 
 	switch(type)
 	{
@@ -112,7 +112,7 @@ void Player::movePlayer(Action type)
 			if(contactNormal.y == -1 && velocity.y && mIsJumping)
 			{
 				mIsJumping = false;
-				mBody->ApplyLinearImpulse(b2Vec2(0, -5.2), mBody->GetWorldCenter(), true);
+				mBody->ApplyLinearImpulse(b2Vec2(0, -36), mBody->GetWorldCenter(), true);
 			}
 	
 			contactEdge = contactEdge->next;

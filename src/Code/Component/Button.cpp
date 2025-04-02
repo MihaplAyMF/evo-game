@@ -17,7 +17,7 @@ namespace GUI
         float gameScale = Settings::getInstance().getScale();
 
 		changeTexture(Unselected);
-		mSprite.setScale(sf::Vector2f(gameScale, gameScale));
+		mSprite.setScale(sf::Vector2f(2.5f, 2.5f));
         mText.setPosition({mText.getPosition().x + 45, mText.getPosition().y});
 	}
 

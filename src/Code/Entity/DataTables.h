@@ -30,6 +30,7 @@ struct PlayerData
 	sf::IntRect			   textureRect; 
 };
 
-std::vector<PlayerData>   initializePlayerData();
-float getBoxScale();
 b2World& getWorld();
+float getBoxScale();
+
+std::vector<PlayerData>   initializePlayerData();
