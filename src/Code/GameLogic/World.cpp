@@ -1,3 +1,4 @@
+#include <SFML/System/Vector2.hpp>
 #include <tinyxml2.h>
 #include <fstream>
 
@@ -28,7 +29,6 @@ bool matchesCategories(SceneNode::Pair& colliders, Category::Type type1, Categor
     {
         return false;
     }
-
 }
 
 World::World(sf::RenderWindow& window, TextureHolder& texture, FontHolder& fonts)
@@ -140,7 +140,7 @@ bool World::loadFromFile(std::string filename)
 
     sf::FloatRect rect;
     rect.position = {mPlayerPos.x, mPlayerPos.y};
-    rect.size = {16 * mGameScale, 16 * mGameScale}; // 16 - tile wight and height
+    rect.size = {16 * mGameScale, 16 * mGameScale}; // 16 - is the tile widht and height
 
     std::unique_ptr<Player> player = std::make_unique<Player>(Player::FriedlyPlayer, mTextures, rect);
     mPlayer = player.get();
@@ -201,13 +201,12 @@ void World::handleCollisions()
 
 void World::updateCamera()
 {
-    b2Body* body = mPlayer->getBodyObject();
-
-    sf::Vector2f pos(body->GetPosition().x, body->GetPosition().y);
-    sf::Vector2f size(mPlayer->getBoundingRect().position);
-    sf::Vector2f scaledPos(pos.x * mBoxScale, pos.y * mBoxScale);
-
-    mPlayer->setPosition({scaledPos.x, scaledPos.y});
+    mPlayer->setPos(mPlayer->getPosition());
+    
+    //std::cout << body->GetPosition().x * mBoxScale << ", " << body->GetPosition().y * mBoxScale << std::endl;
+    //sf::Vector2f pos(body->GetPosition().x, body->GetPosition().y);
+    //sf::Vector2f size(mPlayer->getBoundingRect().position);
+    //sf::Vector2f scaledPos(pos.x * mBoxScale, pos.y * mBoxScale);
 
     /*sf::Vector2f halfWindowSize = sf::Vector2f(mWorldView.getSize().x / 2.0f, mWorldView.getSize().y / 2.0f);*/
     /*sf::Vector2f newCenter = scaledPos + sf::Vector2f(size.x / 2, size.y / 2);*/

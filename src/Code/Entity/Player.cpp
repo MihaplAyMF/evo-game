@@ -1,3 +1,5 @@
+#include <SFML/Graphics/Rect.hpp>
+#include <SFML/System/Vector2.hpp>
 #include <cmath>
 
 #include <SFML/Graphics/RenderTarget.hpp>
@@ -8,6 +10,9 @@
 #include "DataTables.h"
 #include "Utility.hpp"
 #include "CommandQueue.h"
+
+#include <iostream>
+#include <iterator>
 
 extern const float boxScale;
 extern b2World world;
@@ -57,14 +62,17 @@ b2Body* Player::getBodyObject()
 }
 
 void Player::setTextureRect(sf::IntRect rect)
-{
-	mSprite.setTextureRect(rect);
+{	
+    mSprite.setTextureRect(rect);
 }
 
 void Player::movePlayer(Action type)
 {
-	b2Vec2 velocity(0.f, 0.f); 
+    sf::Vector2f velocity(0.f, 0.f); 
 	float playerSpeed = 10.f;
+    float gravity = 0.5f;
+
+    sf::Vector2f pos = getPosition();
 
 	switch(type)
 	{
@@ -84,42 +92,35 @@ void Player::movePlayer(Action type)
 		velocity.x = 0.f;
 		velocity.y = 0.f;
 		break;
-	}
+    default:
+        break;
+    }
+    velocity.y += gravity;
+    
+    b2ContactEdge* contactEdge = mBody->GetContactList();
+    while(contactEdge)
+    {
 
-	if(mIsLadder && type == MoveOnLadder)
-	{
-		mBody->SetLinearVelocity(b2Vec2(0, velocity.y));
-	}
-	if(type == MoveUp)
-	{	
-		if(static_cast<int>(mBody->GetLinearVelocity().y) == 0)
-			mIsJumping = true;
+        b2Contact* contact = contactEdge->contact;
 
-		b2ContactEdge* contactEdge = mBody->GetContactList();
-		while(contactEdge)
-		{
+        b2WorldManifold worldManifold;
+        contact->GetWorldManifold(&worldManifold);
 
-			b2Contact* contact = contactEdge->contact;
+        b2Vec2 contactNormal = worldManifold.normal;
 
-			b2WorldManifold worldManifold;
-			contact->GetWorldManifold(&worldManifold);
+        if (contactNormal.y == 1 && velocity.y < 0)              
+            velocity.y = 0;
+        if (contactNormal.y == -1 && velocity.y > 0)             
+            velocity.y = 0;
+        if (contactNormal.x == 1 && velocity.x < 0)  
+            velocity.x = 0;
+        if (contactNormal.x == -1 && velocity.x > 0) 
+            velocity.x = 0;
 
-			b2Vec2 contactNormal = worldManifold.normal;
+        contactEdge = contactEdge->next;
+    }
 
-			if(contactNormal.y == 1)
-				contactNormal.y = -1;
-
-			if(contactNormal.y == -1 && velocity.y && mIsJumping)
-			{
-				mIsJumping = false;
-				mBody->ApplyLinearImpulse(b2Vec2(0, -36), mBody->GetWorldCenter(), true);
-			}
-	
-			contactEdge = contactEdge->next;
-		}
-	}
-	if(type == MoveRight || type == MoveLeft || type == NotMove)
-		mBody->SetLinearVelocity(b2Vec2(velocity.x, mBody->GetLinearVelocity().y));
+    setPosition({pos.x + velocity.x, pos.y + velocity.y});
 }
 
 unsigned int Player::getCategory() const
@@ -129,6 +130,7 @@ unsigned int Player::getCategory() const
 
 sf::FloatRect Player::getBoundingRect() const
 {
+    //return sf::FloatRect();
 	return getWorldTransform().transformRect(mSprite.getGlobalBounds());
 }
 

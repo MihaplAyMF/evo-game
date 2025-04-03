@@ -3,7 +3,7 @@
 #include "DataTables.h"
 #include "Player.h"
 
-b2Vec2 gravity(0.f, 9.8f);
+b2Vec2 gravity(0.f, 15.f);
 b2World world(gravity);
 float boxScale = 30.f;
 
