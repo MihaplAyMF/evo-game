@@ -32,7 +32,7 @@ bool matchesCategories(SceneNode::Pair& colliders, Category::Type type1, Categor
 }
 
 World::World(sf::RenderWindow& window, TextureHolder& texture, FontHolder& fonts)
-    : mWorldView(sf::FloatRect({0, 0}, {1920.f, 897.f}))//{960.f / zoomValue, 960.f / zoomValue}))
+    : mWorldView(sf::FloatRect({0, 0}, {1920.f, 897.f}))
     , mHUDView(window.getDefaultView())
     , mTarget(window)
     , mFonts(fonts)
@@ -64,9 +64,9 @@ void World::update(sf::Time dt)
 
     mSceneGraph.removeWrecks();
 
+    updateCamera();
     playerUpdate();
     handleCollisions();
-    updateCamera();
 
     mSceneGraph.update(dt, mCommandQueue);
 }
@@ -144,6 +144,7 @@ bool World::loadFromFile(std::string filename)
 
     std::unique_ptr<Player> player = std::make_unique<Player>(Player::FriedlyPlayer, mTextures, rect);
     mPlayer = player.get();
+    mPlayer->setPosition(mStartPos);
     mSceneLayers[Air]->attachChild(std::move(player));
 
     return state;

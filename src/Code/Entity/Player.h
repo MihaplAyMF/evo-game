@@ -45,6 +45,8 @@ private:
 	bool mIsLadder;
 	bool mIsExit;
 
+    sf::Vector2f mVelocity;
+
 	sf::Time   mFireCountdown;
 	sf::Time   mMissileCountdown;
 	Command    mFireCommand;
