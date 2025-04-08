@@ -36,6 +36,13 @@ int Entity::getHitpoints() const
 	return mHitpoints;
 }
 
+void Entity::setHitpoints(int HP) 
+{
+    mHitpoints = HP;
+}
+
+
+
 
 bool Entity::isDestroyed() const
 {

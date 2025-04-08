@@ -58,7 +58,6 @@ private:
     sf::View mWorldView, mHUDView;
     TextureHolder& mTextures;
     FontHolder& mFonts;
-    std::string mCurrentMap;
 
     SceneNode mSceneGraph;
     std::array<SceneNode*, LayerCount> mSceneLayers;
@@ -79,6 +78,5 @@ private:
     sf::Sprite mCoinSprite;
     GUI::Label mCoinLabel;
     int mCoinCollected;
-    std::map<std::string, std::set<int>> mCoinIDCollected;
 
 };

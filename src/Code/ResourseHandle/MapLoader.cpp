@@ -33,6 +33,32 @@ bool MapLoader::loadFromFile(const std::string& filename, std::array<SceneNode*,
     return true;
 }
 
+std::map<std::string, std::set<int>>& MapLoader::getCollectedCoins() 
+{
+    return mCoinIDCollected;
+}
+
+void MapLoader::setCurrentMap(const std::string& mapName) 
+{
+    mCurrentMap = mapName;
+}
+
+const std::string& MapLoader::getCurrentMap() const 
+{
+    return mCurrentMap;
+}
+
+void MapLoader::setPlayerHP(const int HP)
+{
+    mPlayerHP = HP;
+}
+
+const int& MapLoader::getPlayerHP() const 
+{
+    return mPlayerHP;
+}
+
+
 bool MapLoader::parseMapAttributes(tinyxml2::XMLElement* map, MapInfo& mapInfo) {
     map->QueryIntAttribute("width", &mapInfo.width);
     map->QueryIntAttribute("height", &mapInfo.height);
@@ -106,7 +132,7 @@ void MapLoader::parseObjects(tinyxml2::XMLElement* map, MapInfo& mapInfo, std::a
             int y = objectElement->IntAttribute("y");
             int width = objectElement->IntAttribute("width", mapInfo.tileWidth);
             int height = objectElement->IntAttribute("height", mapInfo.tileHeight);
-
+        
             sf::FloatRect rect({x * mGameScale, y * mGameScale}, {width * mGameScale, height * mGameScale});
 
             if (objectName == "player") 
@@ -120,8 +146,13 @@ void MapLoader::parseObjects(tinyxml2::XMLElement* map, MapInfo& mapInfo, std::a
             } 
             else if (objectName == "coin") 
             {
-                auto coin = std::make_unique<Coin>(mTextures, objectElement->IntAttribute("id"), rect);
-                sceneLayers[Air]->attachChild(std::move(coin));
+                auto& coins = mCoinIDCollected[mCurrentMap];
+ 
+                if(coins.find(objectElement->IntAttribute("id")) == coins.end())
+                {
+                    std::unique_ptr<Coin> coin = std::make_unique<Coin>(mTextures, objectElement->IntAttribute("id"), rect);
+                    sceneLayers[Air]->attachChild(std::move(coin));
+                }
             } 
             else if (objectName == "ladder") 
             {
@@ -140,4 +171,6 @@ void MapLoader::parseObjects(tinyxml2::XMLElement* map, MapInfo& mapInfo, std::a
         objectGroupElement = objectGroupElement->NextSiblingElement("objectgroup");
     }
 }
+
+
 

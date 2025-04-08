@@ -52,6 +52,9 @@ World::World(sf::RenderWindow& window, TextureHolder& texture, FontHolder& fonts
     loadGameState();
     createHUD();
     buildScene();
+        
+    mMapLoader.setPlayerHP(mPlayer->getHitpoints());
+    std::cout << mPlayer->getHitpoints();
 }
 
 void World::update(sf::Time dt)
@@ -119,7 +122,7 @@ void World::saveFirstGameState()
 
     mGlobalPos = sf::Vector2f(0, 0);
     mPlayerPos = sf::Vector2f(128, 385);
-    mCurrentMap = "Media/Map/Map1.tmx";
+    mMapLoader.setCurrentMap("Media/Map/Map1.tmx");
 
     saveFile.write(reinterpret_cast<const char*>(&mGlobalPos.x), sizeof(mGlobalPos.x));
     saveFile.write(reinterpret_cast<const char*>(&mGlobalPos.y), sizeof(mGlobalPos.y));
@@ -127,9 +130,9 @@ void World::saveFirstGameState()
     saveFile.write(reinterpret_cast<const char*>(&mPlayerPos.x), sizeof(mPlayerPos.x));
     saveFile.write(reinterpret_cast<const char*>(&mPlayerPos.y), sizeof(mPlayerPos.y));
     
-    size_t length = mCurrentMap.size();
+    size_t length = mMapLoader.getCurrentMap().size();
     saveFile.write(reinterpret_cast<const char*>(&length), sizeof(length));
-    saveFile.write(mCurrentMap.c_str(), length);
+    saveFile.write(mMapLoader.getCurrentMap().c_str(), length);
 
     saveFile.close();
 }
@@ -162,7 +165,7 @@ void World::buildScene()
         mSceneGraph.attachChild(std::move(layer));
     }
 
-    loadFromFile(mCurrentMap);
+    loadFromFile(mMapLoader.getCurrentMap());
 }
 
 void World::handleCollisions()
@@ -176,7 +179,7 @@ void World::handleCollisions()
         {
             auto& coin = dynamic_cast<Coin&>(*pair.second);
             
-            mCoinIDCollected[mCurrentMap].insert(coin.getObjectID());
+            mMapLoader.getCollectedCoins()[mMapLoader.getCurrentMap()].insert(coin.getObjectID());
             coin.remove();
             mCoinCollected++;
             mCoinLabel.setText(std::to_string(mCoinCollected));
@@ -192,8 +195,8 @@ void World::handleCollisions()
                 if(mGlobalPos == sf::Vector2f(0, 0))
                 {
                     mGlobalPos.x -= 1;
-                    mCurrentMap = "Media/Map/Map0.tmx";
-                    switchMap(mCurrentMap);
+                    mMapLoader.setCurrentMap("Media/Map/Map0.tmx");
+                    switchMap(mMapLoader.getCurrentMap());
                 }
             }
         }
@@ -279,9 +282,9 @@ void World::saveGameState()
     saveFile.write(reinterpret_cast<const char*>(&mPlayerPos.y), sizeof(mPlayerPos.y));
     std::cout << "afrer saving: " << mPlayer->getPosition().x << ", " << mPlayer->getPosition().y << std::endl;
 
-    size_t length = mCurrentMap.size();
+    size_t length = mMapLoader.getCurrentMap().size();
     saveFile.write(reinterpret_cast<const char*>(&length), sizeof(length));
-    saveFile.write(mCurrentMap.c_str(), length);
+    saveFile.write(mMapLoader.getCurrentMap().c_str(), length);
 
     saveFile.close();
 }
@@ -310,7 +313,7 @@ void World::loadGameState()
     loadFile.read(buffer, length);
     buffer[length] = '\0';
 
-    mCurrentMap = buffer;
+    mMapLoader.setCurrentMap(buffer);
     delete[] buffer;
 
     loadFile.close();
@@ -324,6 +327,7 @@ void World::switchMap(const std::string& filename)
     cleanup();
     loadGameState();
     loadFromFile(filename);
+    mPlayer->setHitpoints(mMapLoader.getPlayerHP());
 }
 
 void World::changeMapPlayerOutsideView()
@@ -339,22 +343,22 @@ void World::changeMapPlayerOutsideView()
         {
             mGlobalPos.x += 1;
             mPlayerPos = sf::Vector2f(gameBounds.position.x, playerBounds.position.y + playerBounds.size.y); 
-            mCurrentMap = "Media/Map/Map2.tmx";
-            switchMap(mCurrentMap);
+            mMapLoader.setCurrentMap("Media/Map/Map2.tmx");
+            switchMap(mMapLoader.getCurrentMap());
         }
         else if(mGlobalPos == sf::Vector2f(1, 0))
         {
             mGlobalPos.x += 1;
             mPlayerPos = sf::Vector2f(gameBounds.position.x, playerBounds.position.y + playerBounds.size.y); 
-            mCurrentMap = "Media/Map/Map3.tmx";
-            switchMap(mCurrentMap);
+            mMapLoader.setCurrentMap("Media/Map/Map3.tmx");
+            switchMap(mMapLoader.getCurrentMap());
         }       
         else if(mGlobalPos == sf::Vector2f(2, 0))
         {
             mGlobalPos.x += 1;
             mPlayerPos = sf::Vector2f(gameBounds.position.x, playerBounds.position.y + playerBounds.size.y); 
-            mCurrentMap = "Media/Map/Map5.tmx";
-            switchMap(mCurrentMap);
+            mMapLoader.setCurrentMap("Media/Map/Map5.tmx");
+            switchMap(mMapLoader.getCurrentMap());
         }
     }
     else if(playerBounds.position.x + playerBounds.size.x < gameBounds.position.x) 
@@ -363,29 +367,29 @@ void World::changeMapPlayerOutsideView()
         {
             mGlobalPos.x += 1;
             mPlayerPos = sf::Vector2f(gameBounds.position.x, playerBounds.position.y + playerBounds.size.y);
-            mCurrentMap = "Media/Map/Map1.tmx";
-            switchMap(mCurrentMap);
+            mMapLoader.setCurrentMap("Media/Map/Map1.tmx");
+            switchMap(mMapLoader.getCurrentMap());
         }
         else if(mGlobalPos == sf::Vector2f(1, 0))
         {
             mGlobalPos.x -= 1;
             mPlayerPos = sf::Vector2f(gameBounds.size.x - playerBounds.size.x, playerBounds.position.y + playerBounds.size.y); 
-            mCurrentMap = "Media/Map/Map1.tmx";
-            switchMap(mCurrentMap);
+            mMapLoader.setCurrentMap("Media/Map/Map1.tmx");
+            switchMap(mMapLoader.getCurrentMap());
         }  
         else if(mGlobalPos == sf::Vector2f(2, 0))
         {
             mGlobalPos.x -= 1;
             mPlayerPos = sf::Vector2f(gameBounds.size.x - playerBounds.size.x, playerBounds.position.y + playerBounds.size.y); 
-            mCurrentMap = "Media/Map/Map2.tmx";
-            switchMap(mCurrentMap);
+            mMapLoader.setCurrentMap("Media/Map/Map2.tmx");
+            switchMap(mMapLoader.getCurrentMap());
         }
         else if(mGlobalPos == sf::Vector2f(3, 0))
         {
             mGlobalPos.x -= 1;
             mPlayerPos = sf::Vector2f(gameBounds.size.x - playerBounds.size.x, playerBounds.position.y + playerBounds.size.y); 
-            mCurrentMap = "Media/Map/Map3.tmx";
-            switchMap(mCurrentMap);
+            mMapLoader.setCurrentMap("Media/Map/Map3.tmx");
+            switchMap(mMapLoader.getCurrentMap());
         }
 
     }
@@ -394,6 +398,7 @@ void World::changeMapPlayerOutsideView()
         mPlayer->setPos(mStartPos);
         mPlayerPos = mStartPos;
         mPlayer->damage(1);
+        mMapLoader.setPlayerHP(mPlayer->getHitpoints());
     }
 }
 

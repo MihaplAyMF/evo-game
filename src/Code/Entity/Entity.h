@@ -10,6 +10,8 @@ public:
 	explicit Entity(int hitpoints);
 
 	int getHitpoints() const;
+    void setHitpoints(int HP);
+
 	void repair(int points);
 	void damage(int points);
 	void destroy();
