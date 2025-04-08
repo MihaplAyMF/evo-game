@@ -96,10 +96,8 @@ sf::Vector2f getHalfExtents(b2Body* body)
 
 void Player::movePlayer(Action type)
 {
-
 	b2Vec2 velocity(0.f, 0.f); 
-
-    float playerSpeed = 15.f;
+	float playerSpeed = 15.f;
     float gravity = 0.5f;
 
 	switch(type)
@@ -111,63 +109,63 @@ void Player::movePlayer(Action type)
 		velocity.x = playerSpeed;
 		break;
 	case MoveUp:
-		velocity.y = -playerSpeed*2;
+		velocity.y = -playerSpeed;
 		break;
 	case MoveOnLadder:
-		velocity.y = -playerSpeed*2;
+		velocity.y = -playerSpeed;
 		break;
 	case NotMove:
 		velocity.x = 0.f;
+		velocity.y = 0.f;
 		break;
     default:
         break;
-    }
+	}
+
     velocity.y += gravity;
-    
-    b2ContactEdge* contactEdge = mBody->GetContactList();
-    while(contactEdge)
-    {
-        b2Contact* contact = contactEdge->contact;
-         
-        b2WorldManifold worldManifold;
-        contact->GetWorldManifold(&worldManifold);
-        b2Vec2 contactNormal = worldManifold.normal;
 
-        b2Body* otherBody = contact->GetFixtureA()->GetBody();
-        if (otherBody == mBody)
-            otherBody = contact->GetFixtureB()->GetBody();
+	if(mIsLadder && type == MoveOnLadder)
+	{
+		mBody->SetLinearVelocity(b2Vec2(0, velocity.y));
+	}
+	if(type == MoveUp)
+	{	
+		if(static_cast<int>(mBody->GetLinearVelocity().y) == 0)
+			mIsJumping = true;
 
-	    b2Vec2 otherPos = otherBody->GetPosition();
-        velocity.y += gravity;
-        if(mIsLadder && type == MoveOnLadder)
-        {
-            mBody->SetLinearVelocity(b2Vec2(0, velocity.y));
-        }
-        if(type == MoveUp)
-        {	
-            if(static_cast<int>(mBody->GetLinearVelocity().y) == 0)
-                mIsJumping = true;
+		b2ContactEdge* contactEdge = mBody->GetContactList();
+		while(contactEdge)
+		{
 
-            if(contactNormal.y == -1 && velocity.y && mIsJumping)
-            {
-                mIsJumping = false;
+			b2Contact* contact = contactEdge->contact;
+
+			b2WorldManifold worldManifold;
+			contact->GetWorldManifold(&worldManifold);
+
+			b2Vec2 contactNormal = worldManifold.normal;
+
+			if(contactNormal.y == 1)
+				contactNormal.y = -1;
+
+			if(contactNormal.y == -1 && velocity.y && mIsJumping)
+			{
+				mIsJumping = false;
                 b2Vec2 newVelocity = mBody->GetLinearVelocity();
                 newVelocity.y = -20; 
                 mBody->SetLinearVelocity(newVelocity);
-            }
-        }
-        
-        contactEdge = contactEdge->next;
-    }
-
-    if(type == MoveRight || type == MoveLeft || type == NotMove)
-        mBody->SetLinearVelocity(b2Vec2(velocity.x, mBody->GetLinearVelocity().y));
+			}
+	
+			contactEdge = contactEdge->next;
+		}
+	}
+	if(type == MoveRight || type == MoveLeft || type == NotMove)
+		mBody->SetLinearVelocity(b2Vec2(velocity.x, mBody->GetLinearVelocity().y));
 
     b2Vec2 currentVelocity = mBody->GetLinearVelocity();
     currentVelocity.y += gravity;  
     mBody->SetLinearVelocity(currentVelocity);
 }
-
+     
 unsigned int Player::getCategory() const
 {
 	return Category::Player;

@@ -205,13 +205,12 @@ void World::handleCollisions()
 
 void World::updateCamera()
 {
-    mPlayer->setPos(mPlayer->getPosition());
-    
-    //std::cout << body->GetPosition().x * mBoxScale << ", " << body->GetPosition().y * mBoxScale << std::endl;
-    //sf::Vector2f pos(body->GetPosition().x, body->GetPosition().y);
-    //sf::Vector2f size(mPlayer->getBoundingRect().position);
-    //sf::Vector2f scaledPos(pos.x * mBoxScale, pos.y * mBoxScale);
+    b2Body* body = mPlayer->getBodyObject();
+    sf::Vector2f pos(body->GetPosition().x, body->GetPosition().y);
+    sf::Vector2f scaledPos(pos.x * mBoxScale, pos.y * mBoxScale);
 
+    mPlayer->setPosition({scaledPos});
+    
     /*sf::Vector2f halfWindowSize = sf::Vector2f(mWorldView.getSize().x / 2.0f, mWorldView.getSize().y / 2.0f);*/
     /*sf::Vector2f newCenter = scaledPos + sf::Vector2f(size.x / 2, size.y / 2);*/
     /**/
