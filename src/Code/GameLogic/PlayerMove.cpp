@@ -41,8 +41,11 @@ void PlayerMove::handleEvent(const sf::Event& event, CommandQueue& commands)
 			commands.push(mActionBinding[MoveUp]);
 			spacePressed = true;
 		}
-	}
-
+        else if (event.getIf<sf::Event::KeyPressed>()->scancode == sf::Keyboard::Scan::F)
+	    {
+            commands.push(mActionBinding[PressF]);
+        }
+    }
 	if(event.is<sf::Event::KeyReleased>()) 
 	{
         if (event.getIf<sf::Event::KeyReleased>()->scancode == sf::Keyboard::Scan::Space)
@@ -62,11 +65,10 @@ void PlayerMove::handleRealtimeInput(CommandQueue& commands)
 	for(auto pair : mKeyBinding) 
 	{		
 		if(sf::Keyboard::isKeyPressed(pair.first) && isRealtimeAction(pair.second)) 
-		{
+		{ 
 			commands.push(mActionBinding[pair.second]);
 			isAnyKeyPressed = true;
 		}
-
 	}
 	if(!isAnyKeyPressed) 
 	{
@@ -105,7 +107,7 @@ void PlayerMove::initializeAction()
 	mActionBinding[MoveUp].action        = derivedAction<Player>(PlayerMover(MoveUp));
 	mActionBinding[NotMove].action		 = derivedAction<Player>(PlayerMover(NotMove));
 	mActionBinding[MoveOnLadder].action  = derivedAction<Player>(PlayerMover(MoveOnLadder));
-	mActionBinding[PressF].action        = derivedAction<Player>([] (Player& player, sf::Time){player.setIsExit(true);});
+	mActionBinding[PressF].action        = derivedAction<Player>([] (Player& player, sf::Time){player.setIsEntry(true);});
 }
 
 bool PlayerMove::isRealtimeAction(Action action)
@@ -115,9 +117,7 @@ bool PlayerMove::isRealtimeAction(Action action)
 	case MoveLeft:
 	case MoveRight:
 	case MoveOnLadder:
-	case PressF:
 		return true;
-	
 	default:
 		return false;
 	}

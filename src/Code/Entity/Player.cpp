@@ -27,7 +27,7 @@ Player::Player(Type type, const TextureHolder& textures, sf::FloatRect rect)
 	, mSprite(textures.get(Table[type].texture), Table[type].textureRect)
 	, mIsJumping(false)
 	, mIsLadder(false)
-	, mIsExit(false)
+	, mIsEntry(false)
     , mVelocity(0.f, 0.f)
 {
 	sf::FloatRect bounds = mSprite.getLocalBounds();
@@ -123,7 +123,7 @@ void Player::movePlayer(Action type)
 	}
 
     velocity.y += gravity;
-
+    
 	if(mIsLadder && type == MoveOnLadder)
 	{
 		mBody->SetLinearVelocity(b2Vec2(0, velocity.y));
@@ -136,7 +136,6 @@ void Player::movePlayer(Action type)
 		b2ContactEdge* contactEdge = mBody->GetContactList();
 		while(contactEdge)
 		{
-
 			b2Contact* contact = contactEdge->contact;
 
 			b2WorldManifold worldManifold;
@@ -181,19 +180,20 @@ bool Player::isDestroyed() const
 	return false;
 }
 
-bool Player::getIsExit() const
+bool Player::getIsEntry() const
 {
-	return mIsExit;
+	return mIsEntry;
 }
 
 void Player::setIsLadder(bool isLadder)
 {
 	mIsLadder = isLadder;
 }
-
-void Player::setIsExit(bool isExit)
-{
-	mIsExit = isExit;
+void Player::setIsEntry(bool isEntry)
+{ 
+    if (mIsEntry)
+        std::cout << "True" << std::endl;
+	mIsEntry = isEntry;
 }
 
 void Player::setPos(sf::Vector2f pos)

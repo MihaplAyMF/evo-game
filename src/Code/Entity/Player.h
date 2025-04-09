@@ -27,10 +27,10 @@ public:
 	virtual unsigned int  getCategory() const;
 	virtual sf::FloatRect getBoundingRect() const;
 	virtual bool isDestroyed() const;
-    bool getIsExit() const;
+    bool getIsEntry() const;
 
 	void setIsLadder(bool isLadder);
-	void setIsExit(bool isExit);
+    void setIsEntry(bool isLadder);
 	void setPos(sf::Vector2f pos);
 
 private:
@@ -43,7 +43,7 @@ private:
 
 	bool mIsJumping;
 	bool mIsLadder;
-	bool mIsExit;
+    bool mIsEntry;
 
     sf::Vector2f mVelocity;
 

@@ -4,6 +4,7 @@
 
 #include <iostream>
 
+#include "Category.h"
 #include "DataTables.h"
 #include "Settings.h"
 #include "World.h"
@@ -66,11 +67,13 @@ void World::update(sf::Time dt)
         mSceneGraph.onCommand(mCommandQueue.pop(), dt);
 
     mSceneGraph.removeWrecks();
-
+    
+    mPlayer->setIsLadder(false);
+    //playerUpdate();
     updateCamera();
-    playerUpdate();
     handleCollisions();
-
+    
+    mPlayer->setIsEntry(false);
     mSceneGraph.update(dt, mCommandQueue);
 }
 
@@ -188,15 +191,28 @@ void World::handleCollisions()
         {
             mPlayer->setIsLadder(true);
         }
-        else if(matchesCategories(pair, Category::Player, Category::Exit))
+        else if(matchesCategories(pair, Category::Player, Category::Entry))
         {
-            if(mPlayer->getIsExit() == true)
+            if(mPlayer->getIsEntry() == true)
             {
                 if(mGlobalPos == sf::Vector2f(0, 0))
                 {
                     mGlobalPos.x -= 1;
                     mMapLoader.setCurrentMap("Media/Map/Map0.tmx");
                     switchMap(mMapLoader.getCurrentMap());
+                }
+                else if(mGlobalPos == sf::Vector2f(-1, 0))
+                {
+                    mGlobalPos.x += 1;
+                    mMapLoader.setCurrentMap("Media/Map/Map1.tmx");
+                    switchMap(mMapLoader.getCurrentMap());
+                }
+                else if (mGlobalPos == sf::Vector2f(3, 0))
+                {
+                    mGlobalPos.x += 1;
+                    mMapLoader.setCurrentMap("Media/Map/Map1.tmx");
+                    switchMap(mMapLoader.getCurrentMap());
+
                 }
             }
         }
@@ -258,7 +274,7 @@ void World::drawHUD()
 
 void World::playerUpdate()
 {
-    mPlayer->setIsExit(false);
+    mPlayer->setIsEntry(false);
     mPlayer->setIsLadder(false);
 }
 

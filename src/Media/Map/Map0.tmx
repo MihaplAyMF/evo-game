@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="30" height="14" tilewidth="16" tileheight="16" infinite="0" nextlayerid="10" nextobjectid="151">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="30" height="14" tilewidth="16" tileheight="16" infinite="0" nextlayerid="10" nextobjectid="151">
  <tileset firstgid="1" source="nature-paltformer-tileset-16x16.tsx"/>
  <tileset firstgid="78" source="../../../Програмування/MyProjectsCpp/EvoGame/EvoGame/Media/Map/nature-paltformer-tileset-16x16.tsx"/>
  <layer id="2" name="Background" width="30" height="14">
@@ -1305,7 +1305,7 @@
   <object id="142" name="coin" gid="55" x="144" y="48" width="16" height="16"/>
   <object id="144" name="coin" gid="55" x="160" y="48" width="16" height="16"/>
   <object id="145" name="block" x="0" y="16" width="16" height="176"/>
-  <object id="147" name="exit" x="128" y="176" width="16" height="16"/>
+  <object id="147" name="entry" x="128" y="176" width="16" height="16"/>
   <object id="150" name="player" gid="69" x="128" y="192" width="16" height="16"/>
  </objectgroup>
 </map>

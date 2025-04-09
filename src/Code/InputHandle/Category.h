@@ -11,7 +11,7 @@ namespace Category
 		Coin             = 1 << 3,
 		Ladder           = 1 << 4,
 		Pickup           = 1 << 5,
-		Exit             = 1 << 6,
+        Entry            = 1 << 7,
 
 		Player = PlayerObject | EnemyObject
 	};

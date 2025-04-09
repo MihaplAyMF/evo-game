@@ -4,12 +4,12 @@
 
 #include "Entity.h"
 
-class Exit : public Entity
+class Entry : public Entity
 {
-public:
-	Exit(sf::FloatRect rect);
-	virtual sf::FloatRect getBoundingRect() const;
+public:   
+    Entry(sf::FloatRect rect);
 
+	virtual sf::FloatRect getBoundingRect() const;
 	virtual unsigned int getCategory() const;
 
 private:

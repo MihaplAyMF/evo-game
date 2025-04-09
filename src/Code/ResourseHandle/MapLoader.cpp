@@ -3,7 +3,7 @@
 #include "Settings.h"
 #include "Coin.h"
 #include "Ladder.h"
-#include "Exit.h"
+#include "Entry.h"
 #include "Block.h"
 
 #include <iostream>
@@ -159,10 +159,10 @@ void MapLoader::parseObjects(tinyxml2::XMLElement* map, MapInfo& mapInfo, std::a
                 auto ladder = std::make_unique<Ladder>(rect);
                 sceneLayers[Air]->attachChild(std::move(ladder));
             }
-            else if (objectName == "exit") 
+            else if (objectName == "entry")
             {
-                auto exit = std::make_unique<Exit>(rect);
-                sceneLayers[Air]->attachChild(std::move(exit));
+                auto ladder = std::make_unique<Entry>(rect);
+                sceneLayers[Air]->attachChild(std::move(ladder));
             }
 
             objectElement = objectElement->NextSiblingElement("object");
