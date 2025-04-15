@@ -1,5 +1,6 @@
 #pragma once
 
+#include <SFML/System/Vector2.hpp>
 #include <string>
 #include <array>
 #include <map>
@@ -73,7 +74,8 @@ private:
     sf::Vector2f mGlobalPos;
     sf::Vector2f mPlayerPos;
     sf::Vector2f mStartPos;
-
+    sf::Vector2f mEntryPos;
+    
     sf::Sprite mHeartSprite;
     sf::Sprite mCoinSprite;
     GUI::Label mCoinLabel;

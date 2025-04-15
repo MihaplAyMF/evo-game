@@ -197,21 +197,20 @@ void World::handleCollisions()
             {
                 if(mGlobalPos == sf::Vector2f(0, 0))
                 {
+                    auto& entry =  dynamic_cast<Coin&>(*pair.second);
+                    mEntryPos = entry.getPosition();
+
                     mGlobalPos.x -= 1;
                     mMapLoader.setCurrentMap("Media/Map/Map0.tmx");
                     switchMap(mMapLoader.getCurrentMap());
+                    mPlayer->setPos(mStartPos);
                 }
                 else if(mGlobalPos == sf::Vector2f(-1, 0))
                 {
                     mGlobalPos.x += 1;
                     mMapLoader.setCurrentMap("Media/Map/Map1.tmx");
                     switchMap(mMapLoader.getCurrentMap());
-                }
-                else if (mGlobalPos == sf::Vector2f(3, 0))
-                {
-                    mGlobalPos.x += 1;
-                    mMapLoader.setCurrentMap("Media/Map/Map1.tmx");
-                    switchMap(mMapLoader.getCurrentMap());
+                    mPlayer->setPos(mStartPos);
 
                 }
             }
