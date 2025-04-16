@@ -1,4 +1,5 @@
 #include <SFML/System/Vector2.hpp>
+#include <string>
 #include <tinyxml2.h>
 #include <fstream>
 
@@ -7,10 +8,11 @@
 #include "Category.h"
 #include "DataTables.h"
 #include "Settings.h"
+#include "Transition.h"
 #include "World.h"
 #include "Coin.h"
 
-const float zoomValue = 1;
+const float zoomValue = 1.2;
 
 bool matchesCategories(SceneNode::Pair& colliders, Category::Type type1, Category::Type type2)
 {
@@ -33,7 +35,7 @@ bool matchesCategories(SceneNode::Pair& colliders, Category::Type type1, Categor
 }
 
 World::World(sf::RenderWindow& window, TextureHolder& texture, FontHolder& fonts)
-    : mWorldView(sf::FloatRect({0, 0}, {1920.f, 897.f}))
+    : mWorldView(sf::FloatRect({0, 0}, {1920.f, 1080.f}))
     , mHUDView(window.getDefaultView())
     , mTarget(window)
     , mFonts(fonts)
@@ -55,7 +57,6 @@ World::World(sf::RenderWindow& window, TextureHolder& texture, FontHolder& fonts
     buildScene();
         
     mMapLoader.setPlayerHP(mPlayer->getHitpoints());
-    std::cout << mPlayer->getHitpoints();
 }
 
 void World::update(sf::Time dt)
@@ -69,11 +70,10 @@ void World::update(sf::Time dt)
     mSceneGraph.removeWrecks();
     
     mPlayer->setIsLadder(false);
-    //playerUpdate();
     updateCamera();
     handleCollisions();
-    
     mPlayer->setIsEntry(false);
+    
     mSceneGraph.update(dt, mCommandQueue);
 }
 
@@ -125,7 +125,7 @@ void World::saveFirstGameState()
 
     mGlobalPos = sf::Vector2f(0, 0);
     mPlayerPos = sf::Vector2f(128, 385);
-    mMapLoader.setCurrentMap("Media/Map/Map1.tmx");
+    mMapLoader.setCurrentMap("Media/Map/Test.tmx");
 
     saveFile.write(reinterpret_cast<const char*>(&mGlobalPos.x), sizeof(mGlobalPos.x));
     saveFile.write(reinterpret_cast<const char*>(&mGlobalPos.y), sizeof(mGlobalPos.y));
@@ -191,28 +191,32 @@ void World::handleCollisions()
         {
             mPlayer->setIsLadder(true);
         }
-        else if(matchesCategories(pair, Category::Player, Category::Entry))
+        else if(matchesCategories(pair, Category::Player, Category::Transition))
         {
-            if(mPlayer->getIsEntry() == true)
+            auto& transition = dynamic_cast<Transition&>(*pair.second);
+
+            sf::FloatRect gameBounds = {{0,0}, {mWorldView.getSize().x, mWorldView.getSize().y}};
+            auto playerBounds = mPlayer->getBoundingRect();
+    
+            mPlayerPos = sf::Vector2f(playerBounds.position.x, playerBounds.position.y + playerBounds.size.y);
+        
+            if(mPlayerPos.x > gameBounds.size.x - playerBounds.size.x)
             {
-                if(mGlobalPos == sf::Vector2f(0, 0))
-                {
-                    auto& entry =  dynamic_cast<Coin&>(*pair.second);
-                    mEntryPos = entry.getPosition();
-
-                    mGlobalPos.x -= 1;
-                    mMapLoader.setCurrentMap("Media/Map/Map0.tmx");
-                    switchMap(mMapLoader.getCurrentMap());
-                    mPlayer->setPos(mStartPos);
-                }
-                else if(mGlobalPos == sf::Vector2f(-1, 0))
-                {
-                    mGlobalPos.x += 1;
-                    mMapLoader.setCurrentMap("Media/Map/Map1.tmx");
-                    switchMap(mMapLoader.getCurrentMap());
-                    mPlayer->setPos(mStartPos);
-
-                }
+                mPlayerPos = sf::Vector2f(gameBounds.position.x, playerBounds.position.y + playerBounds.size.y); 
+                mMapLoader.setCurrentMap("Media/Map/" + transition.getMapName());
+                switchMap(mMapLoader.getCurrentMap());
+            }
+            else if(playerBounds.position.x < 0) 
+            {
+                mPlayerPos = sf::Vector2f(gameBounds.size.x - playerBounds.size.x, playerBounds.position.y + playerBounds.size.y); 
+                mMapLoader.setCurrentMap("Media/Map/" + transition.getMapName());
+                switchMap(mMapLoader.getCurrentMap());
+            } 
+            else if(mPlayer->getIsEntry() == true && transition.getIsEntry())
+            {
+                mMapLoader.setCurrentMap("Media/Map/" + transition.getMapName());
+                switchMap(mMapLoader.getCurrentMap());
+                mPlayer->setPos(transition.getPosition()); // UB - fixed later!!
             }
         }
     }
@@ -223,22 +227,23 @@ void World::updateCamera()
     b2Body* body = mPlayer->getBodyObject();
     sf::Vector2f pos(body->GetPosition().x, body->GetPosition().y);
     sf::Vector2f scaledPos(pos.x * mBoxScale, pos.y * mBoxScale);
-
+    sf::Vector2f size(mPlayer->getBoundingRect().position);
     mPlayer->setPosition({scaledPos});
-    
-    /*sf::Vector2f halfWindowSize = sf::Vector2f(mWorldView.getSize().x / 2.0f, mWorldView.getSize().y / 2.0f);*/
-    /*sf::Vector2f newCenter = scaledPos + sf::Vector2f(size.x / 2, size.y / 2);*/
-    /**/
-    /*if(newCenter.x - halfWindowSize.x < 0)*/
-    /*    newCenter.x = halfWindowSize.x;*/
-    /*if(newCenter.y - halfWindowSize.y < 0)*/
-    /*    newCenter.y = halfWindowSize.y;*/
-    /*if(newCenter.x + halfWindowSize.x > res.x)*/
-    /*    newCenter.x = res.x - halfWindowSize.x;*/
-    /*if(newCenter.y + halfWindowSize.y > res.y)*/
-    /*    newCenter.y = res.y - halfWindowSize.y;*/
-    /**/
-    /*mWorldView.setCenter(newCenter);*/
+
+    sf::Vector2f halfWindowSize = sf::Vector2f(mWorldView.getSize().x / 2.0f, mWorldView.getSize().y / 2.0f);
+    sf::Vector2f newCenter = scaledPos + sf::Vector2f(size.x / 2, size.y / 2);
+    sf::Vector2f res = mWorldView.getSize(); 
+
+    if(newCenter.x - halfWindowSize.x < 0)
+        newCenter.x = halfWindowSize.x;
+    if(newCenter.y - halfWindowSize.y < 0)
+        newCenter.y = halfWindowSize.y;
+    if(newCenter.x + halfWindowSize.x > res.x)
+        newCenter.x = res.x - halfWindowSize.x;
+    if(newCenter.y + halfWindowSize.y > res.y)
+        newCenter.y = res.y - halfWindowSize.y;
+
+    mWorldView.setCenter(newCenter);
 }
 
 void World::createHUD()
@@ -288,13 +293,11 @@ void World::saveGameState()
     if(mPlayer == nullptr)
         return;
 
-    std::cout << "Saving player pos: " << mPlayerPos.x << ", " << mPlayerPos.y << std::endl; 
     saveFile.write(reinterpret_cast<const char*>(&mGlobalPos.x), sizeof(mGlobalPos.x));
     saveFile.write(reinterpret_cast<const char*>(&mGlobalPos.y), sizeof(mGlobalPos.y));
 
     saveFile.write(reinterpret_cast<const char*>(&mPlayerPos.x), sizeof(mPlayerPos.x));
     saveFile.write(reinterpret_cast<const char*>(&mPlayerPos.y), sizeof(mPlayerPos.y));
-    std::cout << "afrer saving: " << mPlayer->getPosition().x << ", " << mPlayer->getPosition().y << std::endl;
 
     size_t length = mMapLoader.getCurrentMap().size();
     saveFile.write(reinterpret_cast<const char*>(&length), sizeof(length));
@@ -335,8 +338,6 @@ void World::loadGameState()
 
 void World::switchMap(const std::string& filename)
 { 
-    std::cout << "Switch map" << mPlayer->getPosition().x << ", " << mPlayer->getPosition().y << std::endl;
-
     saveGameState();
     cleanup();
     loadGameState();
@@ -351,63 +352,7 @@ void World::changeMapPlayerOutsideView()
     
     mPlayerPos = sf::Vector2f(playerBounds.position.x, playerBounds.position.y + playerBounds.size.y);
 
-    if(playerBounds.position.x > gameBounds.position.x + gameBounds.size.x) 
-    {
-        if(mGlobalPos == sf::Vector2f(0, 0))
-        {
-            mGlobalPos.x += 1;
-            mPlayerPos = sf::Vector2f(gameBounds.position.x, playerBounds.position.y + playerBounds.size.y); 
-            mMapLoader.setCurrentMap("Media/Map/Map2.tmx");
-            switchMap(mMapLoader.getCurrentMap());
-        }
-        else if(mGlobalPos == sf::Vector2f(1, 0))
-        {
-            mGlobalPos.x += 1;
-            mPlayerPos = sf::Vector2f(gameBounds.position.x, playerBounds.position.y + playerBounds.size.y); 
-            mMapLoader.setCurrentMap("Media/Map/Map3.tmx");
-            switchMap(mMapLoader.getCurrentMap());
-        }       
-        else if(mGlobalPos == sf::Vector2f(2, 0))
-        {
-            mGlobalPos.x += 1;
-            mPlayerPos = sf::Vector2f(gameBounds.position.x, playerBounds.position.y + playerBounds.size.y); 
-            mMapLoader.setCurrentMap("Media/Map/Map5.tmx");
-            switchMap(mMapLoader.getCurrentMap());
-        }
-    }
-    else if(playerBounds.position.x + playerBounds.size.x < gameBounds.position.x) 
-    {
-        if(mGlobalPos == sf::Vector2f(-1, 0))
-        {
-            mGlobalPos.x += 1;
-            mPlayerPos = sf::Vector2f(gameBounds.position.x, playerBounds.position.y + playerBounds.size.y);
-            mMapLoader.setCurrentMap("Media/Map/Map1.tmx");
-            switchMap(mMapLoader.getCurrentMap());
-        }
-        else if(mGlobalPos == sf::Vector2f(1, 0))
-        {
-            mGlobalPos.x -= 1;
-            mPlayerPos = sf::Vector2f(gameBounds.size.x - playerBounds.size.x, playerBounds.position.y + playerBounds.size.y); 
-            mMapLoader.setCurrentMap("Media/Map/Map1.tmx");
-            switchMap(mMapLoader.getCurrentMap());
-        }  
-        else if(mGlobalPos == sf::Vector2f(2, 0))
-        {
-            mGlobalPos.x -= 1;
-            mPlayerPos = sf::Vector2f(gameBounds.size.x - playerBounds.size.x, playerBounds.position.y + playerBounds.size.y); 
-            mMapLoader.setCurrentMap("Media/Map/Map2.tmx");
-            switchMap(mMapLoader.getCurrentMap());
-        }
-        else if(mGlobalPos == sf::Vector2f(3, 0))
-        {
-            mGlobalPos.x -= 1;
-            mPlayerPos = sf::Vector2f(gameBounds.size.x - playerBounds.size.x, playerBounds.position.y + playerBounds.size.y); 
-            mMapLoader.setCurrentMap("Media/Map/Map3.tmx");
-            switchMap(mMapLoader.getCurrentMap());
-        }
-
-    }
-    else if(playerBounds.position.y + playerBounds.size.y > gameBounds.position.y + gameBounds.size.y)
+    if(playerBounds.position.y + playerBounds.size.y > gameBounds.position.y + gameBounds.size.y)
     {
         mPlayer->setPos(mStartPos);
         mPlayerPos = mStartPos;

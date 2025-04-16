@@ -14,5 +14,4 @@ public:
 
 private:
 	sf::FloatRect rect;
-
 };

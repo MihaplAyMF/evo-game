@@ -37,15 +37,16 @@ public:
     const int& getPlayerHP() const;
 
 private:
-    bool parseMapAttributes(tinyxml2::XMLElement* map, MapInfo& mapInfo);
-    void generateSubRects(MapInfo& mapInfo);
-    void parseLayers(tinyxml2::XMLElement* map, MapInfo& mapInfo, std::array<SceneNode*, LayerCount>& sceneLayers);
-    void parseObjects(tinyxml2::XMLElement* map, MapInfo& mapInfo, std::array<SceneNode*, LayerCount>&  sceneLayers, sf::Vector2f& startPos);
+    bool parseMapAttributes(tinyxml2::XMLElement* map);
+    void generateSubRects();
+    void parseLayers(tinyxml2::XMLElement* map, std::array<SceneNode*, LayerCount>& sceneLayers);
+    void parseObjects(tinyxml2::XMLElement* map, std::array<SceneNode*, LayerCount>&  sceneLayers, sf::Vector2f& startPos);
  
     TextureHolder& mTextures;
     float mGameScale;
     std::string mCurrentMap;
     std::map<std::string, std::set<int>> mCoinIDCollected;
     int mPlayerHP;
+    MapInfo mMapInfo;
 };
 

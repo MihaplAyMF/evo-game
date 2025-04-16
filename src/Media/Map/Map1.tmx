@@ -1728,16 +1728,20 @@
   <object id="107" name="coin" gid="55" x="48" y="128" width="16" height="16"/>
   <object id="108" name="block" x="0.25" y="128" width="63.75" height="16"/>
   <object id="111" name="coin" gid="55" x="32" y="128" width="16" height="16"/>
-  <object id="112" name="entry" x="224" y="176" width="16" height="16"/>
+  <object id="112" name="transition" x="224" y="176" width="16" height="16">
+   <properties>
+    <property name="mapName" value="Map0.tmx"/>
+   </properties>
+  </object>
   <object id="113" name="block" x="0" y="48" width="48" height="16"/>
   <object id="114" name="block" x="0" y="64" width="32" height="16"/>
   <object id="115" name="block" x="0" y="80" width="16" height="48"/>
   <object id="117" name="block" x="0.5" y="145" width="47.25" height="47"/>
   <object id="118" name="block" x="0" y="0" width="16" height="48"/>
   <object id="123" name="player" gid="69" x="64" y="192" width="16" height="16"/>
-  <object id="124" name="Portal" x="464" y="0" width="16" height="192">
+  <object id="124" name="transition" x="464" y="0" width="16" height="192">
    <properties>
-    <property name="mapName" value="map2.tmx"/>
+    <property name="mapName" value="Map2.tmx"/>
    </properties>
   </object>
  </objectgroup>

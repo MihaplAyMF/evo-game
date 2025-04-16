@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="30" height="14" tilewidth="16" tileheight="16" infinite="0" nextlayerid="9" nextobjectid="130">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="30" height="14" tilewidth="16" tileheight="16" infinite="0" nextlayerid="9" nextobjectid="133">
+ <properties>
+  <property name="mapName" value=""/>
+ </properties>
  <tileset firstgid="1" source="nature-paltformer-tileset-16x16.tsx"/>
  <layer id="1" name="sky" width="30" height="14">
   <data>
@@ -1310,6 +1313,15 @@
   <object id="125" name="block" x="416" y="32" width="48" height="16"/>
   <object id="126" name="ladder" x="64" y="32" width="16" height="96"/>
   <object id="127" name="ladder" x="352" y="64" width="16" height="128"/>
-  <object id="129" name="entry" x="432" y="176" width="16" height="16"/>
+  <object id="129" name="transition" x="432" y="176" width="16" height="16">
+   <properties>
+    <property name="mapName" value="Map6.tmx"/>
+   </properties>
+  </object>
+  <object id="131" name="transition" x="0" y="0" width="16" height="192">
+   <properties>
+    <property name="mapName" value="Map3.tmx"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

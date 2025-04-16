@@ -1,12 +1,22 @@
 #include "MapLoader.h"
 #include "SpriteNode.h"
+#include "Transition.h"
 #include "Settings.h"
 #include "Coin.h"
 #include "Ladder.h"
-#include "Entry.h"
 #include "Block.h"
 
+#include <SFML/Graphics/Rect.hpp>
+#include <SFML/System/Vector2.hpp>
 #include <iostream>
+#include <string>
+
+struct Portal 
+{
+    sf::FloatRect portalRect;
+    sf::Vector2f startPos;
+    std::string mapName;
+};
 
 MapLoader::MapLoader(TextureHolder& textures) 
     : mTextures(textures)
@@ -22,13 +32,11 @@ bool MapLoader::loadFromFile(const std::string& filename, std::array<SceneNode*,
 
     tinyxml2::XMLElement* map = levelFile.FirstChildElement("map");
     if (!map) return false;
-
-    MapInfo mapInfo;
-    if (!parseMapAttributes(map, mapInfo)) return false;
+    if (!parseMapAttributes(map)) return false;
     
-    generateSubRects(mapInfo);
-    parseLayers(map, mapInfo, sceneLayers);
-    parseObjects(map, mapInfo, sceneLayers, startPos);
+    generateSubRects();
+    parseLayers(map, sceneLayers);
+    parseObjects(map, sceneLayers, startPos);
 
     return true;
 }
@@ -59,38 +67,38 @@ const int& MapLoader::getPlayerHP() const
 }
 
 
-bool MapLoader::parseMapAttributes(tinyxml2::XMLElement* map, MapInfo& mapInfo) {
-    map->QueryIntAttribute("width", &mapInfo.width);
-    map->QueryIntAttribute("height", &mapInfo.height);
-    map->QueryIntAttribute("tilewidth", &mapInfo.tileWidth);
-    map->QueryIntAttribute("tileheight", &mapInfo.tileHeight);
+bool MapLoader::parseMapAttributes(tinyxml2::XMLElement* map) {
+    map->QueryIntAttribute("width", &mMapInfo.width);
+    map->QueryIntAttribute("height", &mMapInfo.height);
+    map->QueryIntAttribute("tilewidth", &mMapInfo.tileWidth);
+    map->QueryIntAttribute("tileheight", &mMapInfo.tileHeight);
     
-    std::cout << mapInfo.tileWidth << ", " << mapInfo.tileHeight << std::endl;
+    std::cout << mMapInfo.tileWidth * mMapInfo.width << ", " << mMapInfo.tileHeight * mMapInfo.height << std::endl;
 
     tinyxml2::XMLElement* tilesetElement = map->FirstChildElement("tileset");
     if (!tilesetElement) return false;
 
-    tilesetElement->QueryIntAttribute("firstgid", &mapInfo.firstTileID);
+    tilesetElement->QueryIntAttribute("firstgid", &mMapInfo.firstTileID);
     return true;
 }
 
-void MapLoader::generateSubRects(MapInfo& mapInfo) {
-    int columns = mTextures.get(Textures::Tileset).getSize().x / mapInfo.tileWidth;
-    int rows = mTextures.get(Textures::Tileset).getSize().y / mapInfo.tileHeight;
+void MapLoader::generateSubRects() {
+    int columns = mTextures.get(Textures::Tileset).getSize().x / mMapInfo.tileWidth;
+    int rows = mTextures.get(Textures::Tileset).getSize().y / mMapInfo.tileHeight;
 
     for (int y = 0; y < rows; y++)
         for (int x = 0; x < columns; x++)
         {
             sf::IntRect rect;
 
-            rect.position = {x * mapInfo.tileWidth, y * mapInfo.tileHeight}; 
-            rect.size = {mapInfo.tileWidth, mapInfo.tileHeight};
+            rect.position = {x * mMapInfo.tileWidth, y * mMapInfo.tileHeight}; 
+            rect.size = {mMapInfo.tileWidth, mMapInfo.tileHeight};
 
-            mapInfo.subRects.push_back(rect);
+            mMapInfo.subRects.push_back(rect);
         }
 }
 
-void MapLoader::parseLayers(tinyxml2::XMLElement* map, MapInfo& mapInfo, std::array<SceneNode*, LayerCount>&  sceneLayers) {
+void MapLoader::parseLayers(tinyxml2::XMLElement* map, std::array<SceneNode*, LayerCount>&  sceneLayers) {
     tinyxml2::XMLElement* layerElement = map->FirstChildElement("layer");
     while (layerElement) {
         tinyxml2::XMLElement* layerDataElement = layerElement->FirstChildElement("data");
@@ -99,29 +107,29 @@ void MapLoader::parseLayers(tinyxml2::XMLElement* map, MapInfo& mapInfo, std::ar
         int x = 0, y = 0;
         while (tileElement) {
             int tileGID = tileElement->IntAttribute("gid", 0);
-            int subRectToUse = tileGID - mapInfo.firstTileID;
+            int subRectToUse = tileGID - mMapInfo.firstTileID;
 
             if (subRectToUse >= 0) {
                 sf::Texture& spriteTexture = mTextures.get(Textures::Tileset);
                 auto sprite = std::make_unique<SpriteNode>(spriteTexture);
-                sprite->setTextureRect(mapInfo.subRects[subRectToUse]);
+                sprite->setTextureRect(mMapInfo.subRects[subRectToUse]);
                 sprite->setScale({mGameScale, mGameScale});
-                sprite->setPosition({x * mapInfo.tileWidth * mGameScale, y * mapInfo.tileHeight * mGameScale});
+                sprite->setPosition({x * mMapInfo.tileWidth * mGameScale, y * mMapInfo.tileHeight * mGameScale});
                 sprite->setBackground(true);
                 sceneLayers[Background]->attachChild(std::move(sprite));
             }
 
             tileElement = tileElement->NextSiblingElement("tile");
-            if (++x >= mapInfo.width) {
+            if (++x >= mMapInfo.width) {
                 x = 0;
-                if (++y >= mapInfo.height) break;
+                if (++y >= mMapInfo.height) break;
             }
         }
         layerElement = layerElement->NextSiblingElement("layer");
     }
 }
 
-void MapLoader::parseObjects(tinyxml2::XMLElement* map, MapInfo& mapInfo, std::array<SceneNode*, LayerCount>& sceneLayers, sf::Vector2f& startPos) {
+void MapLoader::parseObjects(tinyxml2::XMLElement* map, std::array<SceneNode*, LayerCount>& sceneLayers, sf::Vector2f& startPos) {
     tinyxml2::XMLElement* objectGroupElement = map->FirstChildElement("objectgroup");
     while (objectGroupElement) {
         tinyxml2::XMLElement* objectElement = objectGroupElement->FirstChildElement("object");
@@ -130,9 +138,10 @@ void MapLoader::parseObjects(tinyxml2::XMLElement* map, MapInfo& mapInfo, std::a
             std::string objectName = objectElement->Attribute("name") ? objectElement->Attribute("name") : "";
             int x = objectElement->IntAttribute("x");
             int y = objectElement->IntAttribute("y");
-            int width = objectElement->IntAttribute("width", mapInfo.tileWidth);
-            int height = objectElement->IntAttribute("height", mapInfo.tileHeight);
+            int width = objectElement->IntAttribute("width", mMapInfo.tileWidth);
+            int height = objectElement->IntAttribute("height", mMapInfo.tileHeight);
         
+
             sf::FloatRect rect({x * mGameScale, y * mGameScale}, {width * mGameScale, height * mGameScale});
 
             if (objectName == "player") 
@@ -141,7 +150,7 @@ void MapLoader::parseObjects(tinyxml2::XMLElement* map, MapInfo& mapInfo, std::a
             } 
             else if (objectName == "block") 
             {
-                auto block = std::make_unique<Block>(rect, sf::Vector2i(mapInfo.tileWidth * mGameScale, mapInfo.tileHeight * mGameScale));
+                auto block = std::make_unique<Block>(rect, sf::Vector2i(mMapInfo.tileWidth * mGameScale, mMapInfo.tileHeight * mGameScale));
                 sceneLayers[Air]->attachChild(std::move(block));
             } 
             else if (objectName == "coin") 
@@ -159,12 +168,23 @@ void MapLoader::parseObjects(tinyxml2::XMLElement* map, MapInfo& mapInfo, std::a
                 auto ladder = std::make_unique<Ladder>(rect);
                 sceneLayers[Air]->attachChild(std::move(ladder));
             }
-            else if (objectName == "entry")
+            else if (objectName == "transition")
             {
-                auto ladder = std::make_unique<Entry>(rect);
-                sceneLayers[Air]->attachChild(std::move(ladder));
-            }
+                std::string mapName = (objectElement->FirstChildElement("properties")) ?
+                    objectElement->FirstChildElement("properties")->FirstChildElement("property")->Attribute("value") : "";
+                
+                sf::FloatRect mapBounds({0, 0}, {1920, 1080});
 
+                bool isEntry = !( 
+                       rect.position.x <= 0.f
+                    || rect.position.y <= 0.f
+                    || rect.position.x + rect.size.x >= mapBounds.size.x
+                    || rect.position.y + rect.size.y >= mapBounds.size.y);
+
+                std::cout << "ENTRY: " << isEntry << std::endl;
+                auto transition = std::make_unique<Transition>(rect, mapName, isEntry); 
+                sceneLayers[Air]->attachChild(std::move(transition));
+            }
             objectElement = objectElement->NextSiblingElement("object");
         }
 

@@ -887,6 +887,10 @@
   <object id="126" name="block" x="400" y="96" width="64" height="32"/>
   <object id="127" name="block" x="352" y="32" width="64" height="32"/>
   <object id="128" name="block" x="0" y="0" width="16" height="192"/>
-  <object id="133" name="entry" x="32" y="176" width="16" height="16"/>
+  <object id="133" name="transition" x="32" y="176" width="16" height="16">
+   <properties>
+    <property name="mapName" value="Map3.tmx"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>
