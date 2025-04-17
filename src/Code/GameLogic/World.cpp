@@ -45,7 +45,6 @@ World::World(sf::RenderWindow& window, TextureHolder& texture, FontHolder& fonts
     , mBoxScale(getBoxScale())
     , mGameScale(Settings::getInstance().getScale())
     , mPlayer(nullptr)
-    , mGlobalPos(0, 0)
     , mPlayerPos(0, 0)
     , mCoinLabel("", mFonts)
     , mCoinCollected(0)
@@ -123,12 +122,8 @@ void World::saveFirstGameState()
     if(!saveFile.is_open())
         return;
 
-    mGlobalPos = sf::Vector2f(0, 0);
     mPlayerPos = sf::Vector2f(128, 385);
     mMapLoader.setCurrentMap("Media/Map/Test.tmx");
-
-    saveFile.write(reinterpret_cast<const char*>(&mGlobalPos.x), sizeof(mGlobalPos.x));
-    saveFile.write(reinterpret_cast<const char*>(&mGlobalPos.y), sizeof(mGlobalPos.y));
 
     saveFile.write(reinterpret_cast<const char*>(&mPlayerPos.x), sizeof(mPlayerPos.x));
     saveFile.write(reinterpret_cast<const char*>(&mPlayerPos.y), sizeof(mPlayerPos.y));
@@ -293,9 +288,6 @@ void World::saveGameState()
     if(mPlayer == nullptr)
         return;
 
-    saveFile.write(reinterpret_cast<const char*>(&mGlobalPos.x), sizeof(mGlobalPos.x));
-    saveFile.write(reinterpret_cast<const char*>(&mGlobalPos.y), sizeof(mGlobalPos.y));
-
     saveFile.write(reinterpret_cast<const char*>(&mPlayerPos.x), sizeof(mPlayerPos.x));
     saveFile.write(reinterpret_cast<const char*>(&mPlayerPos.y), sizeof(mPlayerPos.y));
 
@@ -316,9 +308,6 @@ void World::loadGameState()
         saveFirstGameState();
         return;
     }
-
-    loadFile.read(reinterpret_cast<char*>(&mGlobalPos.x), sizeof(mGlobalPos.x));
-    loadFile.read(reinterpret_cast<char*>(&mGlobalPos.y), sizeof(mGlobalPos.y));
 
     loadFile.read(reinterpret_cast<char*>(&mPlayerPos.x), sizeof(mPlayerPos.x));
     loadFile.read(reinterpret_cast<char*>(&mPlayerPos.y), sizeof(mPlayerPos.y));

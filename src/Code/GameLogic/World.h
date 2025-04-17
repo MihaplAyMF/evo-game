@@ -71,7 +71,6 @@ private:
     MapLoader mMapLoader;
 
     Player* mPlayer;
-    sf::Vector2f mGlobalPos;
     sf::Vector2f mPlayerPos;
     sf::Vector2f mStartPos;
     sf::Vector2f mEntryPos;

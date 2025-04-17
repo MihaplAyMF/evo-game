@@ -38,6 +38,7 @@ public:
 	
 	virtual bool		  isMarkedForRemoval() const;
 	virtual bool		  isDestroyed() const;
+    virtual bool          isMoving() const;
 	virtual bool          isBackground() const;
 
 	void				  setBackground(int flag);

@@ -180,6 +180,11 @@ bool Player::isDestroyed() const
 	return false;
 }
 
+bool Player::isMoving() const
+{
+    return true;
+}
+
 bool Player::getIsEntry() const
 {
 	return mIsEntry;
