@@ -46,6 +46,11 @@ std::map<std::string, std::set<int>>& MapLoader::getCollectedCoins()
     return mCoinIDCollected;
 }
 
+sf::Vector2f MapLoader::getMapSize()
+{
+    return {mMapInfo.mapHeight, mMapInfo.mapWidth};
+}
+
 void MapLoader::setCurrentMap(const std::string& mapName) 
 {
     mCurrentMap = mapName;
@@ -66,14 +71,14 @@ const int& MapLoader::getPlayerHP() const
     return mPlayerHP;
 }
 
-
 bool MapLoader::parseMapAttributes(tinyxml2::XMLElement* map) {
     map->QueryIntAttribute("width", &mMapInfo.width);
     map->QueryIntAttribute("height", &mMapInfo.height);
     map->QueryIntAttribute("tilewidth", &mMapInfo.tileWidth);
     map->QueryIntAttribute("tileheight", &mMapInfo.tileHeight);
     
-    std::cout << mMapInfo.tileWidth * mMapInfo.width << ", " << mMapInfo.tileHeight * mMapInfo.height << std::endl;
+    mMapInfo.mapWidth = mMapInfo.tileWidth * mMapInfo.width * mGameScale;
+    mMapInfo.mapHeight = mMapInfo.tileHeight * mMapInfo.height * mGameScale;
 
     tinyxml2::XMLElement* tilesetElement = map->FirstChildElement("tileset");
     if (!tilesetElement) return false;

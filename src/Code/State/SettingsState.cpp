@@ -7,7 +7,6 @@
 #include "Utility.hpp"
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Window/VideoMode.hpp>
-#include <iostream>
 
 SettingsState::SettingsState(StateStack& stack, Context context)
 	: State(stack, context)
@@ -18,7 +17,8 @@ SettingsState::SettingsState(StateStack& stack, Context context)
     , mSettings(Settings::getInstance())
 {
     getContext().window->setVerticalSyncEnabled(true);
-    
+    getContext().window->setFramerateLimit(60);
+
     bool isFullscreen = mSettings.isFullscreen();
     sf::Vector2u res = isFullscreen ?  mSettings.getMaxResolution() : mSettings.getCurrentResolution();
     setScale(mEvoGameSprite, sf::IntRect({0, 0}, {static_cast<int>(res.x), static_cast<int>(res.y)})); 

@@ -221,13 +221,16 @@ void World::updateCamera()
 {
     b2Body* body = mPlayer->getBodyObject();
     sf::Vector2f pos(body->GetPosition().x, body->GetPosition().y);
-    sf::Vector2f scaledPos(pos.x * mBoxScale, pos.y * mBoxScale);
+    sf::Vector2f playerPos(pos.x * mBoxScale, pos.y * mBoxScale);
     sf::Vector2f size(mPlayer->getBoundingRect().position);
-    mPlayer->setPosition({scaledPos});
+    mPlayer->setPosition({playerPos});
+
+
+    std::cout << size.x << ", " << size.y << std::endl;
 
     sf::Vector2f halfWindowSize = sf::Vector2f(mWorldView.getSize().x / 2.0f, mWorldView.getSize().y / 2.0f);
-    sf::Vector2f newCenter = scaledPos + sf::Vector2f(size.x / 2, size.y / 2);
-    sf::Vector2f res = mWorldView.getSize(); 
+    sf::Vector2f newCenter = playerPos;
+    sf::Vector2f res = mMapLoader.getMapSize(); 
 
     if(newCenter.x - halfWindowSize.x < 0)
         newCenter.x = halfWindowSize.x;
@@ -336,7 +339,7 @@ void World::switchMap(const std::string& filename)
 
 void World::changeMapPlayerOutsideView()
 {
-    sf::FloatRect gameBounds = {{0,0}, {mWorldView.getSize().x, mWorldView.getSize().y}};
+    sf::FloatRect gameBounds = {{0,0}, {mMapLoader.getMapSize().x, mMapLoader.getMapSize().y}};
     auto playerBounds = mPlayer->getBoundingRect();
     
     mPlayerPos = sf::Vector2f(playerBounds.position.x, playerBounds.position.y + playerBounds.size.y);

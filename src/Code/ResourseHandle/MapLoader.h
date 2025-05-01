@@ -1,5 +1,6 @@
 #pragma once
 
+#include <SFML/System/Vector2.hpp>
 #include <string>
 #include <vector>
 #include <tinyxml2.h>
@@ -13,6 +14,8 @@ struct MapInfo {
     int tileWidth = 0;
     int tileHeight = 0;
     int firstTileID = 0;
+    float mapHeight = 0;
+    float mapWidth = 0;
     std::vector<sf::IntRect> subRects;
 };
 
@@ -29,6 +32,7 @@ public:
     explicit MapLoader(TextureHolder& textures);
     bool loadFromFile(const std::string& filename, std::array<SceneNode*, LayerCount>& sceneLayers, sf::Vector2f& startPos);
     std::map<std::string, std::set<int>>& getCollectedCoins();
+    sf::Vector2f getMapSize();
 
     void setCurrentMap(const std::string& mapName);
     const std::string& getCurrentMap() const;

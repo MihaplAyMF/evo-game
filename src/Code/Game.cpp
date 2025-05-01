@@ -21,8 +21,8 @@ Game::Game()
     , mStateStack(State::Context(mWindow, mTextures, mFonts, mPlayer))
 {
     sf::ContextSettings settings;
- std::cout << "OpenGL Context Version: " << settings.majorVersion << "." << settings.minorVersion << std::endl;
-   
+    std::cout << "OpenGL Context Version: " << settings.majorVersion << "." << settings.minorVersion << std::endl;
+  
     sf::Vector2u res = Settings::getInstance().getCurrentResolution();
 
     if(Settings::getInstance().isFullscreen())

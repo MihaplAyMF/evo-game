@@ -5,6 +5,7 @@
 
 build/
 vcpkg/ 
+.nvim_paths
 
 # User-specific files
 *.rsuser
