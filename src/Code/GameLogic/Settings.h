@@ -21,9 +21,13 @@ public:
     void saveDefaultSettingsToFile(const std::string& filename);
         
     bool isFullscreen() const;
+    bool isShowFPS() const;
+    bool isVerSync() const;
     bool isResolutionEqual() const;
     
     void setFullscreen(bool f);
+    void setVerSync(bool f);
+    void setShowFPS(bool f);
     void setCurrentResolution();
     void setNextResolution(Direction d);
     void setScale(float s);
@@ -41,6 +45,8 @@ private:
     ~Settings();
 
     bool  mFullscreen;
+    bool  mShowFPS;
+    bool  mVerSync;
     float mScale;
 
     std::list<sf::Vector2u> mResolutions;

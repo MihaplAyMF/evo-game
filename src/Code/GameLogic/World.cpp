@@ -225,9 +225,6 @@ void World::updateCamera()
     sf::Vector2f size(mPlayer->getBoundingRect().position);
     mPlayer->setPosition({playerPos});
 
-
-    std::cout << size.x << ", " << size.y << std::endl;
-
     sf::Vector2f halfWindowSize = sf::Vector2f(mWorldView.getSize().x / 2.0f, mWorldView.getSize().y / 2.0f);
     sf::Vector2f newCenter = playerPos;
     sf::Vector2f res = mMapLoader.getMapSize(); 

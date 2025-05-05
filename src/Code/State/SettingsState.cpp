@@ -8,16 +8,25 @@
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Window/VideoMode.hpp>
 
+#include <iostream>
+
 SettingsState::SettingsState(StateStack& stack, Context context)
 	: State(stack, context)
     , mEvoGameSprite(context.textures->get(Textures::TitleScreen))
     , mEvoGameLabel(std::make_shared<GUI::Label>("Settings", *context.fonts))
     , mResolButton(std::make_shared<GUI::Button>(*context.fonts, *context.textures))
     , mFullscreenButton(std::make_shared<GUI::Button>(*context.fonts, *context.textures))
+    , mVerticalSyncButton(std::make_shared<GUI::Button>(*context.fonts, *context.textures))
+    , mShowFPSButton(std::make_shared<GUI::Button>(*context.fonts, *context.textures))
     , mSettings(Settings::getInstance())
 {
-    getContext().window->setVerticalSyncEnabled(true);
-    getContext().window->setFramerateLimit(60);
+
+    if(mSettings.isVerSync())
+    {
+    	sf::RenderWindow& window = *getContext().window;
+        window.setVerticalSyncEnabled(true);
+        std::cout <<"testing" << std::endl;
+    }
 
     bool isFullscreen = mSettings.isFullscreen();
     sf::Vector2u res = isFullscreen ?  mSettings.getMaxResolution() : mSettings.getCurrentResolution();
@@ -41,12 +50,29 @@ SettingsState::SettingsState(StateStack& stack, Context context)
         mSettings.setFullscreen(!mSettings.isFullscreen());
         updateWindow();
     });
+   
+    sf::RenderWindow* window = context.window;
+    mVerticalSyncButton->setCallback([this, window] ()
+    {
+        bool newState = !mSettings.isVerSync();
+        mSettings.setVerSync(newState);
+        window->setVerticalSyncEnabled(newState);
+        updateTextAppearance();
+    });
+       
+    mShowFPSButton->setCallback([this]()
+    {
+        mSettings.setShowFPS(!mSettings.isShowFPS());
+        updateTextAppearance();
+    });
 
     updateTextAppearance();
 
 	mGUIContainer.pack(mEvoGameLabel);
 	mGUIContainer.pack(mResolButton);
     mGUIContainer.pack(mFullscreenButton);
+    mGUIContainer.pack(mVerticalSyncButton);
+    mGUIContainer.pack(mShowFPSButton);
 }
 
 bool SettingsState::handleEvent(const sf::Event& event)
@@ -110,7 +136,13 @@ void SettingsState::updateWindow()
      
     res = isFullscreen ? mSettings.getMaxResolution() : mSettings.getCurrentResolution();
     setScale(mEvoGameSprite, sf::IntRect({0, 0}, {static_cast<int>(res.x), static_cast<int>(res.y)})); 
-    
+   
+    if(mSettings.isVerSync())
+    {
+    	sf::RenderWindow& window = *getContext().window;
+        window.setVerticalSyncEnabled(true);
+    }
+
     updateTextAppearance();
 }
 
@@ -129,6 +161,12 @@ void SettingsState::updateTextAppearance()
     mFullscreenButton->getText().setCharacterSize(mSettings.getAdaptiveValue(30));
 	mFullscreenButton->setText("Fullscreen: " + std::to_string(mSettings.isFullscreen()));
 
+    mVerticalSyncButton->getText().setCharacterSize(mSettings.getAdaptiveValue(30));
+	mVerticalSyncButton->setText("Vertical sync: " + std::to_string(mSettings.isVerSync()));
+
+    mShowFPSButton->getText().setCharacterSize(mSettings.getAdaptiveValue(30));
+	mShowFPSButton->setText("Show FPS: " + std::to_string(mSettings.isShowFPS()));
+
     float resolTextWidth = mResolButton->getText().getGlobalBounds().size.x;
     float fullscreenTextWidth = mFullscreenButton->getText().getGlobalBounds().size.x;
     float maxWidth = std::max(resolTextWidth, fullscreenTextWidth);
@@ -136,4 +174,6 @@ void SettingsState::updateTextAppearance()
 
     mResolButton->setPosition({centerX, mSettings.getAdaptiveValue(200)});
     mFullscreenButton->setPosition({centerX, mSettings.getAdaptiveValue(250)});
+    mVerticalSyncButton->setPosition({centerX, mSettings.getAdaptiveValue(300)});
+    mShowFPSButton->setPosition({centerX, mSettings.getAdaptiveValue(350)});
 }

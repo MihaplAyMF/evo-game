@@ -4,10 +4,13 @@
 - Added settings state
 - Implemented the ability to change resolution
 - Fullscreen mode
+- Vertical synchronization
+- Show FPS 
 - game states: pause, loss/win
+- Transition between locations with the F key
+- View follows the player
 
 Planned:
-- Transition between locations with the F key
 - Add NPCs
 - Add enemies
 

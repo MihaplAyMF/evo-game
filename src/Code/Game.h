@@ -5,6 +5,8 @@
 #include "ResourceIdentifiers.h"
 #include "PlayerMove.h"
 #include "StateStack.h"
+#include "Settings.h"
+#include "Label.h"
 
 class Game
 {
@@ -28,4 +30,7 @@ private:
 	PlayerMove		 mPlayer;
 
     StateStack       mStateStack;
+
+    std::shared_ptr<GUI::Label> mFpsLabel;
+    Settings& mSettings;
 };

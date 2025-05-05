@@ -26,7 +26,10 @@ private:
 	sf::Sprite			          mEvoGameSprite;
     std::shared_ptr<GUI::Button>  mResolButton;
     std::shared_ptr<GUI::Button>  mFullscreenButton;
-    std::shared_ptr<GUI::Label>   mEvoGameLabel; 
+    std::shared_ptr<GUI::Button>  mVerticalSyncButton;
+    std::shared_ptr<GUI::Button>  mShowFPSButton;
+
+    std::shared_ptr<GUI::Label>   mEvoGameLabel;
 	GUI::Container		          mGUIContainer;
 
     Settings& mSettings;

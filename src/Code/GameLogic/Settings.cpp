@@ -38,7 +38,10 @@ void Settings::loadFromFile(const std::string& filename)
 
             sf::Vector2u loadedResolution(j["video"]["width"],  j["video"]["height"]);
             mFullscreen = j["video"]["fullscreen"];
-            
+            mVerSync = j["vodeo"]["verticalSync"];
+            mShowFPS = j["video"]["showFPS"];
+
+
             auto it = std::find(mResolutions.begin(), mResolutions.end(), loadedResolution);
             if (it != mResolutions.end()) 
             {
@@ -63,6 +66,8 @@ void Settings::saveToFile(const std::string& filename)
     j["video"]["width"] = mCurrentResolution->x;
     j["video"]["height"] = mCurrentResolution->y;
     j["video"]["fullscreen"] = mFullscreen;
+    j["vodeo"]["verticalSync"] = mVerSync; 
+    j["video"]["showFPS"] = mShowFPS;
 
     std::ofstream file(filename);
     if (file.is_open()) 
@@ -98,6 +103,8 @@ void Settings::saveDefaultSettingsToFile(const std::string& filename)
     j["video"]["fullscreen"] = false; 
 
     mFullscreen = false;
+    mVerSync = false;
+    mShowFPS = false;
 
     std::ofstream file(filename);
     if (file.is_open()) 
@@ -115,6 +122,16 @@ bool Settings::isFullscreen() const
     return mFullscreen; 
 }
 
+bool Settings::isShowFPS() const
+{
+    return mShowFPS;
+}
+
+bool Settings::isVerSync() const
+{
+    return mVerSync;
+}
+
 bool Settings::isResolutionEqual() const {
     return mCurrentResolution == mNextResolution;
 }
@@ -122,6 +139,16 @@ bool Settings::isResolutionEqual() const {
 void Settings::setFullscreen(bool f) 
 {
     mFullscreen = f; 
+}
+
+void Settings::setVerSync(bool f)
+{
+    mVerSync = f;
+}
+
+void Settings::setShowFPS(bool f)
+{
+    mShowFPS = f;
 }
 
 void Settings::setCurrentResolution()

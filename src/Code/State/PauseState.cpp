@@ -12,7 +12,7 @@ PauseState::PauseState(StateStack& stack, Context context)
 	: State(stack, context)
 	, mGUIContainer()
 {
-	sf::Font& font = context.fonts->get(Fonts::Main);
+	//sf::Font& font = context.fonts->get(Fonts::Main);
 	sf::Vector2f windowSize = context.window->getView().getSize();
 
     auto mPausedText = std::make_shared<GUI::Label>("Game Paused", *context.fonts);

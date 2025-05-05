@@ -19,20 +19,27 @@ Game::Game()
     : mTextures()
     , mFonts()
     , mStateStack(State::Context(mWindow, mTextures, mFonts, mPlayer))
+    , mFpsLabel()
+    , mSettings(Settings::getInstance())
 {
     sf::ContextSettings settings;
-    std::cout << "OpenGL Context Version: " << settings.majorVersion << "." << settings.minorVersion << std::endl;
   
-    sf::Vector2u res = Settings::getInstance().getCurrentResolution();
+    sf::Vector2u res = mSettings.getCurrentResolution();
 
-    if(Settings::getInstance().isFullscreen())
+    if(mSettings.isFullscreen())
         mWindow.create(sf::VideoMode({res.x, res.y}), "SFML Window", sf::State::Fullscreen);
     else 
         mWindow.create(sf::VideoMode({res.x, res.y}), "SFML Window", sf::Style::Default);
-
+    
+    if(mSettings.isVerSync())
+        mWindow.setVerticalSyncEnabled(true);
+    
     fs::path path = fs::current_path();
 
     mFonts.open(Fonts::Main, (path / "Media/Fonts/Sansation.ttf").string());
+    mFpsLabel = std::make_shared<GUI::Label>("FPS: 0", mFonts);
+    mFpsLabel->setPosition({10, 10});
+    mFpsLabel->getText().setCharacterSize(20);
 
     mTextures.load(Textures::Tileset,     (path / "Media/Textures/nature-paltformer.png").string());
     mTextures.load(Textures::TitleScreen, (path / "Media/Textures/title-screen.png").string());
@@ -42,23 +49,25 @@ Game::Game()
 }
 
 void Game::run()
-{ 
+{
     sf::Clock clock;
     sf::Time timeSinceLastUpdate = sf::Time::Zero;
-    
-    while(mWindow.isOpen())
+
+    while (mWindow.isOpen())
     {
         sf::Time dt = clock.restart();
         timeSinceLastUpdate += dt;
-        while(timeSinceLastUpdate > timePerFrame)
+
+        handleInput();
+
+        // Fixed timestep updates (може бути 0 або кілька апдейтів)
+        while (timeSinceLastUpdate >= timePerFrame)
         {
             timeSinceLastUpdate -= timePerFrame;
-
-            handleInput();
-            update(timePerFrame);
-
+            update(timePerFrame); // оновлення логіки на стабільному кроці
         }
-        render();
+
+        render(); // малюємо ОСТАННІЙ відомий стан
     }
 }
 
@@ -83,6 +92,10 @@ void Game::render()
 {
     mWindow.clear(sf::Color::Black);
     mStateStack.draw();
+
+    if(mSettings.isShowFPS())
+        mWindow.draw(*mFpsLabel);
+    
     mWindow.display();
 }
 
