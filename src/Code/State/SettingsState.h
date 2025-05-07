@@ -23,7 +23,10 @@ public:
     void updateTextAppearance();
 
 private:
-	sf::Sprite			          mEvoGameSprite;
+    std::string boolToString(bool value);
+    std::string getResolutionText(const sf::Vector2u& res) const;
+
+    sf::Sprite			          mEvoGameSprite;
     std::shared_ptr<GUI::Button>  mResolButton;
     std::shared_ptr<GUI::Button>  mFullscreenButton;
     std::shared_ptr<GUI::Button>  mVerticalSyncButton;

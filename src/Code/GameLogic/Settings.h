@@ -29,6 +29,7 @@ public:
     void setVerSync(bool f);
     void setShowFPS(bool f);
     void setCurrentResolution();
+    void setFullScreenResolution();
     void setNextResolution(Direction d);
     void setScale(float s);
 

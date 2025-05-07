@@ -22,11 +22,7 @@ SettingsState::SettingsState(StateStack& stack, Context context)
 {
 
     if(mSettings.isVerSync())
-    {
-    	sf::RenderWindow& window = *getContext().window;
-        window.setVerticalSyncEnabled(true);
-        std::cout <<"testing" << std::endl;
-    }
+        getContext().window->setVerticalSyncEnabled(true);
 
     bool isFullscreen = mSettings.isFullscreen();
     sf::Vector2u res = isFullscreen ?  mSettings.getMaxResolution() : mSettings.getCurrentResolution();
@@ -34,8 +30,7 @@ SettingsState::SettingsState(StateStack& stack, Context context)
     
     mEvoGameLabel->getText().setFillColor(sf::Color::Black);
 
-    res = mSettings.getCurrentResolution();
-	mResolButton->setText("Resolution: " + std::to_string(res.x) + ", " + std::to_string(res.y));	
+	mResolButton->setText("Resolution: " + getResolutionText(mSettings.getCurrentResolution()));	
     mResolButton->setCallback([this] () 
     { 
         if(!mSettings.isResolutionEqual())
@@ -48,6 +43,7 @@ SettingsState::SettingsState(StateStack& stack, Context context)
     mFullscreenButton->setCallback([this] ()
 	{
         mSettings.setFullscreen(!mSettings.isFullscreen());
+        mSettings.setFullScreenResolution();
         updateWindow();
     });
    
@@ -88,14 +84,14 @@ bool SettingsState::handleEvent(const sf::Event& event)
     else if (event.is<sf::Event::KeyPressed>())
     {
         if (event.getIf<sf::Event::KeyPressed>()->scancode == sf::Keyboard::Scan::Left
-            && mResolButton->isActive())
+            && mResolButton->isActive() && !mSettings.isFullscreen())
         { 
             mSettings.setNextResolution(Settings::Direction::Prev);
             sf::Vector2u res = mSettings.getNextResolution();
             mResolButton->setText("Resolution: " + std::to_string(res.x) + ", " + std::to_string(res.y));
         }
         else if (event.getIf<sf::Event::KeyPressed>()->scancode == sf::Keyboard::Scan::Right
-            && mResolButton->isActive())
+             && mResolButton->isActive() && !mSettings.isFullscreen())
         {
             mSettings.setNextResolution(Settings::Direction::Next);
             sf::Vector2u res = mSettings.getNextResolution();
@@ -140,10 +136,8 @@ void SettingsState::updateWindow()
     setScale(mEvoGameSprite, sf::IntRect({0, 0}, {static_cast<int>(res.x), static_cast<int>(res.y)})); 
    
     if(mSettings.isVerSync())
-    {
-    	sf::RenderWindow& window = *getContext().window;
-        window.setVerticalSyncEnabled(true);
-    }
+        getContext().window->setVerticalSyncEnabled(true);
+    
 
     updateTextAppearance();
 }
@@ -158,16 +152,16 @@ void SettingsState::updateTextAppearance()
     mEvoGameLabel->setPosition({res.x / 2.f - mEvoGameLabel->getText().getGlobalBounds().size.x / 2.f, 60});
 
     mResolButton->getText().setCharacterSize(mSettings.getAdaptiveValue(30));
-    mResolButton->setText(mResolButton->getText().getString()); 
+    mResolButton->setText("Resolution: " + getResolutionText(res)); 
     
     mFullscreenButton->getText().setCharacterSize(mSettings.getAdaptiveValue(30));
-	mFullscreenButton->setText("Fullscreen: " + std::to_string(mSettings.isFullscreen()));
+	mFullscreenButton->setText("Fullscreen: " + boolToString(mSettings.isFullscreen()));
 
     mVerticalSyncButton->getText().setCharacterSize(mSettings.getAdaptiveValue(30));
-	mVerticalSyncButton->setText("Vertical sync: " + std::to_string(mSettings.isVerSync()));
+	mVerticalSyncButton->setText("Vertical sync: " + boolToString(mSettings.isVerSync()));
 
     mShowFPSButton->getText().setCharacterSize(mSettings.getAdaptiveValue(30));
-	mShowFPSButton->setText("Show FPS: " + std::to_string(mSettings.isShowFPS()));
+	mShowFPSButton->setText("Show FPS: " + boolToString(mSettings.isShowFPS()));
 
     float resolTextWidth = mResolButton->getText().getGlobalBounds().size.x;
     float fullscreenTextWidth = mFullscreenButton->getText().getGlobalBounds().size.x;
@@ -178,4 +172,14 @@ void SettingsState::updateTextAppearance()
     mFullscreenButton->setPosition({centerX, mSettings.getAdaptiveValue(250)});
     mVerticalSyncButton->setPosition({centerX, mSettings.getAdaptiveValue(300)});
     mShowFPSButton->setPosition({centerX, mSettings.getAdaptiveValue(350)});
+}
+
+std::string SettingsState::boolToString(bool value)
+{
+    return value ? "Yes" : "No";
+}
+
+std::string SettingsState::getResolutionText(const sf::Vector2u& res) const
+{
+    return "Resolution: " + std::to_string(res.x) + ", " + std::to_string(res.y);
 }

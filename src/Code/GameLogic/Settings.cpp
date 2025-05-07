@@ -3,7 +3,6 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Window/VideoMode.hpp>
-
 #include <fstream>
 
 Settings::Settings()
@@ -158,6 +157,15 @@ void Settings::setCurrentResolution()
     }
 }
 
+void Settings::setFullScreenResolution()
+{
+    if (!mResolutions.empty())
+    {
+        mCurrentResolution = mResolutions.begin();  // найвища роздільність
+        mNextResolution = mCurrentResolution;
+    }
+}
+
 void Settings::setNextResolution(Direction direction)
 {
     if (mResolutions.empty()) return;
@@ -230,7 +238,21 @@ float Settings::getScale()
     return mScale;
 }
 
+
 float Settings::getAdaptiveValue(int baseValue)
 {
-    return baseValue;
+    const float baseWidth  = 1920.f;
+    const float baseHeight = 1080.f;
+
+    const sf::Vector2u& current = *mCurrentResolution;
+    float currentArea = static_cast<float>(current.x * current.y);
+    float baseArea = baseWidth * baseHeight;
+
+    float scaleFactor = std::sqrt(currentArea / baseArea);
+
+    // Allow more shrinking for low resolutions (down to 0.3x)
+    scaleFactor = std::clamp(scaleFactor, 0.3f, 1.5f);
+
+    return baseValue * scaleFactor;
 }
+

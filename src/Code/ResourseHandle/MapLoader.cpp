@@ -133,8 +133,6 @@ void MapLoader::parseLayers(tinyxml2::XMLElement* map, std::array<SceneNode*, La
     }
 }
 
-#include <iostream>
-
 void MapLoader::parseObjects(tinyxml2::XMLElement* map, std::array<SceneNode*, LayerCount>& sceneLayers, sf::Vector2f& startPos) {
     tinyxml2::XMLElement* objectGroupElement = map->FirstChildElement("objectgroup");
     while (objectGroupElement) {
@@ -196,6 +194,3 @@ void MapLoader::parseObjects(tinyxml2::XMLElement* map, std::array<SceneNode*, L
         objectGroupElement = objectGroupElement->NextSiblingElement("objectgroup");
     }
 }
-
-
-

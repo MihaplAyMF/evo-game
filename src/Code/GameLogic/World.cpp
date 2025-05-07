@@ -56,8 +56,6 @@ World::World(sf::RenderWindow& window, TextureHolder& texture, FontHolder& fonts
     buildScene();
         
     mMapLoader.setPlayerHP(mPlayer->getHitpoints());
-
-    
 }
 
 void World::update(sf::Time dt)
