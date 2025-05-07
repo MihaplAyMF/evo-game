@@ -1719,10 +1719,10 @@
   <object id="82" name="block" x="112" y="128" width="48" height="16"/>
   <object id="94" name="coin" gid="55" x="288" y="192" width="16" height="16"/>
   <object id="95" name="coin" gid="55" x="304" y="192" width="16" height="16"/>
-  <object id="96" name="coin" gid="56" x="368" y="80" width="16" height="16"/>
-  <object id="97" name="coin" gid="56" x="352" y="80" width="16" height="16"/>
-  <object id="98" name="coin" gid="63" x="144" y="128" width="16" height="16"/>
-  <object id="99" name="coin" gid="63" x="128" y="128" width="16" height="16"/>
+  <object id="96" name="coin" gid="55" x="368" y="80" width="16" height="16"/>
+  <object id="97" name="coin" gid="55" x="352" y="80" width="16" height="16"/>
+  <object id="98" name="coin" gid="55" x="144" y="128" width="16" height="16"/>
+  <object id="99" name="coin" gid="55" x="128" y="128" width="16" height="16"/>
   <object id="101" name="ladder" x="112" y="80" width="16" height="48"/>
   <object id="102" name="ladder" x="160" y="128" width="16" height="64"/>
   <object id="107" name="coin" gid="55" x="48" y="128" width="16" height="16"/>

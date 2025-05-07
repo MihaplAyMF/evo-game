@@ -12,7 +12,7 @@
 #include "World.h"
 #include "Coin.h"
 
-const float zoomValue = 1.2;
+const float zoomValue = 1.3;
 
 bool matchesCategories(SceneNode::Pair& colliders, Category::Type type1, Category::Type type2)
 {
@@ -35,7 +35,7 @@ bool matchesCategories(SceneNode::Pair& colliders, Category::Type type1, Categor
 }
 
 World::World(sf::RenderWindow& window, TextureHolder& texture, FontHolder& fonts)
-    : mWorldView(sf::FloatRect({0, 0}, {1920.f, 1080.f}))
+    : mWorldView(sf::FloatRect({0, 0}, {1920.f / zoomValue, 1080.f / zoomValue}))
     , mHUDView(window.getDefaultView())
     , mTarget(window)
     , mFonts(fonts)
@@ -56,6 +56,8 @@ World::World(sf::RenderWindow& window, TextureHolder& texture, FontHolder& fonts
     buildScene();
         
     mMapLoader.setPlayerHP(mPlayer->getHitpoints());
+
+    
 }
 
 void World::update(sf::Time dt)
@@ -123,7 +125,7 @@ void World::saveFirstGameState()
         return;
 
     mPlayerPos = sf::Vector2f(128, 385);
-    mMapLoader.setCurrentMap("Media/Map/Test.tmx");
+    mMapLoader.setCurrentMap("Media/Map/Map1.tmx");
 
     saveFile.write(reinterpret_cast<const char*>(&mPlayerPos.x), sizeof(mPlayerPos.x));
     saveFile.write(reinterpret_cast<const char*>(&mPlayerPos.y), sizeof(mPlayerPos.y));
@@ -170,7 +172,7 @@ void World::handleCollisions()
 {
     std::set<SceneNode::Pair> colisionPairs;
     mSceneGraph.checkSceneCollision(mSceneGraph, colisionPairs);
-
+    
     for(SceneNode::Pair pair : colisionPairs)
     {
         if(matchesCategories(pair, Category::Player, Category::Coin))
@@ -190,20 +192,21 @@ void World::handleCollisions()
         {
             auto& transition = dynamic_cast<Transition&>(*pair.second);
 
-            sf::FloatRect gameBounds = {{0,0}, {mWorldView.getSize().x, mWorldView.getSize().y}};
+            sf::Vector2f gameSize = mMapLoader.getMapSize(); 
             auto playerBounds = mPlayer->getBoundingRect();
     
             mPlayerPos = sf::Vector2f(playerBounds.position.x, playerBounds.position.y + playerBounds.size.y);
-        
-            if(mPlayerPos.x > gameBounds.size.x - playerBounds.size.x)
+       
+
+            if(mPlayerPos.x > gameSize.x - playerBounds.size.x)
             {
-                mPlayerPos = sf::Vector2f(gameBounds.position.x, playerBounds.position.y + playerBounds.size.y); 
+                mPlayerPos = sf::Vector2f(0, playerBounds.position.y + playerBounds.size.y); 
                 mMapLoader.setCurrentMap("Media/Map/" + transition.getMapName());
                 switchMap(mMapLoader.getCurrentMap());
             }
             else if(playerBounds.position.x < 0) 
             {
-                mPlayerPos = sf::Vector2f(gameBounds.size.x - playerBounds.size.x, playerBounds.position.y + playerBounds.size.y); 
+                mPlayerPos = sf::Vector2f(gameSize.x - playerBounds.size.x, playerBounds.position.y + playerBounds.size.y); 
                 mMapLoader.setCurrentMap("Media/Map/" + transition.getMapName());
                 switchMap(mMapLoader.getCurrentMap());
             } 
@@ -229,6 +232,7 @@ void World::updateCamera()
     sf::Vector2f newCenter = playerPos;
     sf::Vector2f res = mMapLoader.getMapSize(); 
 
+
     if(newCenter.x - halfWindowSize.x < 0)
         newCenter.x = halfWindowSize.x;
     if(newCenter.y - halfWindowSize.y < 0)
@@ -237,6 +241,7 @@ void World::updateCamera()
         newCenter.x = res.x - halfWindowSize.x;
     if(newCenter.y + halfWindowSize.y > res.y)
         newCenter.y = res.y - halfWindowSize.y;
+
 
     mWorldView.setCenter(newCenter);
 }

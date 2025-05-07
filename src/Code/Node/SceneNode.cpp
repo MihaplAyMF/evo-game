@@ -109,12 +109,10 @@ bool SceneNode::isDestroyed() const
 {
 	return false;
 }
-
 bool SceneNode::isMoving() const 
 {
     return false;    
 }
-
 bool SceneNode::isBackground() const
 {
 	return mIsBackground;
@@ -170,10 +168,12 @@ void SceneNode::checkSceneCollision(SceneNode& sceneGraph, std::set<Pair>& colli
 
 void SceneNode::checkNodeCollision(SceneNode& node, std::set<Pair>& collisionPairs)
 {
+    bool state1 = isMoving();
+    bool state2 = node.isMoving();
 
-	if(this == &node || isDestroyed() || node.isDestroyed() 
+    if(this == &node || isDestroyed() || node.isDestroyed()
         || isBackground() || node.isBackground()
-        || !isMoving() || !node.isMoving())
+        || !(isMoving() || node.isMoving()))
 		return;
 
 	if(collision(*this, node))

@@ -18,6 +18,7 @@ public:
 	
 	virtual void remove();
 	virtual bool isDestroyed() const;
+    virtual bool isMoving() const; 
 
 protected:
 	virtual void updateCurrent(sf::Time dt, CommandQueue& commands);

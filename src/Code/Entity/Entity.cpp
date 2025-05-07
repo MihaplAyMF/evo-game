@@ -41,12 +41,14 @@ void Entity::setHitpoints(int HP)
     mHitpoints = HP;
 }
 
-
-
-
 bool Entity::isDestroyed() const
 {
 	return mHitpoints <= 0;
+}
+
+bool Entity::isMoving() const 
+{
+    return false;    
 }
 
 void Entity::updateCurrent(sf::Time dt, CommandQueue& commands)

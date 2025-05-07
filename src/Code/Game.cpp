@@ -37,9 +37,11 @@ Game::Game()
     fs::path path = fs::current_path();
 
     mFonts.open(Fonts::Main, (path / "Media/Fonts/Sansation.ttf").string());
-    mFpsLabel = std::make_shared<GUI::Label>("FPS: 0", mFonts);
-    mFpsLabel->setPosition({10, 10});
+    mFpsLabel = std::make_shared<GUI::Label>("FPS: ", mFonts);
     mFpsLabel->getText().setCharacterSize(20);
+    mFpsLabel->setPosition({40, 20});
+    mFpsLabel->setText("FPS: ");
+
 
     mTextures.load(Textures::Tileset,     (path / "Media/Textures/nature-paltformer.png").string());
     mTextures.load(Textures::TitleScreen, (path / "Media/Textures/title-screen.png").string());
@@ -50,24 +52,35 @@ Game::Game()
 
 void Game::run()
 {
+    const sf::Time timePerFrame = sf::seconds(1.f / 60.f);
     sf::Clock clock;
     sf::Time timeSinceLastUpdate = sf::Time::Zero;
+
+    sf::Clock fpsClock;
+    int frameCount = 0;
 
     while (mWindow.isOpen())
     {
         sf::Time dt = clock.restart();
         timeSinceLastUpdate += dt;
+        frameCount++;
 
         handleInput();
 
-        // Fixed timestep updates (може бути 0 або кілька апдейтів)
         while (timeSinceLastUpdate >= timePerFrame)
         {
             timeSinceLastUpdate -= timePerFrame;
-            update(timePerFrame); // оновлення логіки на стабільному кроці
+            update(timePerFrame);
         }
 
-        render(); // малюємо ОСТАННІЙ відомий стан
+        if (fpsClock.getElapsedTime() >= sf::seconds(1.f))
+        {
+            mFpsLabel->setText("FPS: " + std::to_string(frameCount));
+            frameCount = 0;
+            fpsClock.restart();
+        }
+
+        render();
     }
 }
 

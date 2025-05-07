@@ -127,13 +127,15 @@ void SettingsState::updateWindow()
 {
     bool isFullscreen = mSettings.isFullscreen();
     sf::Vector2u res = mSettings.getCurrentResolution(); 
-    
+   
+    std::cout << "res: " << res.x << ", " << res.y << std::endl;
+
     getContext().window->close();
     if(isFullscreen)
         getContext().window->create(sf::VideoMode({res.x, res.y}), "SFML Window", sf::State::Fullscreen);
     else 
         getContext().window->create(sf::VideoMode({res.x, res.y}), "SFML Window", sf::Style::Default);
-     
+    
     res = isFullscreen ? mSettings.getMaxResolution() : mSettings.getCurrentResolution();
     setScale(mEvoGameSprite, sf::IntRect({0, 0}, {static_cast<int>(res.x), static_cast<int>(res.y)})); 
    

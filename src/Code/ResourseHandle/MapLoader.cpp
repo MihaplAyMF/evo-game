@@ -8,7 +8,6 @@
 
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/System/Vector2.hpp>
-#include <iostream>
 #include <string>
 
 struct Portal 
@@ -48,7 +47,7 @@ std::map<std::string, std::set<int>>& MapLoader::getCollectedCoins()
 
 sf::Vector2f MapLoader::getMapSize()
 {
-    return {mMapInfo.mapHeight, mMapInfo.mapWidth};
+    return {mMapInfo.mapWidth, mMapInfo.mapHeight};
 }
 
 void MapLoader::setCurrentMap(const std::string& mapName) 
@@ -134,6 +133,8 @@ void MapLoader::parseLayers(tinyxml2::XMLElement* map, std::array<SceneNode*, La
     }
 }
 
+#include <iostream>
+
 void MapLoader::parseObjects(tinyxml2::XMLElement* map, std::array<SceneNode*, LayerCount>& sceneLayers, sf::Vector2f& startPos) {
     tinyxml2::XMLElement* objectGroupElement = map->FirstChildElement("objectgroup");
     while (objectGroupElement) {
@@ -179,14 +180,13 @@ void MapLoader::parseObjects(tinyxml2::XMLElement* map, std::array<SceneNode*, L
                     objectElement->FirstChildElement("properties")->FirstChildElement("property")->Attribute("value") : "";
                 
                 sf::FloatRect mapBounds({0, 0}, {1920, 1080});
-
+                
                 bool isEntry = !( 
                        rect.position.x <= 0.f
                     || rect.position.y <= 0.f
                     || rect.position.x + rect.size.x >= mapBounds.size.x
                     || rect.position.y + rect.size.y >= mapBounds.size.y);
-
-                std::cout << "ENTRY: " << isEntry << std::endl;
+            
                 auto transition = std::make_unique<Transition>(rect, mapName, isEntry); 
                 sceneLayers[Air]->attachChild(std::move(transition));
             }
