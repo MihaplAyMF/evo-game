@@ -25,6 +25,7 @@ public:
 
 	void				  attachChild(Ptr child);
 	Ptr					  detachChild(const SceneNode& node);
+    bool                  hasChild(const SceneNode* node) const;
 	void				  cleanup();
 
 	void				  update(sf::Time dt, CommandQueue& commands);
@@ -37,6 +38,7 @@ public:
 	virtual sf::FloatRect getBoundingRect() const;
 	
 	virtual bool		  isMarkedForRemoval() const;
+    virtual bool          isProtected() const;
 	virtual bool		  isDestroyed() const;
     virtual bool          isMoving() const;
 	virtual bool          isBackground() const;

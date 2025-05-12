@@ -5,8 +5,6 @@
 
 #include <SFML/System/Time.hpp>
 
-#include "Category.h"
-
 class SceneNode;
 
 struct Command

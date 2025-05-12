@@ -1,4 +1,4 @@
-#include "MapLoader.h"
+#include "MapManager.h"
 #include "SpriteNode.h"
 #include "Transition.h"
 #include "Settings.h"
@@ -17,12 +17,12 @@ struct Portal
     std::string mapName;
 };
 
-MapLoader::MapLoader(TextureHolder& textures) 
+MapManager::MapManager(TextureHolder& textures) 
     : mTextures(textures)
     , mGameScale(Settings::getInstance().getScale())
 { }
 
-bool MapLoader::loadFromFile(const std::string& filename, std::array<SceneNode*, LayerCount>& sceneLayers, sf::Vector2f& startPos)
+bool MapManager::loadFromFile(const std::string& filename, std::array<SceneNode*, LayerCount>& sceneLayers, sf::Vector2f& startPos)
 {
     tinyxml2::XMLDocument levelFile;
     if (levelFile.LoadFile(filename.c_str()) != tinyxml2::XML_SUCCESS) {
@@ -40,37 +40,27 @@ bool MapLoader::loadFromFile(const std::string& filename, std::array<SceneNode*,
     return true;
 }
 
-std::map<std::string, std::set<int>>& MapLoader::getCollectedCoins() 
+std::map<std::string, std::set<int>>& MapManager::getCollectedCoins() 
 {
     return mCoinIDCollected;
 }
 
-sf::Vector2f MapLoader::getMapSize()
+sf::Vector2f MapManager::getMapSize()
 {
     return {mMapInfo.mapWidth, mMapInfo.mapHeight};
 }
 
-void MapLoader::setCurrentMap(const std::string& mapName) 
+void MapManager::setCurrentMap(const std::string& mapName) 
 {
     mCurrentMap = mapName;
 }
 
-const std::string& MapLoader::getCurrentMap() const 
+const std::string& MapManager::getCurrentMap() const 
 {
     return mCurrentMap;
 }
 
-void MapLoader::setPlayerHP(const int HP)
-{
-    mPlayerHP = HP;
-}
-
-const int& MapLoader::getPlayerHP() const 
-{
-    return mPlayerHP;
-}
-
-bool MapLoader::parseMapAttributes(tinyxml2::XMLElement* map) {
+bool MapManager::parseMapAttributes(tinyxml2::XMLElement* map) {
     map->QueryIntAttribute("width", &mMapInfo.width);
     map->QueryIntAttribute("height", &mMapInfo.height);
     map->QueryIntAttribute("tilewidth", &mMapInfo.tileWidth);
@@ -86,7 +76,7 @@ bool MapLoader::parseMapAttributes(tinyxml2::XMLElement* map) {
     return true;
 }
 
-void MapLoader::generateSubRects() {
+void MapManager::generateSubRects() {
     int columns = mTextures.get(Textures::Tileset).getSize().x / mMapInfo.tileWidth;
     int rows = mTextures.get(Textures::Tileset).getSize().y / mMapInfo.tileHeight;
 
@@ -102,7 +92,7 @@ void MapLoader::generateSubRects() {
         }
 }
 
-void MapLoader::parseLayers(tinyxml2::XMLElement* map, std::array<SceneNode*, LayerCount>&  sceneLayers) {
+void MapManager::parseLayers(tinyxml2::XMLElement* map, std::array<SceneNode*, LayerCount>&  sceneLayers) {
     tinyxml2::XMLElement* layerElement = map->FirstChildElement("layer");
     while (layerElement) {
         tinyxml2::XMLElement* layerDataElement = layerElement->FirstChildElement("data");
@@ -133,7 +123,7 @@ void MapLoader::parseLayers(tinyxml2::XMLElement* map, std::array<SceneNode*, La
     }
 }
 
-void MapLoader::parseObjects(tinyxml2::XMLElement* map, std::array<SceneNode*, LayerCount>& sceneLayers, sf::Vector2f& startPos) {
+void MapManager::parseObjects(tinyxml2::XMLElement* map, std::array<SceneNode*, LayerCount>& sceneLayers, sf::Vector2f& startPos) {
     tinyxml2::XMLElement* objectGroupElement = map->FirstChildElement("objectgroup");
     while (objectGroupElement) {
         tinyxml2::XMLElement* objectElement = objectGroupElement->FirstChildElement("object");

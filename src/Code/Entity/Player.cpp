@@ -11,8 +11,6 @@
 #include "Utility.hpp"
 #include "CommandQueue.h"
 
-#include <iostream>
-
 extern const float boxScale;
 extern b2World world;
 
@@ -175,6 +173,11 @@ sf::FloatRect Player::getBoundingRect() const
 	return getWorldTransform().transformRect(mSprite.getGlobalBounds());
 }
 
+bool Player::isProtected() const 
+{
+    return true; 
+}
+
 bool Player::isDestroyed() const
 {
 	return false;
@@ -196,8 +199,6 @@ void Player::setIsLadder(bool isLadder)
 }
 void Player::setIsEntry(bool isEntry)
 { 
-    if (mIsEntry)
-        std::cout << "True" << std::endl;
 	mIsEntry = isEntry;
 }
 

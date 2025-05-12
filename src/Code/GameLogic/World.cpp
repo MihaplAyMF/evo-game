@@ -54,8 +54,6 @@ World::World(sf::RenderWindow& window, TextureHolder& texture, FontHolder& fonts
     loadGameState();
     createHUD();
     buildScene();
-        
-    mMapLoader.setPlayerHP(mPlayer->getHitpoints());
 }
 
 void World::update(sf::Time dt)
@@ -97,19 +95,24 @@ void World::clean()
 
 void World::cleanup()
 {
-    for(std::size_t i = 0; i < LayerCount; ++i)
+    for (std::size_t i = 0; i < LayerCount; ++i) 
     {
-        if(mSceneLayers[i] != nullptr)
+        if (mSceneLayers[i] != nullptr) 
         {
             mSceneLayers[i]->cleanup();
         }
     }
 
     b2Body* body = mWorld.GetBodyList();
-    while(body != nullptr)                                                      
+    b2Body* playerBody = mPlayer->getBodyObject();
+
+    while (body != nullptr) 
     {
-        b2Body* nextBody = body->GetNext(); 
-        mWorld.DestroyBody(body); 
+        b2Body* nextBody = body->GetNext();
+        if (body != playerBody) 
+        {
+            mWorld.DestroyBody(body);
+        }
         body = nextBody;
     }
 }
@@ -135,22 +138,6 @@ void World::saveFirstGameState()
     saveFile.close();
 }
 
-bool World::loadFromFile(std::string filename)
-{   
-    bool state = mMapLoader.loadFromFile(filename, mSceneLayers, mStartPos);
-
-    sf::FloatRect rect;
-    rect.position = {mPlayerPos.x, mPlayerPos.y};
-    rect.size = {16 * mGameScale, 16 * mGameScale}; // 16 - is the tile widht and height
-
-    std::unique_ptr<Player> player = std::make_unique<Player>(Player::FriedlyPlayer, mTextures, rect);
-    mPlayer = player.get();
-    mPlayer->setPosition(mStartPos);
-    mSceneLayers[Air]->attachChild(std::move(player));
-
-    return state;
-}
-
 void World::buildScene()
 {
     for(std::size_t i = 0; i < LayerCount; ++i)
@@ -163,7 +150,16 @@ void World::buildScene()
         mSceneGraph.attachChild(std::move(layer));
     }
 
-    loadFromFile(mMapLoader.getCurrentMap());
+    mMapLoader.loadFromFile(mMapLoader.getCurrentMap(), mSceneLayers, mStartPos);
+
+    sf::FloatRect rect;
+    rect.position = {mPlayerPos.x, mPlayerPos.y};
+    rect.size = {16 * mGameScale, 16 * mGameScale}; // 16 - is the tile widht and height
+
+    std::unique_ptr<Player> player = std::make_unique<Player>(Player::FriedlyPlayer, mTextures, rect);
+    mPlayer = player.get();
+    mPlayer->setPosition(mStartPos);
+    mSceneLayers[Air]->attachChild(std::move(player));
 }
 
 void World::handleCollisions()
@@ -198,15 +194,15 @@ void World::handleCollisions()
 
             if(mPlayerPos.x > gameSize.x - playerBounds.size.x)
             {
-                mPlayerPos = sf::Vector2f(0, playerBounds.position.y + playerBounds.size.y); 
                 mMapLoader.setCurrentMap("Media/Map/" + transition.getMapName());
                 switchMap(mMapLoader.getCurrentMap());
+                mPlayer->setPos(sf::Vector2f(0, playerBounds.position.y)); 
             }
             else if(playerBounds.position.x < 0) 
             {
-                mPlayerPos = sf::Vector2f(gameSize.x - playerBounds.size.x, playerBounds.position.y + playerBounds.size.y); 
                 mMapLoader.setCurrentMap("Media/Map/" + transition.getMapName());
                 switchMap(mMapLoader.getCurrentMap());
+                mPlayer->setPos(sf::Vector2f(gameSize.x - playerBounds.size.x, playerBounds.position.y)); 
             } 
             else if(mPlayer->getIsEntry() == true && transition.getIsEntry())
             {
@@ -239,7 +235,6 @@ void World::updateCamera()
         newCenter.x = res.x - halfWindowSize.x;
     if(newCenter.y + halfWindowSize.y > res.y)
         newCenter.y = res.y - halfWindowSize.y;
-
 
     mWorldView.setCenter(newCenter);
 }
@@ -333,8 +328,8 @@ void World::switchMap(const std::string& filename)
     saveGameState();
     cleanup();
     loadGameState();
-    loadFromFile(filename);
-    mPlayer->setHitpoints(mMapLoader.getPlayerHP());
+   
+    mMapLoader.loadFromFile(filename, mSceneLayers, mStartPos);
 }
 
 void World::changeMapPlayerOutsideView()
@@ -349,7 +344,6 @@ void World::changeMapPlayerOutsideView()
         mPlayer->setPos(mStartPos);
         mPlayerPos = mStartPos;
         mPlayer->damage(1);
-        mMapLoader.setPlayerHP(mPlayer->getHitpoints());
     }
 }
 

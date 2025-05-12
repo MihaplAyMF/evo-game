@@ -36,12 +36,28 @@ SceneNode::Ptr SceneNode::detachChild(const SceneNode& node)
 	return result;
 }
 
+bool SceneNode::hasChild(const SceneNode* node) const 
+{
+    for (const auto& child : mChildren) 
+    {
+        if (child.get() == node) 
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
 void SceneNode::cleanup()
 {
-	while(!mChildren.empty())
-	{
-		detachChild(*mChildren.back());
-	}
+    mChildren.erase(
+    std::remove_if(mChildren.begin(), mChildren.end(),
+        [](const Ptr& child)
+        {
+            return !child->isProtected();
+        }),
+        mChildren.end()
+    );
 }
 
 void SceneNode::update(sf::Time dt, CommandQueue& commands)
@@ -103,6 +119,11 @@ void SceneNode::removeWrecks()
 	mChildren.erase(wreckfieldBegin, mChildren.end());
 
 	std::for_each(mChildren.begin(), mChildren.end(), std::mem_fn(&SceneNode::removeWrecks));
+}
+
+bool SceneNode::isProtected() const 
+{ 
+    return false; 
 }
 
 bool SceneNode::isDestroyed() const

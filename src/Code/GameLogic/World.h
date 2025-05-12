@@ -3,7 +3,6 @@
 #include <SFML/System/Vector2.hpp>
 #include <string>
 #include <array>
-#include <map>
 
 #include <SFML/Graphics.hpp>
 #include <box2d/box2d.h>
@@ -13,7 +12,7 @@
 #include "Player.h"
 #include "Label.h"
    
-#include "MapLoader.h"
+#include "MapManager.h"
 
 class World 
 {
@@ -36,8 +35,7 @@ private:
     void handleCollisions();
     void updateCamera();
 
-    bool loadTexture(std::string filename);
-    bool loadFromFile(std::string filename);
+    void loadFromFile(std::string filename);
 
     void createHUD();
     void drawHUD();
@@ -68,7 +66,7 @@ private:
     float mBoxScale;
     float mGameScale;
 
-    MapLoader mMapLoader;
+    MapManager mMapLoader;
 
     Player* mPlayer;
     sf::Vector2f mPlayerPos;

@@ -26,19 +26,16 @@ enum Layer
     LayerCount
 };
 
-class MapLoader 
+class MapManager 
 {
 public:
-    explicit MapLoader(TextureHolder& textures);
+    explicit MapManager(TextureHolder& textures);
     bool loadFromFile(const std::string& filename, std::array<SceneNode*, LayerCount>& sceneLayers, sf::Vector2f& startPos);
     std::map<std::string, std::set<int>>& getCollectedCoins();
     sf::Vector2f getMapSize();
 
     void setCurrentMap(const std::string& mapName);
     const std::string& getCurrentMap() const;
-    
-    void setPlayerHP(const int HP);
-    const int& getPlayerHP() const;
 
 private:
     bool parseMapAttributes(tinyxml2::XMLElement* map);
@@ -50,7 +47,6 @@ private:
     float mGameScale;
     std::string mCurrentMap;
     std::map<std::string, std::set<int>> mCoinIDCollected;
-    int mPlayerHP;
     MapInfo mMapInfo;
 };
 
