@@ -19,21 +19,21 @@ MenuState::MenuState(StateStack& stack, Context context)
 	setScale(mEvoGameSprite, sf::IntRect({0, 0}, {static_cast<int>(res.x), static_cast<int>(res.y)})); 
 
 	auto evoGameLabel = std::make_shared<GUI::Label>("", *context.fonts);
-	evoGameLabel->setText("MyGame");
+	evoGameLabel->setText("EvoGame");
     evoGameLabel->getText().setCharacterSize(Settings::getInstance().getAdaptiveValue(70));
     evoGameLabel->setPosition({res.x / 2.f - evoGameLabel->getText().getGlobalBounds().size.x / 2.5f, 30});
 	evoGameLabel->getText().setFillColor(sf::Color::Black);
 
     auto playButton = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
-	playButton->setText("Play");
+	playButton->setText(_("Play"));
     playButton->getText().setCharacterSize(Settings::getInstance().getAdaptiveValue(30));
 
 	auto settingsButton = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
-	settingsButton->setText("Settings");
+	settingsButton->setText(_("Settings"));
     settingsButton->getText().setCharacterSize(Settings::getInstance().getAdaptiveValue(30));
 	
     auto quitButton = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
-    quitButton->setText("Quit");
+    quitButton->setText(_("Quit"));
     quitButton->getText().setCharacterSize(Settings::getInstance().getAdaptiveValue(30));
 
     int spriteSize = 16 * 4;

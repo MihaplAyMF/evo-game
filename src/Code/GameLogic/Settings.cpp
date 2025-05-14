@@ -4,11 +4,12 @@
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Window/VideoMode.hpp>
 #include <fstream>
+#include <iostream>
 
 Settings::Settings()
 {
     mScale = 4.f;
-
+ 
     mMaxResolution = sf::VideoMode::getDesktopMode().size;
     std::vector<sf::VideoMode> modes = sf::VideoMode::getFullscreenModes();
 
@@ -18,7 +19,9 @@ Settings::Settings()
             mResolutions.push_back(mode.size);
     }
 
-    loadFromFile("settings.json");    
+    mLang = mLocalizationManager.loadAvailableLanguages(); 
+    loadFromFile("settings.json"); 
+    mLocalizationManager.loadLanguage(*mCurrentLang);
 }
 
 Settings::~Settings() 
@@ -36,20 +39,28 @@ void Settings::loadFromFile(const std::string& filename)
             file >> j;
 
             sf::Vector2u loadedResolution(j["video"]["width"],  j["video"]["height"]);
+            std::string loadedLang(j["video"]["lang"]);
             mFullscreen = j["video"]["fullscreen"];
-            mVerSync = j["vodeo"]["verticalSync"];
+            mVerSync = j["video"]["verticalSync"];
             mShowFPS = j["video"]["showFPS"];
 
-
-            auto it = std::find(mResolutions.begin(), mResolutions.end(), loadedResolution);
-            if (it != mResolutions.end()) 
+            auto resIt = std::find(mResolutions.begin(), mResolutions.end(), loadedResolution);
+            if (resIt != mResolutions.end()) 
             {
-                mCurrentResolution = it;
+                mCurrentResolution = resIt;
                 mNextResolution = mCurrentResolution;
+            }
+
+            auto langIt = std::find(mLang.begin(), mLang.end(), loadedLang);
+            if (langIt != mLang.end())
+            {
+                mCurrentLang = langIt;
+                mNextLang = mCurrentLang;
             }
         } 
         catch (const std::exception& e) 
         {
+            std::cerr << "Bad load data from file" << std::endl;
             std::abort();
         }
     }
@@ -65,8 +76,9 @@ void Settings::saveToFile(const std::string& filename)
     j["video"]["width"] = mCurrentResolution->x;
     j["video"]["height"] = mCurrentResolution->y;
     j["video"]["fullscreen"] = mFullscreen;
-    j["vodeo"]["verticalSync"] = mVerSync; 
+    j["video"]["verticalSync"] = mVerSync; 
     j["video"]["showFPS"] = mShowFPS;
+    j["video"]["lang"] = *mCurrentLang;
 
     std::ofstream file(filename);
     if (file.is_open()) 
@@ -75,6 +87,7 @@ void Settings::saveToFile(const std::string& filename)
     } 
     else 
     {
+        std::cerr << "bad save json file" << std::endl;
         std::abort();
     }
 }
@@ -99,7 +112,10 @@ void Settings::saveDefaultSettingsToFile(const std::string& filename)
 
     j["video"]["width"] = res.x;   
     j["video"]["height"] = res.y;   
-    j["video"]["fullscreen"] = false; 
+    j["video"]["fullscreen"] = false;
+    j["video"]["verticalSync"] = false; 
+    j["video"]["showFPS"] = false;
+    j["video"]["lang"] = "en";
 
     mFullscreen = false;
     mVerSync = false;
@@ -150,20 +166,21 @@ void Settings::setShowFPS(bool f)
     mShowFPS = f;
 }
 
+void Settings::setFullScreenResolution()
+{
+    if (!mResolutions.empty())
+    {
+        mCurrentResolution = mResolutions.begin(); 
+        mNextResolution = mCurrentResolution;
+    }
+}
+
 void Settings::setCurrentResolution()
 {
     if (mNextResolution != mResolutions.end()) {
         mCurrentResolution = mNextResolution;
     }
-}
 
-void Settings::setFullScreenResolution()
-{
-    if (!mResolutions.empty())
-    {
-        mCurrentResolution = mResolutions.begin();  // найвища роздільність
-        mNextResolution = mCurrentResolution;
-    }
 }
 
 void Settings::setNextResolution(Direction direction)
@@ -196,6 +213,37 @@ void Settings::setNextResolution(Direction direction)
     }
 }
 
+void Settings::setNextLanguage(Settings::Direction direction) {
+    if (mLang.empty()) return;
+    switch (direction) {
+        case Direction::Next: {
+            ++mNextLang;
+            if (mNextLang == mLang.end()) {
+                mNextLang = mLang.begin();
+            }
+            break;
+        }
+        case Direction::Prev: {
+            if (mNextLang == mLang.begin()) {
+                mNextLang = std::prev(mLang.end());
+            } else {
+                --mNextLang;
+            }
+            break;
+        }
+    }
+}
+ 
+void Settings::setCurrentLanguage() 
+{
+    if (mNextLang != mLang.end()) 
+    {
+        mCurrentLang = mNextLang;
+    }
+    std::cout << *mCurrentLang << std::endl;
+    mLocalizationManager.loadLanguage(*mCurrentLang);
+}
+
 void Settings::setScale(float s)
 {
     mScale = s;
@@ -216,6 +264,16 @@ sf::Vector2u Settings::getMaxResolution() const
     return mMaxResolution;
 }
 
+std::string Settings::getNextLang()
+{
+    return *mNextLang;
+}
+
+std::string Settings::getCurrentLang()
+{
+    return *mCurrentLang;
+}
+
 sf::Vector2u Settings::getClosestResolution(unsigned int width, unsigned int height) const
 {
     sf::Vector2u closest = mResolutions.front();   
@@ -233,11 +291,15 @@ sf::Vector2u Settings::getClosestResolution(unsigned int width, unsigned int hei
     return closest;
 }
 
+sf::String Settings::getText(const sf::String& msgid) const 
+{
+    return mLocalizationManager.getText(msgid);
+}
+
 float Settings::getScale()
 {
     return mScale;
 }
-
 
 float Settings::getAdaptiveValue(int baseValue)
 {
@@ -250,7 +312,6 @@ float Settings::getAdaptiveValue(int baseValue)
 
     float scaleFactor = std::sqrt(currentArea / baseArea);
 
-    // Allow more shrinking for low resolutions (down to 0.3x)
     scaleFactor = std::clamp(scaleFactor, 0.3f, 1.5f);
 
     return baseValue * scaleFactor;

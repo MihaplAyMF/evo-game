@@ -1,7 +1,6 @@
 #include "Game.h"
 
 #include <filesystem>
-#include <iostream>
 
 #include "State.h"
 #include "StateIdentifiers.h"
@@ -36,7 +35,7 @@ Game::Game()
     
     fs::path path = fs::current_path();
 
-    mFonts.open(Fonts::Main, (path / "Media/Fonts/Sansation.ttf").string());
+    mFonts.open(Fonts::Main, (path / "Media/Fonts/Roboto-VariableFont_wdth,wght.ttf").string());
     mFpsLabel = std::make_shared<GUI::Label>("FPS: ", mFonts);
     mFpsLabel->getText().setCharacterSize(20);
     mFpsLabel->setPosition({40, 20});

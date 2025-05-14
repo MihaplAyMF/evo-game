@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<localization>
+    <translation>
+        <msgid>Play</msgid>
+        <msgstr>Play</msgstr>
+    </translation>
+    <translation>
+        <msgid>Settings</msgid>
+        <msgstr>Settings</msgstr>
+    </translation>
+    <translation>
+        <msgid>Quit</msgid>
+        <msgstr>Quit</msgstr>
+    </translation>
+</localization>

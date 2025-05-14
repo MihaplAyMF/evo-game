@@ -4,6 +4,10 @@
 #include <nlohmann/json.hpp>
 #include <list>
 
+#include "LocalizationManager.h"
+
+#define _(STR) Settings::getInstance().getText(STR)
+
 class Settings
 {
 public:
@@ -28,27 +32,41 @@ public:
     void setFullscreen(bool f);
     void setVerSync(bool f);
     void setShowFPS(bool f);
-    void setCurrentResolution();
     void setFullScreenResolution();
+    void setCurrentResolution();
     void setNextResolution(Direction d);
+
+    void setCurrentLanguage();    
+    void setNextLanguage(Direction direction); 
+    
     void setScale(float s);
 
     sf::Vector2u getCurrentResolution() const;
     sf::Vector2u getNextResolution() const;
     sf::Vector2u getMaxResolution() const;
     sf::Vector2u getClosestResolution(unsigned int width, unsigned int height) const;
-    
+    std::string getNextLang();
+    std::string getCurrentLang();
+    sf::String getText(const sf::String& msgid) const;
+   
     float getScale();  
     float getAdaptiveValue(int baseValue);
+   
 
 private:
     Settings(); 
     ~Settings();
 
-    bool  mFullscreen;
-    bool  mShowFPS;
-    bool  mVerSync;
-    float mScale;
+    bool        mFullscreen;
+    bool        mShowFPS;
+    bool        mVerSync;
+    float       mScale;
+
+    LocalizationManager mLocalizationManager;
+    std::list<std::string> mLang;
+    std::list<std::string>::iterator mCurrentLang;
+    std::list<std::string>::iterator mNextLang;
+    
 
     std::list<sf::Vector2u> mResolutions;
     std::list<sf::Vector2u>::iterator mCurrentResolution;

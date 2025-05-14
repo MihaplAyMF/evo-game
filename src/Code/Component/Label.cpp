@@ -15,7 +15,7 @@ namespace GUI
 		return false;
 	}
 
-	void Label::setText(const std::string text)
+	void Label::setText(const sf::String& text)
 	{
 		mText.setString(text);		
 		centerOrigin(mText);

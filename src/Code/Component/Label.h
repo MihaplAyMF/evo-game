@@ -4,7 +4,7 @@
 
 #include "Component.h"
 #include "ResourceIdentifiers.h"
-#include "ResourceHolder.hpp"
+#include "ResourceHolder.hpp" // IWYU pragma: export
 
 namespace GUI
 {
@@ -16,7 +16,7 @@ namespace GUI
 		Label(const std::string text, const FontHolder& fonts);
 			
 		virtual bool isSelectable() const;
-		void		 setText(const std::string text);
+		void		 setText(const sf::String& text);
 		sf::Text&    getText();
 
 		virtual void handleEvent(const sf::Event& event);

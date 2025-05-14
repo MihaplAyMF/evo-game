@@ -43,7 +43,7 @@ namespace GUI
             {
                 selectNext();
             }
-            else if (keyReleasedEvent->scancode == sf::Keyboard::Scancode::Enter || keyReleasedEvent->scancode == sf::Keyboard::Scancode::Space) 
+            else if (keyReleasedEvent->scancode == sf::Keyboard::Scancode::Enter) 
             {
                 if (hasSelection()) 
                 {
