@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<localization>
+    <translation>
+        <msgid>Play</msgid>
+        <msgstr>Грати</msgstr>
+    </translation>
+    <translation>
+        <msgid>Settings</msgid>
+        <msgstr>Налаштування</msgstr>
+    </translation>
+    <translation>
+        <msgid>Quit</msgid>
+        <msgstr>Вихід</msgstr>
+    </translation>
+
+</localization>

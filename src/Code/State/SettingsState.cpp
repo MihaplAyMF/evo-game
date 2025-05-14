@@ -8,8 +8,6 @@
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Window/VideoMode.hpp>
 
-#include <iostream>
-
 SettingsState::SettingsState(StateStack& stack, Context context)
 	: State(stack, context)
     , mEvoGameSprite(context.textures->get(Textures::TitleScreen))
@@ -18,6 +16,7 @@ SettingsState::SettingsState(StateStack& stack, Context context)
     , mFullscreenButton(std::make_shared<GUI::Button>(*context.fonts, *context.textures))
     , mVerticalSyncButton(std::make_shared<GUI::Button>(*context.fonts, *context.textures))
     , mShowFPSButton(std::make_shared<GUI::Button>(*context.fonts, *context.textures))
+    , mLangButton(std::make_shared<GUI::Button>(*context.fonts, *context.textures))
     , mSettings(Settings::getInstance())
 {
 
@@ -62,6 +61,12 @@ SettingsState::SettingsState(StateStack& stack, Context context)
         updateTextAppearance();
     });
 
+    mLangButton->setText("Lang: " + mSettings.getNextLang());
+    mLangButton->setCallback([this]() 
+    {
+        mSettings.setCurrentLanguage();
+    });
+
     updateTextAppearance();
 
 	mGUIContainer.pack(mEvoGameLabel);
@@ -69,6 +74,7 @@ SettingsState::SettingsState(StateStack& stack, Context context)
     mGUIContainer.pack(mFullscreenButton);
     mGUIContainer.pack(mVerticalSyncButton);
     mGUIContainer.pack(mShowFPSButton);
+    mGUIContainer.pack(mLangButton);
 }
 
 bool SettingsState::handleEvent(const sf::Event& event)
@@ -97,6 +103,19 @@ bool SettingsState::handleEvent(const sf::Event& event)
             sf::Vector2u res = mSettings.getNextResolution();
             mResolButton->setText("Resolution: " + std::to_string(res.x) + ", " + std::to_string(res.y));
         }
+        
+        if (event.getIf<sf::Event::KeyPressed>()->scancode == sf::Keyboard::Scan::Left
+            && mLangButton->isActive())
+        { 
+            mSettings.setNextLanguage(Settings::Direction::Prev);
+            mLangButton->setText("Lang: " + mSettings.getNextLang());
+        }
+        else if (event.getIf<sf::Event::KeyPressed>()->scancode == sf::Keyboard::Scan::Right
+             && mLangButton->isActive())
+        {
+            mSettings.setNextLanguage(Settings::Direction::Next);
+            mLangButton->setText("Lang: " + mSettings.getNextLang());
+        }
     }
 
     mGUIContainer.handleEvent(event);
@@ -124,8 +143,6 @@ void SettingsState::updateWindow()
     bool isFullscreen = mSettings.isFullscreen();
     sf::Vector2u res = mSettings.getCurrentResolution(); 
    
-    std::cout << "res: " << res.x << ", " << res.y << std::endl;
-
     getContext().window->close();
     if(isFullscreen)
         getContext().window->create(sf::VideoMode({res.x, res.y}), "SFML Window", sf::State::Fullscreen);
@@ -172,6 +189,7 @@ void SettingsState::updateTextAppearance()
     mFullscreenButton->setPosition({centerX, mSettings.getAdaptiveValue(250)});
     mVerticalSyncButton->setPosition({centerX, mSettings.getAdaptiveValue(300)});
     mShowFPSButton->setPosition({centerX, mSettings.getAdaptiveValue(350)});
+    mLangButton->setPosition({centerX, mSettings.getAdaptiveValue(400)});
 }
 
 std::string SettingsState::boolToString(bool value)

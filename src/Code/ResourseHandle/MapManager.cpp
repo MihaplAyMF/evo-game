@@ -22,8 +22,12 @@ MapManager::MapManager(TextureHolder& textures)
     , mGameScale(Settings::getInstance().getScale())
 { }
 
+#include <iostream>
+
 bool MapManager::loadFromFile(const std::string& filename, std::array<SceneNode*, LayerCount>& sceneLayers, sf::Vector2f& startPos)
 {
+    std::cout << filename << std::endl;
+
     tinyxml2::XMLDocument levelFile;
     if (levelFile.LoadFile(filename.c_str()) != tinyxml2::XML_SUCCESS) {
         return false;

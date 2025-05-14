@@ -31,6 +31,7 @@ private:
     std::shared_ptr<GUI::Button>  mFullscreenButton;
     std::shared_ptr<GUI::Button>  mVerticalSyncButton;
     std::shared_ptr<GUI::Button>  mShowFPSButton;
+    std::shared_ptr<GUI::Button>  mLangButton;
 
     std::shared_ptr<GUI::Label>   mEvoGameLabel;
 	GUI::Container		          mGUIContainer;
