@@ -16,6 +16,7 @@ struct MapInfo {
     int firstTileID = 0;
     float mapHeight = 0;
     float mapWidth = 0;
+    int tilesetColumns = 0;
     std::vector<sf::IntRect> subRects;
 };
 

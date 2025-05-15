@@ -2,12 +2,12 @@
 
 Ladder::Ladder(sf::FloatRect rect)
     : Entity(1)
-    , rect(rect)
+    , mRect(rect)
 { }
 
 sf::FloatRect Ladder::getBoundingRect() const
 {
-    return getWorldTransform().transformRect(rect);
+    return getWorldTransform().transformRect(mRect);
 }
 
 unsigned int Ladder::getCategory() const

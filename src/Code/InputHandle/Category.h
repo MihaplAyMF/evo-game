@@ -12,6 +12,7 @@ namespace Category
 		Ladder           = 1 << 4,
 		Pickup           = 1 << 5,
         Transition       = 1 << 7,
+        NPC              = 1 << 8,
 
 		Player = PlayerObject | EnemyObject
 	};

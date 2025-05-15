@@ -13,5 +13,5 @@ public:
 	virtual unsigned int getCategory() const;
 
 private:
-	sf::FloatRect rect;
+	sf::FloatRect mRect;
 };

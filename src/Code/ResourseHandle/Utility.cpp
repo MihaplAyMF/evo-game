@@ -4,6 +4,8 @@
 #include <ctime>
 #include <cassert>
 #include <random>
+#include <codecvt>
+#include <locale>
 
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Text.hpp>
@@ -225,3 +227,10 @@ sf::Vector2f unitVector(sf::Vector2f vector)
 	assert(vector != sf::Vector2f(0.f, 0.f));
 	return vector / length(vector);
 }
+
+std::wstring utf8_to_wstring(const std::string& str)
+{
+    std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
+    return converter.from_bytes(str);
+}
+

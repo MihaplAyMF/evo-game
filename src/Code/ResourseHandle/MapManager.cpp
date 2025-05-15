@@ -1,14 +1,19 @@
 #include "MapManager.h"
 #include "SpriteNode.h"
+#include "Utility.hpp"
 #include "Transition.h"
 #include "Settings.h"
 #include "Coin.h"
 #include "Ladder.h"
 #include "Block.h"
+#include "NPC.h"
 
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/System/Vector2.hpp>
+#include <memory>
 #include <string>
+
+#include <iostream>
 
 struct Portal 
 {
@@ -22,12 +27,8 @@ MapManager::MapManager(TextureHolder& textures)
     , mGameScale(Settings::getInstance().getScale())
 { }
 
-#include <iostream>
-
 bool MapManager::loadFromFile(const std::string& filename, std::array<SceneNode*, LayerCount>& sceneLayers, sf::Vector2f& startPos)
 {
-    std::cout << filename << std::endl;
-
     tinyxml2::XMLDocument levelFile;
     if (levelFile.LoadFile(filename.c_str()) != tinyxml2::XML_SUCCESS) {
         return false;
@@ -69,7 +70,7 @@ bool MapManager::parseMapAttributes(tinyxml2::XMLElement* map) {
     map->QueryIntAttribute("height", &mMapInfo.height);
     map->QueryIntAttribute("tilewidth", &mMapInfo.tileWidth);
     map->QueryIntAttribute("tileheight", &mMapInfo.tileHeight);
-    
+
     mMapInfo.mapWidth = mMapInfo.tileWidth * mMapInfo.width * mGameScale;
     mMapInfo.mapHeight = mMapInfo.tileHeight * mMapInfo.height * mGameScale;
 
@@ -77,6 +78,24 @@ bool MapManager::parseMapAttributes(tinyxml2::XMLElement* map) {
     if (!tilesetElement) return false;
 
     tilesetElement->QueryIntAttribute("firstgid", &mMapInfo.firstTileID);
+
+    const char* source = tilesetElement->Attribute("source");
+    if (source) {
+        tinyxml2::XMLDocument tsxFile;
+
+        std::string tsxPath = std::string("Media/Map/") + source;  
+
+        if (tsxFile.LoadFile(tsxPath.c_str()) != tinyxml2::XML_SUCCESS) {
+            std::cerr << "Failed to load tileset source: " << tsxPath << std::endl;
+            return false;
+        }
+
+        tinyxml2::XMLElement* tsxRoot = tsxFile.FirstChildElement("tileset");
+        if (!tsxRoot) return false;
+
+        tsxRoot->QueryIntAttribute("columns", &mMapInfo.tilesetColumns);
+    }
+
     return true;
 }
 
@@ -181,6 +200,28 @@ void MapManager::parseObjects(tinyxml2::XMLElement* map, std::array<SceneNode*, 
             
                 auto transition = std::make_unique<Transition>(rect, mapName, isEntry); 
                 sceneLayers[Air]->attachChild(std::move(transition));
+            }
+            else if (objectName == "NPC")
+            {
+                std::string nameUtf8 = (objectElement->FirstChildElement("properties")) ?
+                    objectElement->FirstChildElement("properties")->FirstChildElement("property")->Attribute("value") : "";
+
+                std::wstring nameW = utf8_to_wstring(nameUtf8);
+                sf::String name = nameW;
+
+                int tileGID = objectElement->IntAttribute("gid");
+                int subRectToUse = tileGID - mMapInfo.firstTileID;
+                int tileX = subRectToUse % mMapInfo.tilesetColumns;
+                int tileY = subRectToUse / mMapInfo.tilesetColumns;
+
+                sf::IntRect textureRect{
+                    { tileX * mMapInfo.tileWidth, tileY * mMapInfo.tileHeight },
+                    { mMapInfo.tileWidth, mMapInfo.tileHeight }
+                };
+            
+                std::cout << tileX << ", " << tileY << std::endl;
+                auto npc = std::make_unique<NPC>(name, mTextures, rect, textureRect);
+                sceneLayers[Air]->attachChild(std::move(npc));
             }
             objectElement = objectElement->NextSiblingElement("object");
         }

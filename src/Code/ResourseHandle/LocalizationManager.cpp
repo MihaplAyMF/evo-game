@@ -1,16 +1,11 @@
 #include "LocalizationManager.h"
+
 #include <SFML/System/String.hpp>
 #include <cstdlib>
 #include <list>
 #include <iostream>
-#include <codecvt>
-#include <locale>
 
-std::wstring utf8_to_wstring(const std::string& str)
-{
-    std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
-    return converter.from_bytes(str);
-}
+#include "Utility.hpp" 
 
 LocalizationManager::LocalizationManager()
 { }
