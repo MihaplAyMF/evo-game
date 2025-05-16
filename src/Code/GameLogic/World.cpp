@@ -11,6 +11,7 @@
 #include "Transition.h"
 #include "World.h"
 #include "Coin.h"
+#include "NPC.h"
 
 const float zoomValue = 1.3;
 
@@ -65,11 +66,10 @@ void World::update(sf::Time dt)
         mSceneGraph.onCommand(mCommandQueue.pop(), dt);
 
     mSceneGraph.removeWrecks();
-    
-    mPlayer->setIsLadder(false);
+    mPlayer->setLadder(false);
     updateCamera();
-    handleCollisions();
-    mPlayer->setIsEntry(false);
+    handleCollisions(); 
+    mPlayer->setInteracting(false);
     
     mSceneGraph.update(dt, mCommandQueue);
 }
@@ -180,7 +180,14 @@ void World::handleCollisions()
         }
         else if(matchesCategories(pair, Category::Player, Category::Ladder))
         {
-            mPlayer->setIsLadder(true);
+            mPlayer->setLadder(true);
+        }
+        else if (matchesCategories(pair, Category::Player, Category::NPC))
+        {
+            if(mPlayer->isInteracting())
+            {
+                
+            }
         }
         else if(matchesCategories(pair, Category::Player, Category::Transition))
         {
@@ -190,7 +197,6 @@ void World::handleCollisions()
             auto playerBounds = mPlayer->getBoundingRect();
     
             mPlayerPos = sf::Vector2f(playerBounds.position.x, playerBounds.position.y + playerBounds.size.y);
-       
 
             if(mPlayerPos.x > gameSize.x - playerBounds.size.x)
             {
@@ -204,7 +210,7 @@ void World::handleCollisions()
                 switchMap(mMapLoader.getCurrentMap());
                 mPlayer->setPos(sf::Vector2f(gameSize.x - playerBounds.size.x, playerBounds.position.y)); 
             } 
-            else if(mPlayer->getIsEntry() == true && transition.getIsEntry())
+            else if(mPlayer->isInteracting() == true && transition.getIsEntry())
             {
                 mMapLoader.setCurrentMap("Media/Map/" + transition.getMapName());
                 switchMap(mMapLoader.getCurrentMap());
@@ -271,8 +277,8 @@ void World::drawHUD()
 
 void World::playerUpdate()
 {
-    mPlayer->setIsEntry(false);
-    mPlayer->setIsLadder(false);
+    mPlayer->setInteracting(false);
+    mPlayer->setLadder(false);
 }
 
 void World::saveGameState()
@@ -350,6 +356,11 @@ void World::changeMapPlayerOutsideView()
 bool World::hasAlivePlayer()
 {   
     return mPlayer->getHitpoints() != 0;
+}
+
+bool World::playerNearNPC()
+{
+    return mPlayer->;
 }
 
 sf::FloatRect World::getViewBounds() const

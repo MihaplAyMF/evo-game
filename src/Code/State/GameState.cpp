@@ -1,4 +1,5 @@
 #include "GameState.h"
+#include <SFML/Window/Keyboard.hpp>
 
 GameState::GameState(StateStack& stack, Context context)
 	: State(stack, context)
@@ -17,6 +18,12 @@ bool GameState::handleEvent(const sf::Event& event)
         if (keyPressed->scancode == sf::Keyboard::Scancode::Escape)
 	    {
 		    requestStackPush(States::Pause);
+        }
+        else if (keyPressed->scancode == sf::Keyboard::Scancode::F)
+        {
+            
+            if(mWorld.playerNearNPC())
+                requestStackPush(States::Dialogue);
         }
 	}
 

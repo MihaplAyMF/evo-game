@@ -30,10 +30,10 @@ public:
     virtual bool isDestroyed() const;
     virtual bool isMoving() const;
 
-    bool getIsEntry() const;
+    bool isInteracting() const;
 
-	void setIsLadder(bool isLadder);
-    void setIsEntry(bool isLadder);
+	void setLadder(bool isLadder);
+    void setInteracting(bool isLadder);
 	void setPos(sf::Vector2f pos);
 
 private:
@@ -46,7 +46,7 @@ private:
 
 	bool mIsJumping;
 	bool mIsLadder;
-    bool mIsEntry;
+    bool mIsInteracting;
 
     sf::Vector2f mVelocity;
 

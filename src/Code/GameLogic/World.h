@@ -29,6 +29,7 @@ public:
     CommandQueue& getCommandQueue(); 
     void clean();
     bool hasAlivePlayer();
+    bool playerNearNPC();
 
 private:
     void buildScene();

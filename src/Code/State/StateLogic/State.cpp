@@ -1,10 +1,11 @@
 #include "StateStack.h"
 
-State::Context::Context(sf::RenderWindow& window, TextureHolder& textures, FontHolder& fonts, PlayerMove& player)
+State::Context::Context(sf::RenderWindow& window, TextureHolder& textures, FontHolder& fonts, PlayerMove& player, NPC& npc)
 	: window(&window)
 	, textures(&textures)
 	, fonts(&fonts)
 	, player(&player)
+    , interactingNPC(&npc)
 { }
 
 State::State(StateStack& stack, Context context)

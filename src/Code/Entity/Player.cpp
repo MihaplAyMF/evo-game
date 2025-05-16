@@ -25,7 +25,7 @@ Player::Player(Type type, const TextureHolder& textures, sf::FloatRect rect)
 	, mSprite(textures.get(Table[type].texture), Table[type].textureRect)
 	, mIsJumping(false)
 	, mIsLadder(false)
-	, mIsEntry(false)
+	, mIsInteracting(false)
     , mVelocity(0.f, 0.f)
 {
 	sf::FloatRect bounds = mSprite.getLocalBounds();
@@ -188,18 +188,18 @@ bool Player::isMoving() const
     return true;
 }
 
-bool Player::getIsEntry() const
+bool Player::isInteracting() const
 {
-	return mIsEntry;
+	return mIsInteracting;
 }
 
-void Player::setIsLadder(bool isLadder)
+void Player::setLadder(bool isLadder)
 {
 	mIsLadder = isLadder;
 }
-void Player::setIsEntry(bool isEntry)
+void Player::setInteracting(bool isInteracting)
 { 
-	mIsEntry = isEntry;
+    mIsInteracting = isInteracting;
 }
 
 void Player::setPos(sf::Vector2f pos)

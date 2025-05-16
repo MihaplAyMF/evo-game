@@ -4,6 +4,8 @@
 #include <cstdlib>
 #include <list>
 #include <iostream>
+#include <fstream>
+#include <string>
 
 #include "Utility.hpp" 
 
@@ -12,63 +14,83 @@ LocalizationManager::LocalizationManager()
 
 void LocalizationManager::loadLanguage(const std::string& lang)
 {
-    translations.clear();
-
-    tinyxml2::XMLDocument doc;
-    std::string filePath = "Media/Lang/" + lang + ".xml";
-    if (doc.LoadFile(filePath.c_str()) != tinyxml2::XML_SUCCESS) 
-        abort();
-
-    tinyxml2::XMLElement* root = doc.FirstChildElement("localization");
-    if (!root)
-        abort(); 
-
-    for (tinyxml2::XMLElement* trans = root->FirstChildElement("translation"); trans; trans = trans->NextSiblingElement()) 
+    std::string filePath = "Media/Lang/" + lang + ".json";
+    std::ifstream file(filePath);
+    if (!file)
     {
-        const char* msgidRaw = trans->FirstChildElement("msgid") ? trans->FirstChildElement("msgid")->GetText() : nullptr;
-        const char* msgstrRaw = trans->FirstChildElement("msgstr") ? trans->FirstChildElement("msgstr")->GetText() : nullptr;
-
-        std::wstring msgidW = msgidRaw ? utf8_to_wstring(msgidRaw) : L"";
-        std::wstring msgstrW = msgstrRaw ? utf8_to_wstring(msgstrRaw) : msgidW;
-
-        sf::String msgid = msgidW;
-        sf::String msgstr = msgstrW;
-        
-        translations[msgid] = msgstr;
+        std::cerr << "Failed to open localization file: " << filePath << std::endl;
+        std::abort();
     }
+
+    file >> mTranslations;
 }
 
 std::list<std::string> LocalizationManager::loadAvailableLanguages()
 {
     std::list<std::string> availableLanguages;
 
-    tinyxml2::XMLDocument doc;
-    if (doc.LoadFile("Media/Lang/languages.xml") != tinyxml2::XML_SUCCESS) 
+    std::ifstream file("Media/Lang/languages.json");
+    if (!file)
     {
-        std::cerr << "File languages.xml not found" << std::endl;
-        abort(); 
-    }
-    tinyxml2::XMLElement* root = doc.FirstChildElement("languages");
-    if (!root)
-    { 
-        std::cerr << "In file languages.xml not found languages attribute" << std::endl;
-        abort();
+        std::cerr << "languages.json not found" << std::endl;
+        std::abort();
     }
 
-    for (tinyxml2::XMLElement* lang = root->FirstChildElement("language"); lang; lang = lang->NextSiblingElement())
+    nlohmann::json json;
+    file >> json;
+
+    if (!json.is_array())
     {
-        const char* code = lang->Attribute("code");
-        if (code) {
-            availableLanguages.emplace_back(code);
-        }
+        std::cerr << "languages.json is not a valid array" << std::endl;
+        std::abort();
+    }
+
+    for (const auto& langCode : json)
+    {
+        if (langCode.is_string())
+            availableLanguages.emplace_back(langCode.get<std::string>());
     }
 
     return availableLanguages;
 }
 
-sf::String LocalizationManager::getText(const sf::String& msgid) const 
+
+std::vector<sf::String> LocalizationManager::getDialogues(const std::string& name) const
 {
-    auto it = translations.find(msgid);
-    return it != translations.end() ? it->second : msgid;
+    std::vector<sf::String> result;
+
+    auto it = mTranslations.find(name);
+    if (it == mTranslations.end())
+        return result;
+
+    const auto& value = *it;
+
+    if (value.is_string())
+    {
+        std::string str = value.get<std::string>();
+        result.emplace_back(utf8_to_wstring(str));
+    }
+    else if (value.is_array())
+    {
+        for (const auto& item : value)
+        {
+            if (item.is_string())
+            {
+                std::string str = item.get<std::string>();
+                result.emplace_back(utf8_to_wstring(str));
+            }
+        }
+    }
+
+    return result;
 }
 
+
+sf::String LocalizationManager::getText(const std::string& msgid) const 
+{
+    auto it = mTranslations.find(msgid);
+    if (it != mTranslations.end() && it->is_string())
+        return sf::String(utf8_to_wstring(it->get<std::string>()));
+    else
+        return msgid; 
+}

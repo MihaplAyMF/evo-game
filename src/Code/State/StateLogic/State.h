@@ -7,6 +7,7 @@
 
 #include "StateIdentifiers.h"
 #include "ResourceIdentifiers.h"
+#include "NPC.h"
 
 namespace sf 
 {
@@ -23,13 +24,14 @@ public:
 
 	struct Context 
 	{
-		Context(sf::RenderWindow& window, TextureHolder& textures, FontHolder& font, PlayerMove& player);
+		Context(sf::RenderWindow& window, TextureHolder& textures, FontHolder& font, PlayerMove& player, NPC& npc);
 	
 		sf::RenderWindow* window;
         TextureHolder*    textures;
         FontHolder*       fonts;
         PlayerMove*       player;
-	};
+        NPC*              interactingNPC;
+    };
 
 public:
 				 State(StateStack& stack, Context context);

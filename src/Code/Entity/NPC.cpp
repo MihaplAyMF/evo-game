@@ -14,7 +14,9 @@ NPC::NPC(const sf::String& name, const TextureHolder& textures, sf::FloatRect re
     float gameScale = Settings::getInstance().getScale();
 
     mSprite.setScale({gameScale, gameScale});
-    mSprite.setPosition({rect.position.x, rect.position.y});
+    mSprite.setPosition({rect.position.x, rect.position.y - rect.size.y});
+    
+    mDialogues = Settings::getInstance().getDialogues(name);
 }
 
 sf::FloatRect NPC::getBoundingRect() const

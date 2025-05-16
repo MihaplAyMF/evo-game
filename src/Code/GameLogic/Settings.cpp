@@ -110,6 +110,14 @@ void Settings::saveDefaultSettingsToFile(const std::string& filename)
     const auto& res = *mCurrentResolution;
     mNextResolution = mCurrentResolution;
 
+    std::string defaultLang = "en";
+    auto langIt = std::find(mLang.begin(), mLang.end(), defaultLang);
+    if (langIt != mLang.end())
+    {
+        mCurrentLang = langIt;
+        mNextLang = langIt;
+    }
+
     j["video"]["width"] = res.x;   
     j["video"]["height"] = res.y;   
     j["video"]["fullscreen"] = false;
@@ -295,6 +303,12 @@ sf::String Settings::getText(const sf::String& msgid) const
 {
     return mLocalizationManager.getText(msgid);
 }
+std::vector<sf::String> Settings::getDialogues(const std::string& name) const
+{
+    std::cout << "Nothing" << std::endl;
+    return mLocalizationManager.getDialogues(name);
+}
+
 
 float Settings::getScale()
 {

@@ -38,7 +38,6 @@ public:
 
     void setCurrentLanguage();    
     void setNextLanguage(Direction direction); 
-    
     void setScale(float s);
 
     sf::Vector2u getCurrentResolution() const;
@@ -48,10 +47,10 @@ public:
     std::string getNextLang();
     std::string getCurrentLang();
     sf::String getText(const sf::String& msgid) const;
-   
+    std::vector<sf::String> getDialogues(const std::string& name) const;
+
     float getScale();  
     float getAdaptiveValue(int baseValue);
-   
 
 private:
     Settings(); 
@@ -67,7 +66,6 @@ private:
     std::list<std::string>::iterator mCurrentLang;
     std::list<std::string>::iterator mNextLang;
     
-
     std::list<sf::Vector2u> mResolutions;
     std::list<sf::Vector2u>::iterator mCurrentResolution;
     std::list<sf::Vector2u>::iterator mNextResolution;

@@ -3,12 +3,12 @@
 #include <SFML/Graphics/View.hpp>
 #include <memory>
 
-#include "PauseState.h"
+#include "DialogueState.h"
 #include "Utility.hpp"
 #include "Button.h"
 #include "Label.h"
 
-PauseState::PauseState(StateStack& stack, Context context)
+DialogueState::DialogueState(StateStack& stack, Context context)
 	: State(stack, context)
 	, mGUIContainer()
 {
@@ -42,22 +42,22 @@ PauseState::PauseState(StateStack& stack, Context context)
 	mGUIContainer.pack(backToMenuButton);
 }
 
-PauseState::~PauseState()
+DialogueState::~DialogueState()
 {
 }
 
-bool PauseState::handleEvent(const sf::Event & event)
+bool DialogueState::handleEvent(const sf::Event & event)
 {
 	mGUIContainer.handleEvent(event);
 	return false;
 }
 
-bool PauseState::update(sf::Time dt)
+bool DialogueState::update(sf::Time dt)
 {
 	return false;
 }
 
-void PauseState::draw()
+void DialogueState::draw()
 {
 	sf::RenderWindow& window = *getContext().window;
 	window.setView(window.getDefaultView());

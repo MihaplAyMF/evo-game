@@ -13,8 +13,6 @@
 #include <memory>
 #include <string>
 
-#include <iostream>
-
 struct Portal 
 {
     sf::FloatRect portalRect;
@@ -85,10 +83,9 @@ bool MapManager::parseMapAttributes(tinyxml2::XMLElement* map) {
 
         std::string tsxPath = std::string("Media/Map/") + source;  
 
-        if (tsxFile.LoadFile(tsxPath.c_str()) != tinyxml2::XML_SUCCESS) {
-            std::cerr << "Failed to load tileset source: " << tsxPath << std::endl;
+        if (tsxFile.LoadFile(tsxPath.c_str()) != tinyxml2::XML_SUCCESS) 
             return false;
-        }
+        
 
         tinyxml2::XMLElement* tsxRoot = tsxFile.FirstChildElement("tileset");
         if (!tsxRoot) return false;
@@ -219,9 +216,8 @@ void MapManager::parseObjects(tinyxml2::XMLElement* map, std::array<SceneNode*, 
                     { mMapInfo.tileWidth, mMapInfo.tileHeight }
                 };
             
-                std::cout << tileX << ", " << tileY << std::endl;
                 auto npc = std::make_unique<NPC>(name, mTextures, rect, textureRect);
-                sceneLayers[Air]->attachChild(std::move(npc));
+                sceneLayers[Background]->attachChild(std::move(npc));
             }
             objectElement = objectElement->NextSiblingElement("object");
         }

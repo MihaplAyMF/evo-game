@@ -2,6 +2,7 @@
 
 #include <filesystem>
 
+#include "DialogueState.h"
 #include "State.h"
 #include "StateIdentifiers.h"
 #include "SettingsState.h"
@@ -9,6 +10,7 @@
 #include "MenuState.h"
 #include "GameState.h"
 #include "PauseState.h"
+#include "DialogueState.h"
 #include "OverState.h"
 
 namespace fs = std::filesystem;
@@ -17,7 +19,8 @@ const sf::Time Game::timePerFrame = sf::seconds(1.f / 60.f);
 Game::Game()
     : mTextures()
     , mFonts()
-    , mStateStack(State::Context(mWindow, mTextures, mFonts, mPlayer))
+    , mNPC()
+    , mStateStack(State::Context(mWindow, mTextures, mFonts, mPlayer, mNPC))
     , mFpsLabel()
     , mSettings(Settings::getInstance())
 {
@@ -117,6 +120,7 @@ void Game::registerStates()
     mStateStack.registerState<GameState>(States::Game);
     mStateStack.registerState<SettingsState>(States::Settings);
     mStateStack.registerState<PauseState>(States::Pause);
+    mStateStack.registerState<DialogueState>(States::Dialogue);
 	mStateStack.registerState<OverState>(States::GameOver, "Game over!");
 	mStateStack.registerState<OverState>(States::GameWon, "You won!");
 }

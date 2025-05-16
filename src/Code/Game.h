@@ -7,6 +7,7 @@
 #include "StateStack.h"
 #include "Settings.h"
 #include "Label.h"
+#include "NPC.h"
 
 class Game
 {
@@ -28,6 +29,7 @@ private:
     TextureHolder    mTextures;
     FontHolder       mFonts;
 	PlayerMove		 mPlayer;
+    NPC              mNPC;
 
     StateStack       mStateStack;
 

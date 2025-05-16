@@ -1,5 +1,8 @@
+#pragma once
+
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/System/String.hpp>
+#include <vector>
 
 #include "Entity.h"
 #include "ResourceIdentifiers.h"
@@ -19,4 +22,6 @@ private:
     sf::String mName;
     sf::FloatRect mRect;
     sf::Sprite  mSprite;
+
+    std::vector<sf::String> mDialogues;
 };

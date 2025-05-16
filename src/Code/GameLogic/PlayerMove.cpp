@@ -107,7 +107,7 @@ void PlayerMove::initializeAction()
 	mActionBinding[MoveUp].action        = derivedAction<Player>(PlayerMover(MoveUp));
 	mActionBinding[NotMove].action		 = derivedAction<Player>(PlayerMover(NotMove));
 	mActionBinding[MoveOnLadder].action  = derivedAction<Player>(PlayerMover(MoveOnLadder));
-	mActionBinding[PressF].action        = derivedAction<Player>([] (Player& player, sf::Time){player.setIsEntry(true);});
+	mActionBinding[PressF].action        = derivedAction<Player>([] (Player& player, sf::Time){player.setInteracting(true);});
 }
 
 bool PlayerMove::isRealtimeAction(Action action)

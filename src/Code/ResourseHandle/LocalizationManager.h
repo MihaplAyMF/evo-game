@@ -1,9 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/System/String.hpp>
-#include <tinyxml2.h>
-#include <fstream>
 #include <nlohmann/json.hpp>
-#include <map>
 #include <string>
 #include <list>
 
@@ -15,10 +12,10 @@ public:
     void                    loadLanguage(const std::string& lang);
     std::list<std::string>  loadAvailableLanguages();
 
-    sf::String  getText(const sf::String& msgid) const;
-    std::string   getCurrentLanguage() const;
+    sf::String              getText(const std::string& msgid) const;
+    std::vector<sf::String> getDialogues(const std::string& name) const;
 
 private:
 
-    std::map<sf::String, sf::String> translations;
+    nlohmann::json mTranslations;
 };
