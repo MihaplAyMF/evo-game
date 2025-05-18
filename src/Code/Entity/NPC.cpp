@@ -29,6 +29,11 @@ unsigned int NPC::getCategory() const
     return Category::NPC;
 }
 
+const std::vector<sf::String>& NPC::getDialogues() const
+{
+    return mDialogues;
+}
+
 void NPC::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	target.draw(mSprite, states);

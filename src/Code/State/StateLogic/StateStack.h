@@ -3,7 +3,6 @@
 #include <vector>
 #include <map>
 #include <functional>
-#include <utility>
 
 #include <SFML/Window/Event.hpp>
 

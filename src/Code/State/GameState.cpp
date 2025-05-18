@@ -3,7 +3,7 @@
 
 GameState::GameState(StateStack& stack, Context context)
 	: State(stack, context)
-	, mWorld(*context.window, *context.textures, *context.fonts)
+	, mWorld(*context.window, *context.textures, *context.fonts, *context.event)
 	, mPlayer(*context.player)
 {
 }
@@ -21,7 +21,6 @@ bool GameState::handleEvent(const sf::Event& event)
         }
         else if (keyPressed->scancode == sf::Keyboard::Scancode::F)
         {
-            
             if(mWorld.playerNearNPC())
                 requestStackPush(States::Dialogue);
         }

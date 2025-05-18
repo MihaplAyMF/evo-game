@@ -5,8 +5,12 @@
 
 #include "DialogueState.h"
 #include "Utility.hpp"
+#include "EventQueue.h"
 #include "Button.h"
 #include "Label.h"
+#include "NPC.h"
+
+#include <iostream> 
 
 DialogueState::DialogueState(StateStack& stack, Context context)
 	: State(stack, context)
@@ -14,6 +18,20 @@ DialogueState::DialogueState(StateStack& stack, Context context)
 {
 	sf::Vector2f windowSize = context.window->getView().getSize();
 
+    GameEvent event;
+    if(context.event->pollEvent(event))
+    {
+        if (event.type == EventType::InteractWithNPC)
+        {
+            NPC* npc = static_cast<NPC*>(event.payload);
+            auto mDialogues = npc->getDialogues();
+            for (const auto& line : mDialogues)
+            {
+                std::wcout << line.toWideString() << std::endl;
+            }
+        }
+    }
+    
     auto mPausedText = std::make_shared<GUI::Label>("Game Paused", *context.fonts);
 	mPausedText->getText().setCharacterSize(70);
 	centerOrigin(mPausedText->getText());

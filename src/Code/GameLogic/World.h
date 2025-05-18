@@ -9,16 +9,16 @@
 
 #include "ResourceIdentifiers.h"
 #include "CommandQueue.h"
+#include "MapManager.h"
+#include "EventQueue.h"
 #include "Player.h"
 #include "Label.h"
-   
-#include "MapManager.h"
 
 class World 
 {
 public:
 
-    explicit World(sf::RenderWindow& window, TextureHolder& texture, FontHolder& fonts);
+    explicit World(sf::RenderWindow& window, TextureHolder& texture, FontHolder& fonts, EventQueue& event);
     
     World(const World&) = delete;
     World& operator=(const World&) = delete;
@@ -58,11 +58,14 @@ private:
     sf::View mWorldView, mHUDView;
     TextureHolder& mTextures;
     FontHolder& mFonts;
+    EventQueue& mEventQueue;
 
     SceneNode mSceneGraph;
     std::array<SceneNode*, LayerCount> mSceneLayers;
     CommandQueue mCommandQueue;
     
+    bool mIsNearNPC = false;
+
     b2World& mWorld;
     float mBoxScale;
     float mGameScale;

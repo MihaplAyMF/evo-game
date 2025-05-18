@@ -5,13 +5,13 @@
 
 #include <iostream>
 
+#include "World.h"
 #include "Category.h"
 #include "DataTables.h"
 #include "Settings.h"
+#include "EventQueue.h"
 #include "Transition.h"
-#include "World.h"
 #include "Coin.h"
-#include "NPC.h"
 
 const float zoomValue = 1.3;
 
@@ -35,11 +35,12 @@ bool matchesCategories(SceneNode::Pair& colliders, Category::Type type1, Categor
     }
 }
 
-World::World(sf::RenderWindow& window, TextureHolder& texture, FontHolder& fonts)
+World::World(sf::RenderWindow& window, TextureHolder& texture, FontHolder& fonts, EventQueue& event)
     : mWorldView(sf::FloatRect({0, 0}, {1920.f / zoomValue, 1080.f / zoomValue}))
     , mHUDView(window.getDefaultView())
     , mTarget(window)
     , mFonts(fonts)
+    , mEventQueue(event)
     , mTextures(texture)
     , mMapLoader(mTextures)
     , mWorld(getWorld())
@@ -186,7 +187,11 @@ void World::handleCollisions()
         {
             if(mPlayer->isInteracting())
             {
-                
+                GameEvent event;
+                event.type = EventType::InteractWithNPC;
+                event.payload = static_cast<void*>(pair.second); 
+                mEventQueue.pushEvent(event);
+                mIsNearNPC = true;
             }
         }
         else if(matchesCategories(pair, Category::Player, Category::Transition))
@@ -360,7 +365,9 @@ bool World::hasAlivePlayer()
 
 bool World::playerNearNPC()
 {
-    return mPlayer->;
+    bool state = mIsNearNPC;
+    mIsNearNPC = false;
+    return state;
 }
 
 sf::FloatRect World::getViewBounds() const

@@ -46,6 +46,7 @@ target_include_directories(EvoGame PRIVATE
     ${SRC_DIR}/Component
     ${SRC_DIR}/Entity
     ${SRC_DIR}/GameLogic
+    ${SRC_DIR}/GameEvent
     ${SRC_DIR}/InputHandle   
     ${SRC_DIR}/Node
 )

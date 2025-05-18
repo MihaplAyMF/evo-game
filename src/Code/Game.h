@@ -6,8 +6,8 @@
 #include "PlayerMove.h"
 #include "StateStack.h"
 #include "Settings.h"
+#include "EventQueue.h"
 #include "Label.h"
-#include "NPC.h"
 
 class Game
 {
@@ -29,8 +29,8 @@ private:
     TextureHolder    mTextures;
     FontHolder       mFonts;
 	PlayerMove		 mPlayer;
-    NPC              mNPC;
-
+    EventQueue       mEvent;
+    
     StateStack       mStateStack;
 
     std::shared_ptr<GUI::Label> mFpsLabel;

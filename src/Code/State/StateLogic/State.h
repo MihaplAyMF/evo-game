@@ -7,7 +7,7 @@
 
 #include "StateIdentifiers.h"
 #include "ResourceIdentifiers.h"
-#include "NPC.h"
+#include "EventQueue.h"
 
 namespace sf 
 {
@@ -24,13 +24,13 @@ public:
 
 	struct Context 
 	{
-		Context(sf::RenderWindow& window, TextureHolder& textures, FontHolder& font, PlayerMove& player, NPC& npc);
+		Context(sf::RenderWindow& window, TextureHolder& textures, FontHolder& font, PlayerMove& player, EventQueue& event);
 	
 		sf::RenderWindow* window;
         TextureHolder*    textures;
         FontHolder*       fonts;
         PlayerMove*       player;
-        NPC*              interactingNPC;
+        EventQueue*       event;
     };
 
 public:

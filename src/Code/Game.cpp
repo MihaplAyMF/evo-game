@@ -19,8 +19,7 @@ const sf::Time Game::timePerFrame = sf::seconds(1.f / 60.f);
 Game::Game()
     : mTextures()
     , mFonts()
-    , mNPC()
-    , mStateStack(State::Context(mWindow, mTextures, mFonts, mPlayer, mNPC))
+    , mStateStack(State::Context(mWindow, mTextures, mFonts, mPlayer, mEvent))
     , mFpsLabel()
     , mSettings(Settings::getInstance())
 {
